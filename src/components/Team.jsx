@@ -67,7 +67,7 @@ export default function Team() {
               <div className="w-[72px] h-[72px] rounded-full mx-auto bg-border/30 flex items-center justify-center hover:bg-border/50 transition-colors overflow-hidden">
                 {member.image ? (
                   <img
-                    src={member.image}
+                    src={import.meta.env.BASE_URL + member.image.replace(/^\//, '')}
                     alt={member.name}
                     className="w-full h-full object-cover"
                   />
