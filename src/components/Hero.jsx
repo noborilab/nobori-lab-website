@@ -6,42 +6,71 @@ export default function Hero() {
       id="hero"
       className="relative min-h-screen flex flex-col items-center justify-center bg-bg px-6"
     >
-      {/* Animated logo GIF — replace src with your actual logo GIF */}
+      {/* Logo with radial glow */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.8 }}
+        initial={{ opacity: 0, scale: 0.92 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1, ease: 'easeOut' }}
-        className="mb-8"
+        transition={{ duration: 1.2, ease: 'easeOut' }}
+        className="relative mb-10"
       >
-        <div className="w-64 h-64 md:w-80 md:h-80 rounded-full bg-bg-soft border border-border flex items-center justify-center">
-          {/* Replace with: <img src="/logo-animated.gif" alt="Nobori Lab" className="w-full h-full object-contain" /> */}
-          <span className="font-display text-6xl text-navy">N</span>
-        </div>
+        {/* Warm radial glow */}
+        <div
+          className="absolute inset-0 rounded-full blur-[60px] -z-10 scale-110"
+          style={{ background: 'radial-gradient(circle, rgba(232,228,216,0.5) 0%, transparent 70%)' }}
+        />
+        <img
+          src="/images/lab-logo.gif"
+          alt="Nobori Lab"
+          className="w-[min(420px,70vw)] h-auto"
+        />
       </motion.div>
 
-      <motion.h1
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.3 }}
-        className="font-display text-5xl md:text-7xl font-semibold text-navy text-center"
-      >
-        Nobori Lab
-      </motion.h1>
-
+      {/* Tagline */}
       <motion.p
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.5 }}
-        className="mt-4 font-body text-lg md:text-xl text-text/60 text-center max-w-xl"
+        transition={{ duration: 0.8, delay: 0.4 }}
+        className="font-display text-xl md:text-2xl text-text/70 text-center max-w-2xl leading-relaxed italic"
       >
-        Nanotechnology &times; Plant Biology
+        Decoding the molecular dialogue between plants and microbes
       </motion.p>
+
+      {/* Institution */}
+      <motion.p
+        initial={{ opacity: 0, y: 15 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.6 }}
+        className="mt-3 font-mono text-xs uppercase tracking-[0.2em] text-text/40"
+      >
+        The Sainsbury Laboratory &middot; Norwich, UK
+      </motion.p>
+
+      {/* Buttons */}
+      <motion.div
+        initial={{ opacity: 0, y: 15 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.8 }}
+        className="mt-8 flex gap-4"
+      >
+        <a
+          href="#research"
+          className="px-6 py-3 bg-navy text-white font-mono text-xs uppercase tracking-widest rounded-lg hover:bg-navy/90 transition-colors"
+        >
+          Explore Research
+        </a>
+        <a
+          href="#publications"
+          className="px-6 py-3 border border-navy text-navy font-mono text-xs uppercase tracking-widest rounded-lg hover:bg-navy/5 transition-colors"
+        >
+          Publications
+        </a>
+      </motion.div>
 
       {/* Scroll indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.2 }}
+        transition={{ delay: 1.4 }}
         className="absolute bottom-10"
       >
         <motion.div
