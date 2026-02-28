@@ -30,15 +30,15 @@ function ProjectCard({ project, index }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
       transition={{ duration: 0.5, delay: index * 0.08 }}
-      className="bg-bg rounded-xl border border-border overflow-hidden"
+      className="bg-bg rounded-xl border border-border overflow-hidden flex flex-col"
     >
       {/* Media */}
       {project.image && (
-        <div className="relative">
+        <div className="relative flex-1 min-h-[180px]">
           <img
             src={import.meta.env.BASE_URL + project.image.replace(/^\//, '')}
             alt={project.title}
-            className="w-full object-cover rounded-t-xl"
+            className="w-full h-full object-cover rounded-t-xl"
           />
           {project.imageCredit && (
             <p className="absolute bottom-1 right-2 text-[11px] text-white/60 italic">
@@ -48,14 +48,16 @@ function ProjectCard({ project, index }) {
         </div>
       )}
       {project.video && (
-        <video
-          src={import.meta.env.BASE_URL + project.video.replace(/^\//, '')}
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="w-full rounded-t-xl"
-        />
+        <div className="relative flex-1 min-h-[180px]">
+          <video
+            src={import.meta.env.BASE_URL + project.video.replace(/^\//, '')}
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="w-full h-full object-cover rounded-t-xl"
+          />
+        </div>
       )}
 
       {/* Content */}
