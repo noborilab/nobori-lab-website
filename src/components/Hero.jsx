@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import labLogo from '/images/lab-logo.gif'
 
 export default function Hero() {
   return (
@@ -19,7 +20,7 @@ export default function Hero() {
           style={{ background: 'radial-gradient(circle, rgba(232,228,216,0.5) 0%, transparent 70%)' }}
         />
         <img
-          src="/images/lab-logo.gif"
+          src={labLogo}
           alt="Nobori Lab"
           className="w-[min(420px,70vw)] h-auto"
         />
