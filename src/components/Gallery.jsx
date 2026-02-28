@@ -1,48 +1,16 @@
-import { useState, useRef, useEffect, useCallback } from 'react'
+import { useState, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { labMoments } from '../data/gallery'
+import { labMoments, galleryByYear } from '../data/gallery'
 
-const photos = [
-  { src: '/images/team/group-photo.jpg', alt: 'Nobori Lab group photo' },
-  { src: '/images/lab/20250327_VIB.JPG', alt: 'VIB Conference, Antwerp 2025' },
-  { src: '/images/lab/DSC_1340.JPG', alt: 'Conference at TSL' },
-  { src: '/images/lab/IMG_0669.jpg', alt: 'The Sainsbury Laboratory' },
-  { src: '/images/lab/group_photo/20240925_group_photo.jpg', alt: 'Group photo Sep 2024' },
-  { src: '/images/lab/group_photo/20241101_group_photo.jpg', alt: 'Group photo Nov 2024' },
-  { src: '/images/lab/IMG_0157.JPG', alt: 'Science outreach' },
-  { src: '/images/lab/IMG_0158.JPG', alt: 'Norwich' },
-  { src: '/images/lab/IMG_0159.JPG', alt: 'Norwich' },
-  { src: '/images/lab/IMG_0160.JPG', alt: 'Norwich' },
-  { src: '/images/lab/IMG_0260.jpg', alt: 'Lab life' },
-  { src: '/images/lab/IMG_0566.JPG', alt: 'Lab life' },
-  { src: '/images/lab/IMG_0712.jpg', alt: 'Lab life' },
-  { src: '/images/lab/IMG_0714.jpg', alt: 'Lab life' },
-  { src: '/images/lab/IMG_0784.JPG', alt: 'Lab life' },
-  { src: '/images/lab/IMG_6668.JPG', alt: 'Conference' },
-  { src: '/images/lab/IMG_7092.JPG', alt: 'TSL community' },
-  { src: '/images/lab/IMG_9514.JPG', alt: 'Norwich' },
-  { src: '/images/lab/IMG_9521.jpg', alt: 'Norwich' },
-  { src: '/images/lab/IMG_9522.jpg', alt: 'Norwich' },
-  { src: '/images/lab/IMG_9850.jpg', alt: 'Lab dinner' },
-  { src: '/images/lab/IMG_9851.JPG', alt: 'Lab life' },
-  { src: '/images/lab/IMG_9859.JPG', alt: 'Lab life' },
-  { src: '/images/lab/IMG_9862.jpg', alt: 'Lab life' },
-  { src: '/images/lab/IMG_9863.jpg', alt: 'Lab life' },
-  { src: '/images/lab/e718fc1b.jpg', alt: 'Lab life' },
-  { src: '/images/lab/e848ec74.JPG', alt: 'Conference' },
-  { src: '/images/lab/f6bff0fe.JPG', alt: 'Lab life' },
-  { src: '/images/lab/lab-88408243.JPG', alt: 'Lab life' },
-  { src: '/images/lab/lab-selfie.png', alt: 'Lab selfie' },
-]
+// Flatten all photos for lightbox navigation
+const allPhotos = galleryByYear.flatMap((g) => g.photos)
 
-// Duplicate for seamless loop
-const loopPhotos = [...photos, ...photos]
+/* ── Lab Moments (group photos) ── */
 
 function MomentItem({ moment, i, total, isDesktop }) {
   if (isDesktop) {
     return (
       <motion.div
-        key={moment.id}
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-50px' }}
@@ -75,7 +43,6 @@ function MomentItem({ moment, i, total, isDesktop }) {
 
   return (
     <motion.div
-      key={moment.id}
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-50px' }}
@@ -153,7 +120,6 @@ function LabMoments() {
         </AnimatePresence>
       </div>
 
-      {/* Toggle */}
       {older.length > 0 && (
         <div className="mt-6 md:pl-[164px]">
           <button
@@ -168,61 +134,140 @@ function LabMoments() {
   )
 }
 
+/* ── Year section ── */
+
+function YearSection({ year, photos, defaultOpen, onOpenLightbox, startIndex }) {
+  const [open, setOpen] = useState(defaultOpen)
+
+  return (
+    <div>
+      <button
+        onClick={() => setOpen(!open)}
+        className="flex items-center gap-3 group mb-4"
+      >
+        <h3 className="font-display text-[36px] font-semibold text-navy">
+          {year}
+        </h3>
+        <span className="font-mono text-[14px] text-text/30 group-hover:text-navy transition-colors">
+          {photos.length} photos
+        </span>
+        <span className="text-text/25 group-hover:text-navy transition-colors text-lg">
+          {open ? '\u2212' : '+'}
+        </span>
+      </button>
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3 }}
+            className="overflow-hidden"
+          >
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 pb-10">
+              {photos.map((photo, i) => (
+                <motion.div
+                  key={photo.src}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.3, delay: i * 0.03 }}
+                  className="aspect-square rounded-lg overflow-hidden cursor-pointer hover:scale-[1.02] hover:shadow-[0_4px_16px_rgba(0,0,0,0.1)] transition-all duration-300"
+                  onClick={() => onOpenLightbox(startIndex + i)}
+                >
+                  <img
+                    src={import.meta.env.BASE_URL + photo.src.replace(/^\//, '')}
+                    alt={photo.name}
+                    loading="lazy"
+                    className="w-full h-full object-cover"
+                  />
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  )
+}
+
+/* ── Lightbox ── */
+
+function Lightbox({ photos, index, onClose, onPrev, onNext }) {
+  const photo = photos[index]
+  if (!photo) return null
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center"
+      onClick={onClose}
+    >
+      <div className="relative flex items-center gap-2 md:gap-4 max-w-[95vw]">
+        <button
+          onClick={(e) => { e.stopPropagation(); onPrev() }}
+          className="shrink-0 text-white/50 hover:text-white text-[45px] z-10 select-none px-1 md:px-2"
+        >
+          &#8249;
+        </button>
+
+        <motion.div
+          key={index}
+          initial={{ opacity: 0, scale: 0.92 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.92 }}
+          transition={{ duration: 0.2 }}
+          className="max-w-[80vw] max-h-[85vh] rounded-lg overflow-hidden"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <img
+            src={import.meta.env.BASE_URL + photo.src.replace(/^\//, '')}
+            alt={photo.name}
+            className="max-w-[80vw] max-h-[85vh] object-contain"
+          />
+        </motion.div>
+
+        <button
+          onClick={(e) => { e.stopPropagation(); onNext() }}
+          className="shrink-0 text-white/50 hover:text-white text-[45px] z-10 select-none px-1 md:px-2"
+        >
+          &#8250;
+        </button>
+      </div>
+
+      <button
+        onClick={onClose}
+        className="absolute top-4 right-4 md:top-6 md:right-6 text-white/50 hover:text-white text-3xl"
+      >
+        &times;
+      </button>
+
+      <span className="absolute bottom-4 font-mono text-[13px] text-white/25">
+        {index + 1} / {photos.length}
+      </span>
+    </motion.div>
+  )
+}
+
+/* ── Main Gallery ── */
+
 export default function Gallery() {
-  const [mode, setMode] = useState('carousel')
-  const stripRef = useRef(null)
-  const [paused, setPaused] = useState(false)
   const [lightboxIdx, setLightboxIdx] = useState(null)
-  const animRef = useRef(null)
-  const posRef = useRef(0)
 
-  // Auto-scroll animation (only active in carousel mode)
-  useEffect(() => {
-    if (mode !== 'carousel') return
-    const el = stripRef.current
-    if (!el) return
-
-    let lastTime = null
-    const speed = 0.5
-
-    const tick = (time) => {
-      if (lastTime !== null && !paused) {
-        const dt = time - lastTime
-        posRef.current += speed * (dt / 16)
-        const halfWidth = el.scrollWidth / 2
-        if (posRef.current >= halfWidth) {
-          posRef.current -= halfWidth
-        }
-        el.scrollLeft = posRef.current
-      }
-      lastTime = time
-      animRef.current = requestAnimationFrame(tick)
-    }
-
-    animRef.current = requestAnimationFrame(tick)
-    return () => cancelAnimationFrame(animRef.current)
-  }, [paused, mode])
-
-  const openLightbox = (i) => setLightboxIdx(i)
-  const closeLightbox = () => setLightboxIdx(null)
-
+  const openLightbox = useCallback((i) => setLightboxIdx(i), [])
+  const closeLightbox = useCallback(() => setLightboxIdx(null), [])
   const goPrev = useCallback(
-    (e) => {
-      e.stopPropagation()
-      setLightboxIdx((prev) => (prev > 0 ? prev - 1 : photos.length - 1))
-    },
+    () => setLightboxIdx((prev) => (prev > 0 ? prev - 1 : allPhotos.length - 1)),
     [],
   )
-
   const goNext = useCallback(
-    (e) => {
-      e.stopPropagation()
-      setLightboxIdx((prev) => (prev < photos.length - 1 ? prev + 1 : 0))
-    },
+    () => setLightboxIdx((prev) => (prev < allPhotos.length - 1 ? prev + 1 : 0)),
     [],
   )
 
-  const currentImage = lightboxIdx !== null ? photos[lightboxIdx] : null
+  // Compute starting index for each year group
+  let runningIndex = 0
 
   return (
     <section id="gallery" className="py-16 bg-bg">
@@ -238,129 +283,40 @@ export default function Gallery() {
           <p className="font-mono text-sm uppercase tracking-[0.2em] text-text/40">
             Gallery
           </p>
-
-          {/* Toggle pill */}
-          <button
-            onClick={() => setMode(mode === 'carousel' ? 'grid' : 'carousel')}
-            className="ml-auto font-mono text-[13px] uppercase tracking-[0.15em] px-4 py-1.5 border border-border rounded-full text-text/50 hover:text-navy hover:border-navy/30 transition-colors"
-          >
-            {mode === 'carousel' ? 'View All' : 'Carousel'}
-          </button>
         </motion.div>
       </div>
 
-      {/* Lab Moments timeline */}
+      {/* Lab Moments (group photos) */}
       <LabMoments />
 
-      {mode === 'carousel' ? (
-        /* Film strip carousel */
-        <div
-          ref={stripRef}
-          onMouseEnter={() => setPaused(true)}
-          onMouseLeave={() => setPaused(false)}
-          className="overflow-hidden [&::-webkit-scrollbar]:hidden"
-          style={{ scrollbarWidth: 'none' }}
-        >
-          <div className="flex gap-[5px] w-max">
-            {loopPhotos.map((photo, i) => (
-              <div
-                key={i}
-                className="h-[220px] shrink-0 rounded-[4px] overflow-hidden cursor-pointer hover:opacity-90 transition-opacity"
-                onClick={() => openLightbox(i % photos.length)}
-              >
-                <img
-                  src={import.meta.env.BASE_URL + photo.src.replace(/^\//, '')}
-                  alt={photo.alt}
-                  loading="lazy"
-                  className="h-full w-auto object-cover"
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-      ) : (
-        /* Grid mode */
-        <div className="max-w-5xl mx-auto px-6">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
-            {photos.map((photo, i) => (
-              <motion.div
-                key={photo.src}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3, delay: i * 0.02 }}
-                className="aspect-square rounded-[6px] overflow-hidden cursor-pointer hover:scale-[1.02] hover:shadow-[0_4px_16px_rgba(0,0,0,0.1)] transition-all duration-300"
-                onClick={() => openLightbox(i)}
-              >
-                <img
-                  src={import.meta.env.BASE_URL + photo.src.replace(/^\//, '')}
-                  alt={photo.alt}
-                  loading="lazy"
-                  className="w-full h-full object-cover"
-                />
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      )}
+      {/* Year-based photo grid */}
+      <div className="max-w-5xl mx-auto px-6">
+        {galleryByYear.map((group, gi) => {
+          const startIndex = runningIndex
+          runningIndex += group.photos.length
+          return (
+            <YearSection
+              key={group.year}
+              year={group.year}
+              photos={group.photos}
+              defaultOpen={gi === 0}
+              onOpenLightbox={openLightbox}
+              startIndex={startIndex}
+            />
+          )
+        })}
+      </div>
 
       {/* Lightbox */}
       <AnimatePresence>
-        {currentImage && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center"
-            onClick={closeLightbox}
-          >
-            {/* Image + arrows grouped together */}
-            <div className="relative flex items-center gap-2 md:gap-4 max-w-[95vw]">
-              <button
-                onClick={goPrev}
-                className="shrink-0 text-white/50 hover:text-white text-[45px] z-10 select-none px-1 md:px-2"
-              >
-                &#8249;
-              </button>
-
-              <motion.div
-                key={lightboxIdx}
-                initial={{ opacity: 0, scale: 0.92 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.92 }}
-                transition={{ duration: 0.2 }}
-                className="max-w-[80vw] max-h-[85vh] rounded-lg overflow-hidden"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <img
-                  src={import.meta.env.BASE_URL + currentImage.src.replace(/^\//, '')}
-                  alt={currentImage.alt}
-                  className="max-w-[80vw] max-h-[85vh] object-contain"
-                />
-              </motion.div>
-
-              <button
-                onClick={goNext}
-                className="shrink-0 text-white/50 hover:text-white text-[45px] z-10 select-none px-1 md:px-2"
-              >
-                &#8250;
-              </button>
-            </div>
-
-            <p className="absolute bottom-8 font-mono text-sm text-white/40">
-              {currentImage.alt}
-            </p>
-
-            <button
-              onClick={closeLightbox}
-              className="absolute top-4 right-4 md:top-6 md:right-6 text-white/50 hover:text-white text-3xl"
-            >
-              &times;
-            </button>
-
-            <span className="absolute bottom-4 font-mono text-[13px] text-white/25">
-              {lightboxIdx + 1} / {photos.length}
-            </span>
-          </motion.div>
+        {lightboxIdx !== null && (
+          <Lightbox
+            photos={allPhotos}
+            index={lightboxIdx}
+            onClose={closeLightbox}
+            onPrev={goPrev}
+            onNext={goNext}
+          />
         )}
       </AnimatePresence>
     </section>

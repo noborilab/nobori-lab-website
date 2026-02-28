@@ -19,54 +19,30 @@ export const labMoments = [
   },
 ]
 
-const base = '/images/lab/'
+// Auto-detect images from year folders at build time.
+// To add photos: just drop files into public/images/lab/<year>/
+// and rebuild. No code changes needed.
+const imageModules = import.meta.glob(
+  '/public/images/lab/{2024,2025,2026,2027,2028,2029,2030}/*.{jpg,JPG,jpeg,JPEG,png,PNG}',
+  { eager: false },
+)
 
-export const galleryAlbums = [
-  {
-    id: 'lab',
-    title: 'Lab Life',
-    images: [
-      { id: 1, src: base + 'group_photo/20240925_group_photo.jpg', alt: 'Group photo Sep 2024' },
-      { id: 2, src: base + 'group_photo/20241101_group_photo.jpg', alt: 'Group photo Nov 2024' },
-      { id: 3, src: base + 'IMG_9850.jpg', alt: 'Lab life' },
-      { id: 4, src: base + 'IMG_9851.JPG', alt: 'Lab life' },
-      { id: 5, src: base + 'IMG_9859.JPG', alt: 'Lab life' },
-      { id: 6, src: base + 'IMG_9862.jpg', alt: 'Lab life' },
-      { id: 7, src: base + 'IMG_9863.jpg', alt: 'Lab life' },
-      { id: 8, src: base + 'IMG_0566.JPG', alt: 'Lab life' },
-      { id: 9, src: base + 'IMG_0260.jpg', alt: 'Lab life' },
-      { id: 10, src: base + 'IMG_0714.jpg', alt: 'Lab life' },
-      { id: 11, src: base + 'IMG_0712.jpg', alt: 'Lab life' },
-      { id: 12, src: base + 'lab-selfie.png', alt: 'Lab selfie' },
-      { id: 13, src: base + 'IMG_0784.JPG', alt: 'Lab life' },
-      { id: 14, src: base + 'lab-88408243.JPG', alt: 'Lab life' },
-    ],
-  },
-  {
-    id: 'conferences',
-    title: 'Conferences & Outreach',
-    images: [
-      { id: 20, src: base + '20250327_VIB.JPG', alt: 'VIB visit 2025' },
-      { id: 21, src: base + 'DSC_1340.JPG', alt: 'Conference' },
-      { id: 22, src: base + 'IMG_7092.JPG', alt: 'Conference' },
-      { id: 23, src: base + 'IMG_6668.JPG', alt: 'Conference' },
-      { id: 24, src: base + 'e848ec74.JPG', alt: 'Conference' },
-      { id: 25, src: base + 'f6bff0fe.JPG', alt: 'Conference' },
-      { id: 26, src: base + 'e718fc1b.jpg', alt: 'Conference' },
-    ],
-  },
-  {
-    id: 'norwich',
-    title: 'Norwich',
-    images: [
-      { id: 30, src: base + 'IMG_0157.JPG', alt: 'Norwich' },
-      { id: 31, src: base + 'IMG_0158.JPG', alt: 'Norwich' },
-      { id: 32, src: base + 'IMG_0159.JPG', alt: 'Norwich' },
-      { id: 33, src: base + 'IMG_0160.JPG', alt: 'Norwich' },
-      { id: 34, src: base + 'IMG_9514.JPG', alt: 'Norwich' },
-      { id: 35, src: base + 'IMG_9521.jpg', alt: 'Norwich' },
-      { id: 36, src: base + 'IMG_9522.jpg', alt: 'Norwich' },
-      { id: 37, src: base + 'IMG_0669.jpg', alt: 'Norwich' },
-    ],
-  },
-]
+// Parse glob keys into year-grouped arrays
+// Keys look like: /public/images/lab/2025/IMG_0260.jpg
+const yearMap = {}
+for (const path of Object.keys(imageModules)) {
+  const stripped = path.replace('/public', '')       // → /images/lab/2025/IMG_0260.jpg
+  const parts = stripped.split('/')
+  const year = parts[3]
+  const filename = parts[parts.length - 1]
+  if (!yearMap[year]) yearMap[year] = []
+  yearMap[year].push({ src: stripped, name: filename })
+}
+
+// Sort years descending, filenames ascending within each year
+export const galleryByYear = Object.keys(yearMap)
+  .sort((a, b) => b.localeCompare(a))
+  .map((year) => ({
+    year,
+    photos: yearMap[year].sort((a, b) => a.name.localeCompare(b.name)),
+  }))
