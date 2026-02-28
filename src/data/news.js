@@ -6,6 +6,7 @@ export const newsItems = [
     description: 'Feature on spatial biology of plants and PHYTOMap technology.',
     tag: 'Press',
     color: 'coral',
+    link: 'https://www.the-scientist.com/living-maps-uncovering-the-spatial-biology-of-plants-73690',
   },
   {
     id: 2,
@@ -14,6 +15,7 @@ export const newsItems = [
     description: 'A rare primary immune responder cell state in plant immunity.',
     tag: 'Paper',
     color: 'coral',
+    link: 'https://www.nature.com/articles/s41586-024-08383-z',
   },
   {
     id: 3,
@@ -22,6 +24,7 @@ export const newsItems = [
     description: 'Single-cell, spatial transcriptomic atlas of the full life cycle.',
     tag: 'Paper',
     color: 'sage',
+    link: 'https://www.nature.com/articles/s41477-025-02072-z',
   },
   {
     id: 4,
@@ -30,5 +33,6 @@ export const newsItems = [
     description: 'Nobori Lab officially launches at The Sainsbury Laboratory, Norwich.',
     tag: 'Lab',
     color: 'navy',
+    link: 'https://www.tsl.ac.uk/our-work/scientific-groups/tatsuya-nobori-group',
   },
 ]

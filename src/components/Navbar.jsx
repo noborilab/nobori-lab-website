@@ -7,6 +7,7 @@ const navLinks = [
   { label: 'Research', href: '#research' },
   { label: 'Projects', href: '#projects' },
   { label: 'Publications', href: '#publications' },
+  { label: 'Online Talks', href: '#talks' },
   { label: 'Tatsuya Nobori', href: '#cv' },
   { label: 'Team', href: '#team' },
   { label: 'Gallery', href: '#gallery' },
@@ -37,7 +38,7 @@ export default function Navbar() {
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
         <a
           href="#hero"
-          className="font-display text-xl font-semibold text-navy tracking-wide"
+          className="font-logo text-lg font-light uppercase tracking-[0.2em] text-navy"
         >
           Nobori Lab
         </a>

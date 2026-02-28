@@ -46,15 +46,21 @@ export const editorial = [
 ]
 
 export const awards = [
-  'JSPP Young Investigator Award 2026',
-  'Biochemical Society Early Career Research Award 2025',
-  'Best Trainee Talk, Salk Science at the Seaside 2023',
-  'Poster Prize, Gordon Research Conference Plant Molecular Biology 2022',
-  'HFSP Long-Term Fellow, 2020\u2013present',
-  'PhD summa cum laude, MPI / University of Cologne, 2019',
-  'Best Paper Award for Young Researchers, Japan Radioisotope Association, 2016',
-  'Nakajima Foundation Scholarship, 2015\u20132019',
-  'French Government Scholarship 2013\u20132014',
+  {
+    text: 'JSPP Young Investigator Award 2026',
+    href: 'https://www.tsl.ac.uk/news/tsl-group-leader-receives-japanese-society-of-plant-physiologists-award',
+  },
+  {
+    text: 'Biochemical Society Early Career Research Award 2025',
+    href: 'https://www.biochemistry.org/grants-and-awards/awards/awards-listing/early-career-research-awards/',
+  },
+  { text: 'Best Trainee Talk, Salk Science at the Seaside 2023' },
+  { text: 'Poster Prize, Gordon Research Conference Plant Molecular Biology 2022' },
+  { text: 'HFSP Long-Term Fellow, 2020\u2013present' },
+  { text: 'PhD summa cum laude, MPI / University of Cologne, 2019' },
+  { text: 'Best Paper Award for Young Researchers, Japan Radioisotope Association, 2016' },
+  { text: 'Nakajima Foundation Scholarship, 2015\u20132019' },
+  { text: 'French Government Scholarship 2013\u20132014' },
 ]
 
 export const invitedTalksByYear = {

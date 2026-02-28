@@ -206,7 +206,18 @@ export default function CV() {
                 {awards.map((item, i) => (
                   <li key={i} className="text-[14px] text-text/60 flex gap-2">
                     <span className="text-coral mt-0.5 shrink-0">&#9656;</span>
-                    {item}
+                    {item.href ? (
+                      <a
+                        href={item.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:text-navy transition-colors"
+                      >
+                        {item.text}
+                      </a>
+                    ) : (
+                      item.text
+                    )}
                   </li>
                 ))}
               </ul>

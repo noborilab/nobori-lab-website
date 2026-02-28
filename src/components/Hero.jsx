@@ -31,9 +31,9 @@ export default function Hero() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.4 }}
-        className="font-display text-xl md:text-2xl text-text/70 text-center max-w-2xl leading-relaxed italic"
+        className="font-display text-[clamp(1.1rem,3vw,1.5rem)] text-text/70 text-center max-w-2xl leading-relaxed italic"
       >
-        Decoding the molecular dialogue between plants and microbes
+        Understanding the molecular and cellular basis of plant-microbe interactions
       </motion.p>
 
       {/* Institution */}
@@ -41,7 +41,7 @@ export default function Hero() {
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.6 }}
-        className="mt-3 font-mono text-xs uppercase tracking-[0.2em] text-text/40"
+        className="mt-3 font-mono text-xs uppercase tracking-[0.1em] sm:tracking-[0.2em] text-text/40"
       >
         The Sainsbury Laboratory &middot; Norwich, UK
       </motion.p>
@@ -51,17 +51,17 @@ export default function Hero() {
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.8 }}
-        className="mt-8 flex gap-4"
+        className="mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto"
       >
         <a
           href="#research"
-          className="px-6 py-3 bg-navy text-white font-mono text-xs uppercase tracking-widest rounded-lg hover:bg-navy/90 transition-colors"
+          className="px-6 py-3 border border-border text-text/50 font-mono text-xs uppercase tracking-widest rounded-lg hover:bg-navy/5 hover:border-navy/30 hover:text-navy transition-all text-center"
         >
           Explore Research
         </a>
         <a
           href="#publications"
-          className="px-6 py-3 border border-navy text-navy font-mono text-xs uppercase tracking-widest rounded-lg hover:bg-navy/5 transition-colors"
+          className="px-6 py-3 border border-border text-text/50 font-mono text-xs uppercase tracking-widest rounded-lg hover:bg-navy/5 hover:border-navy/30 hover:text-navy transition-all text-center"
         >
           Publications
         </a>

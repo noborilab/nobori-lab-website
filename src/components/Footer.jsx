@@ -3,11 +3,11 @@ export default function Footer() {
     <footer className="bg-navy text-white/60 py-12 px-6">
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
         <div>
-          <p className="font-display text-lg text-white font-semibold">
+          <p className="font-logo text-lg font-light uppercase tracking-[0.2em] text-white">
             Nobori Lab
           </p>
           <p className="font-mono text-xs mt-1">
-            Nanotechnology &times; Plant Biology
+            The Sainsbury Laboratory
           </p>
         </div>
 

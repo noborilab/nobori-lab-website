@@ -28,13 +28,16 @@ export default function News() {
         {/* Auto-fit grid */}
         <div className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-6">
           {newsItems.map((item, i) => (
-            <motion.article
+            <motion.a
               key={item.id}
+              href={item.link}
+              target="_blank"
+              rel="noopener noreferrer"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-50px' }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="bg-bg rounded-lg border border-border p-5 shadow-[0_1px_3px_rgba(0,0,0,0.04)] hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(0,0,0,0.08)] transition-all duration-300"
+              className="group bg-bg rounded-lg border border-border p-5 shadow-[0_1px_3px_rgba(0,0,0,0.04)] hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(0,0,0,0.08)] hover:border-navy/20 transition-all duration-300"
             >
               {/* Tag + date */}
               <div className="flex items-center gap-2.5 mb-3">
@@ -49,7 +52,7 @@ export default function News() {
               </div>
 
               {/* Title */}
-              <h3 className="font-display text-[19px] font-semibold text-navy leading-snug">
+              <h3 className="font-display text-[19px] font-semibold text-navy leading-snug group-hover:text-navy/80 transition-colors">
                 {item.title}
               </h3>
 
@@ -57,7 +60,12 @@ export default function News() {
               <p className="mt-2 text-[13.5px] text-text/55 leading-relaxed">
                 {item.description}
               </p>
-            </motion.article>
+
+              {/* Read link */}
+              <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.12em] text-text/30 group-hover:text-navy transition-colors">
+                Read &rarr;
+              </p>
+            </motion.a>
           ))}
         </div>
       </div>
