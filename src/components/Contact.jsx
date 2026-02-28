@@ -21,7 +21,7 @@ export default function Contact() {
           className="flex items-center gap-4 mb-14"
         >
           <div className="w-8 h-px bg-text/25" />
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-text/40">
+          <p className="font-mono text-sm uppercase tracking-[0.2em] text-text/40">
             Contact
           </p>
         </motion.div>
@@ -34,13 +34,13 @@ export default function Contact() {
             viewport={{ once: true, margin: '-50px' }}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
-            <h2 className="font-display text-3xl md:text-4xl font-semibold text-navy mb-8">
+            <h2 className="font-display text-4xl md:text-[45px] font-semibold text-navy mb-8">
               Get in touch
             </h2>
 
-            <div className="space-y-5 text-[14px] text-text/60">
+            <div className="space-y-5 text-[18px] text-text/60">
               <div>
-                <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-text/35 block mb-1">
+                <span className="font-mono text-[13px] uppercase tracking-[0.2em] text-text/35 block mb-1">
                   Email
                 </span>
                 <a
@@ -51,7 +51,7 @@ export default function Contact() {
                 </a>
               </div>
               <div>
-                <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-text/35 block mb-1">
+                <span className="font-mono text-[13px] uppercase tracking-[0.2em] text-text/35 block mb-1">
                   Address
                 </span>
                 <p>
@@ -61,7 +61,7 @@ export default function Contact() {
                 </p>
               </div>
               <div>
-                <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-text/35 block mb-1">
+                <span className="font-mono text-[13px] uppercase tracking-[0.2em] text-text/35 block mb-1">
                   Phone
                 </span>
                 <p>(+44) 01603 450504</p>
@@ -86,7 +86,7 @@ export default function Contact() {
                   rel="noopener noreferrer"
                   className="group flex items-center justify-between py-3.5 border-t border-border last:border-b hover:translate-x-1 transition-transform duration-200"
                 >
-                  <span className="text-[15px] text-text/70 group-hover:text-navy transition-colors">
+                  <span className="text-[19px] text-text/70 group-hover:text-navy transition-colors">
                     {link.label}
                   </span>
                   <span className="text-text/25 group-hover:text-navy transition-colors">

@@ -108,7 +108,7 @@ export default function Gallery() {
           className="flex items-center gap-4"
         >
           <div className="w-8 h-px bg-text/25" />
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-text/40">
+          <p className="font-mono text-sm uppercase tracking-[0.2em] text-text/40">
             Gallery
           </p>
         </motion.div>
@@ -116,7 +116,7 @@ export default function Gallery() {
 
       {/* Highlights row */}
       <div className="max-w-5xl mx-auto px-6 mb-8">
-        <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-text/30 mb-3">
+        <p className="font-mono text-[13px] uppercase tracking-[0.15em] text-text/30 mb-3">
           Highlights
         </p>
         <div className="flex gap-1 overflow-x-auto [&::-webkit-scrollbar]:hidden" style={{ scrollbarWidth: 'none' }}>
@@ -138,7 +138,7 @@ export default function Gallery() {
 
       {/* More label */}
       <div className="max-w-5xl mx-auto px-6 mb-3">
-        <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-text/30">
+        <p className="font-mono text-[13px] uppercase tracking-[0.15em] text-text/30">
           More
         </p>
       </div>
@@ -171,7 +171,7 @@ export default function Gallery() {
 
       {/* Caption */}
       <div className="max-w-5xl mx-auto px-6 mt-4">
-        <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-text/30 text-center">
+        <p className="font-mono text-[13px] uppercase tracking-[0.15em] text-text/30 text-center">
           Lab Life &middot; Conferences &middot; Norwich
         </p>
       </div>
@@ -188,7 +188,7 @@ export default function Gallery() {
           >
             <button
               onClick={goPrev}
-              className="absolute left-4 md:left-8 text-white/50 hover:text-white text-4xl z-10 select-none"
+              className="absolute left-4 md:left-8 text-white/50 hover:text-white text-[45px] z-10 select-none"
             >
               &#8249;
             </button>
@@ -211,23 +211,23 @@ export default function Gallery() {
 
             <button
               onClick={goNext}
-              className="absolute right-4 md:right-8 text-white/50 hover:text-white text-4xl z-10 select-none"
+              className="absolute right-4 md:right-8 text-white/50 hover:text-white text-[45px] z-10 select-none"
             >
               &#8250;
             </button>
 
-            <p className="absolute bottom-8 font-mono text-xs text-white/40">
+            <p className="absolute bottom-8 font-mono text-sm text-white/40">
               {currentImage.alt}
             </p>
 
             <button
               onClick={closeLightbox}
-              className="absolute top-4 right-4 md:top-6 md:right-6 text-white/50 hover:text-white text-2xl"
+              className="absolute top-4 right-4 md:top-6 md:right-6 text-white/50 hover:text-white text-3xl"
             >
               &times;
             </button>
 
-            <span className="absolute bottom-4 font-mono text-[10px] text-white/25">
+            <span className="absolute bottom-4 font-mono text-[13px] text-white/25">
               {lightboxIdx + 1} / {allPhotos.length}
             </span>
           </motion.div>

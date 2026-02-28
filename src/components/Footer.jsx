@@ -3,10 +3,10 @@ export default function Footer() {
     <footer className="bg-navy text-white/60 py-12 px-6">
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
         <div>
-          <p className="font-logo text-lg font-light uppercase tracking-[0.2em] text-white">
+          <p className="font-logo text-xl font-light uppercase tracking-[0.2em] text-white">
             Nobori Lab
           </p>
-          <p className="font-mono text-xs mt-1">
+          <p className="font-mono text-sm mt-1">
             The Sainsbury Laboratory
           </p>
         </div>
@@ -17,7 +17,7 @@ export default function Footer() {
               <a
                 key={link}
                 href={`#${link.toLowerCase()}`}
-                className="font-mono text-xs uppercase tracking-widest hover:text-white transition-colors"
+                className="font-mono text-sm uppercase tracking-widest hover:text-white transition-colors"
               >
                 {link}
               </a>
@@ -25,7 +25,7 @@ export default function Footer() {
           )}
         </nav>
 
-        <p className="font-mono text-xs">
+        <p className="font-mono text-sm">
           &copy; {new Date().getFullYear()} Nobori Lab
         </p>
       </div>

@@ -20,7 +20,7 @@ export default function Funders() {
           className="flex items-center gap-4 mb-10"
         >
           <div className="w-8 h-px bg-text/25" />
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-text/40">
+          <p className="font-mono text-sm uppercase tracking-[0.2em] text-text/40">
             Supported By
           </p>
         </motion.div>
@@ -43,7 +43,7 @@ export default function Funders() {
             >
               {/* Placeholder box — replace with <img> when logos are available */}
               <div className="h-[50px] px-6 flex items-center justify-center rounded-lg border border-border bg-bg grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300">
-                <span className="font-mono text-[12px] uppercase tracking-[0.15em] text-text/60 group-hover:text-navy transition-colors">
+                <span className="font-mono text-[15px] uppercase tracking-[0.15em] text-text/60 group-hover:text-navy transition-colors">
                   {funder.name}
                 </span>
               </div>

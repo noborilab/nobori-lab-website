@@ -30,7 +30,7 @@ export default function Projects() {
           className="flex items-center gap-4 mb-14"
         >
           <div className="w-8 h-px bg-text/25" />
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-text/40">
+          <p className="font-mono text-sm uppercase tracking-[0.2em] text-text/40">
             Projects
           </p>
         </motion.div>
@@ -58,14 +58,14 @@ export default function Projects() {
                     <span
                       className={`w-2 h-2 rounded-full ${dotColor[project.color]}`}
                     />
-                    <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-text/50">
+                    <span className="font-mono text-[13px] uppercase tracking-[0.2em] text-text/50">
                       {project.tag}
                     </span>
                   </div>
-                  <h3 className="font-display text-[26px] font-semibold text-navy leading-snug">
+                  <h3 className="font-display text-[32px] font-semibold text-navy leading-snug">
                     {project.title}
                   </h3>
-                  <p className="mt-1.5 text-[14px] text-text/50 leading-relaxed">
+                  <p className="mt-1.5 text-[18px] text-text/50 leading-relaxed">
                     {project.summary}
                   </p>
                 </motion.button>
@@ -92,7 +92,7 @@ export default function Projects() {
                       className="w-full rounded-2xl object-contain"
                     />
                     {active.imageCredit && (
-                      <p className="mt-1.5 text-right text-[11px] text-text/30 italic">
+                      <p className="mt-1.5 text-right text-[14px] text-text/30 italic">
                         Image credit: {active.imageCredit}
                       </p>
                     )}
@@ -105,7 +105,7 @@ export default function Projects() {
                 )}
 
                 {/* Detail text */}
-                <p className="mt-6 text-[15px] text-text/65 leading-relaxed">
+                <p className="mt-6 text-[19px] text-text/65 leading-relaxed">
                   {active.detail}
                 </p>
               </motion.div>

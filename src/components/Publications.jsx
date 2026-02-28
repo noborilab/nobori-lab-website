@@ -16,7 +16,7 @@ const tabs = [
 function LinkChip({ href, children }) {
   if (!href) {
     return (
-      <span className="font-mono text-[10px] uppercase tracking-[0.1em] px-3 py-1 rounded-full border border-border text-text/25">
+      <span className="font-mono text-[13px] uppercase tracking-[0.1em] px-3 py-1 rounded-full border border-border text-text/25">
         {children}
       </span>
     )
@@ -26,7 +26,7 @@ function LinkChip({ href, children }) {
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="font-mono text-[10px] uppercase tracking-[0.1em] px-3 py-1 rounded-full border border-border text-text/50 hover:text-navy hover:border-navy transition-colors"
+      className="font-mono text-[13px] uppercase tracking-[0.1em] px-3 py-1 rounded-full border border-border text-text/50 hover:text-navy hover:border-navy transition-colors"
     >
       {children}
     </a>
@@ -37,13 +37,13 @@ function JournalName({ journal, journalNote }) {
   return (
     <span>
       <span
-        className="font-display text-[14px] italic"
+        className="font-display text-[18px] italic"
         style={{ color: journalColors[journal] || '#666' }}
       >
         {journal}
       </span>
       {journalNote && (
-        <span className="text-[12px] text-text/35 ml-1">{journalNote}</span>
+        <span className="text-[15px] text-text/35 ml-1">{journalNote}</span>
       )}
     </span>
   )
@@ -67,7 +67,7 @@ function SelectedCard({ pub, index }) {
             className="w-full h-full object-cover"
           />
           {pub.figureCredit && (
-            <p className="absolute bottom-1 right-2 text-[9px] text-white/60 italic">
+            <p className="absolute bottom-1 right-2 text-[11px] text-white/60 italic">
               {pub.figureCredit}
             </p>
           )}
@@ -77,14 +77,14 @@ function SelectedCard({ pub, index }) {
       <div className={pub.figure ? 'p-5 flex-1' : ''}>
         <div className="flex items-center gap-2 mb-2">
         <JournalName journal={pub.journal} journalNote={pub.journalNote} />
-        <span className="font-mono text-[11px] text-text/30">{pub.year}</span>
+        <span className="font-mono text-[14px] text-text/30">{pub.year}</span>
       </div>
 
-      <h3 className="font-display text-[19px] font-semibold text-navy leading-snug">
+      <h3 className="font-display text-[24px] font-semibold text-navy leading-snug">
         {pub.title}
       </h3>
 
-      <p className="mt-1.5 text-[13px] text-text/45">{pub.authors}</p>
+      <p className="mt-1.5 text-[16px] text-text/45">{pub.authors}</p>
 
       {/* Link chips */}
       <div className="mt-3 flex flex-wrap gap-2">
@@ -103,12 +103,12 @@ function SelectedCard({ pub, index }) {
                 href={h.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block text-[12px] text-text/40 hover:text-navy transition-colors"
+                className="block text-[15px] text-text/40 hover:text-navy transition-colors"
               >
                 {h.text}
               </a>
             ) : (
-              <p key={i} className="text-[12px] text-text/40">
+              <p key={i} className="text-[15px] text-text/40">
                 {h.text}
               </p>
             ),
@@ -130,24 +130,24 @@ function CompactRow({ pub, index }) {
       className="py-3.5 border-t border-border first:border-t-0"
     >
       <div className="flex flex-col md:flex-row md:items-baseline gap-1 md:gap-4">
-        <span className="font-mono text-[12px] text-text/28 shrink-0 w-9">
+        <span className="font-mono text-[15px] text-text/28 shrink-0 w-9">
           {pub.year}
         </span>
         <div className="flex-1 min-w-0">
-          <span className="font-display text-[16px] text-navy font-medium leading-snug">
+          <span className="font-display text-[20px] text-navy font-medium leading-snug">
             {pub.title}
           </span>
         </div>
         <JournalName journal={pub.journal} journalNote={pub.journalNote} />
       </div>
       <div className="md:pl-[52px] mt-1 flex items-center gap-3">
-        <span className="text-[12px] text-text/35 truncate">{pub.authors}</span>
+        <span className="text-[15px] text-text/35 truncate">{pub.authors}</span>
         {pub.link && (
           <a
             href={pub.link}
             target="_blank"
             rel="noopener noreferrer"
-            className="font-mono text-[9px] uppercase tracking-[0.1em] text-text/35 hover:text-navy transition-colors shrink-0"
+            className="font-mono text-[11px] uppercase tracking-[0.1em] text-text/35 hover:text-navy transition-colors shrink-0"
           >
             Link &rarr;
           </a>
@@ -180,7 +180,7 @@ export default function Publications() {
           className="flex items-center gap-4 mb-10"
         >
           <div className="w-8 h-px bg-text/25" />
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-text/40">
+          <p className="font-mono text-sm uppercase tracking-[0.2em] text-text/40">
             Publications
           </p>
         </motion.div>
@@ -193,7 +193,7 @@ export default function Publications() {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10"
         >
-          <h2 className="font-display text-4xl md:text-5xl font-semibold text-navy">
+          <h2 className="font-display text-[45px] md:text-[58px] font-semibold text-navy">
             Publications
           </h2>
           <div className="flex gap-5">
@@ -201,7 +201,7 @@ export default function Publications() {
               <button
                 key={tab.key}
                 onClick={() => setActiveTab(tab.key)}
-                className={`font-mono text-[11px] uppercase tracking-[0.12em] pb-1 transition-all whitespace-nowrap ${
+                className={`font-mono text-[14px] uppercase tracking-[0.12em] pb-1 transition-all whitespace-nowrap ${
                   activeTab === tab.key
                     ? 'text-navy border-b-2 border-navy'
                     : 'text-text/30 hover:text-text/55'
@@ -250,7 +250,7 @@ export default function Publications() {
             href="https://scholar.google.com/citations?user=35_IIHgAAAAJ&hl=en"
             target="_blank"
             rel="noopener noreferrer"
-            className="group inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full border border-border text-navy font-mono text-[13px] tracking-[0.08em] hover:bg-navy/5 hover:border-navy/30 transition-all"
+            className="group inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full border border-border text-navy font-mono text-[16px] tracking-[0.08em] hover:bg-navy/5 hover:border-navy/30 transition-all"
           >
             <svg className="w-4 h-4 text-navy/60 group-hover:text-navy transition-colors" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5" />
@@ -262,7 +262,7 @@ export default function Publications() {
             href="https://plantae.org/?s=tatsuya+nobori+-Weekly+-Webinar"
             target="_blank"
             rel="noopener noreferrer"
-            className="group inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full border border-border text-navy font-mono text-[13px] tracking-[0.08em] hover:bg-navy/5 hover:border-navy/30 transition-all"
+            className="group inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full border border-border text-navy font-mono text-[16px] tracking-[0.08em] hover:bg-navy/5 hover:border-navy/30 transition-all"
           >
             <svg className="w-4 h-4 text-navy/60 group-hover:text-navy transition-colors" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />

@@ -14,7 +14,7 @@ export default function Team() {
           className="flex items-center gap-4 mb-10"
         >
           <div className="w-8 h-px bg-text/25" />
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-text/40">
+          <p className="font-mono text-sm uppercase tracking-[0.2em] text-text/40">
             The Team
           </p>
         </motion.div>
@@ -31,7 +31,7 @@ export default function Team() {
             href="https://www.tsl.ac.uk/our-work/scientific-groups/tatsuya-nobori-group"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.15em] text-navy hover:text-coral transition-colors"
+            className="inline-flex items-center gap-2 font-mono text-sm uppercase tracking-[0.15em] text-navy hover:text-coral transition-colors"
           >
             Visit our group page &rarr;
           </a>
@@ -56,16 +56,16 @@ export default function Team() {
                     className="w-full h-full object-cover"
                   />
                 ) : (
-                  <span className="font-display text-lg text-navy/30">
+                  <span className="font-display text-xl text-navy/30">
                     {member.initials}
                   </span>
                 )}
               </div>
-              <h3 className="mt-2.5 font-display text-[15px] font-semibold text-navy leading-tight">
+              <h3 className="mt-2.5 font-display text-[19px] font-semibold text-navy leading-tight">
                 {member.name}
               </h3>
               {member.role && (
-                <p className="mt-0.5 font-mono text-[9px] uppercase tracking-[0.15em] text-sage">
+                <p className="mt-0.5 font-mono text-[11px] uppercase tracking-[0.15em] text-sage">
                   {member.role}
                 </p>
               )}
@@ -84,14 +84,14 @@ export default function Team() {
               href="#contact"
               className="block w-[72px] h-[72px] rounded-full mx-auto border-2 border-dashed border-border hover:border-navy flex items-center justify-center transition-colors group"
             >
-              <span className="font-display text-2xl text-text/20 group-hover:text-navy transition-colors">
+              <span className="font-display text-3xl text-text/20 group-hover:text-navy transition-colors">
                 +
               </span>
             </a>
-            <h3 className="mt-2.5 font-display text-[15px] font-semibold text-navy leading-tight">
+            <h3 className="mt-2.5 font-display text-[19px] font-semibold text-navy leading-tight">
               Join Us
             </h3>
-            <p className="mt-0.5 font-mono text-[9px] uppercase tracking-[0.15em] text-coral">
+            <p className="mt-0.5 font-mono text-[11px] uppercase tracking-[0.15em] text-coral">
               Open Positions
             </p>
           </motion.div>
@@ -106,14 +106,14 @@ export default function Team() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="mt-16"
           >
-            <h3 className="font-mono text-[10px] uppercase tracking-[0.2em] text-text/30 mb-4">
+            <h3 className="font-mono text-[13px] uppercase tracking-[0.2em] text-text/30 mb-4">
               Alumni
             </h3>
             <div className="space-y-2">
               {alumni.map((alum, i) => (
                 <div
                   key={i}
-                  className="flex flex-wrap gap-x-3 gap-y-0.5 text-[13px]"
+                  className="flex flex-wrap gap-x-3 gap-y-0.5 text-[16px]"
                 >
                   <span className="text-navy font-medium">{alum.name}</span>
                   <span className="text-text/35">{alum.period}</span>

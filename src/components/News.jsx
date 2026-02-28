@@ -20,7 +20,7 @@ export default function News() {
           className="flex items-center gap-4 mb-14"
         >
           <div className="w-8 h-px bg-text/25" />
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-text/40">
+          <p className="font-mono text-sm uppercase tracking-[0.2em] text-text/40">
             Lab News
           </p>
         </motion.div>
@@ -42,28 +42,28 @@ export default function News() {
               {/* Tag + date */}
               <div className="flex items-center gap-2.5 mb-3">
                 <span
-                  className="font-mono text-[10px] font-medium uppercase tracking-[0.15em] px-2.5 py-1 rounded-full"
+                  className="font-mono text-[13px] font-medium uppercase tracking-[0.15em] px-2.5 py-1 rounded-full"
                   style={tagStyles[item.color]}
                 >
                   {item.tag}
                 </span>
-                <span className="font-mono text-[11px] text-text/35">
+                <span className="font-mono text-[14px] text-text/35">
                   {item.date}
                 </span>
               </div>
 
               {/* Title */}
-              <h3 className="font-display text-[19px] font-semibold text-navy leading-snug group-hover:text-navy/80 transition-colors">
+              <h3 className="font-display text-[24px] font-semibold text-navy leading-snug group-hover:text-navy/80 transition-colors">
                 {item.title}
               </h3>
 
               {/* Body */}
-              <p className="mt-2 text-[13.5px] text-text/55 leading-relaxed">
+              <p className="mt-2 text-[17px] text-text/55 leading-relaxed">
                 {item.description}
               </p>
 
               {/* Read link */}
-              <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.12em] text-text/30 group-hover:text-navy transition-colors">
+              <p className="mt-3 font-mono text-[13px] uppercase tracking-[0.12em] text-text/30 group-hover:text-navy transition-colors">
                 Read &rarr;
               </p>
             </motion.a>

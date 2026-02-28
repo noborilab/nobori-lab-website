@@ -41,7 +41,7 @@ export default function Hero() {
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.6 }}
-        className="mt-3 font-mono text-xs uppercase tracking-[0.1em] sm:tracking-[0.2em] text-text/40"
+        className="mt-3 font-mono text-sm uppercase tracking-[0.1em] sm:tracking-[0.2em] text-text/40"
       >
         The Sainsbury Laboratory &middot; Norwich, UK
       </motion.p>
@@ -55,13 +55,13 @@ export default function Hero() {
       >
         <a
           href="#research"
-          className="px-6 py-3 border border-border text-text/50 font-mono text-xs uppercase tracking-widest rounded-lg hover:bg-navy/5 hover:border-navy/30 hover:text-navy transition-all text-center"
+          className="px-6 py-3 border border-border text-text/50 font-mono text-sm uppercase tracking-widest rounded-lg hover:bg-navy/5 hover:border-navy/30 hover:text-navy transition-all text-center"
         >
           Explore Research
         </a>
         <a
           href="#publications"
-          className="px-6 py-3 border border-border text-text/50 font-mono text-xs uppercase tracking-widest rounded-lg hover:bg-navy/5 hover:border-navy/30 hover:text-navy transition-all text-center"
+          className="px-6 py-3 border border-border text-text/50 font-mono text-sm uppercase tracking-widest rounded-lg hover:bg-navy/5 hover:border-navy/30 hover:text-navy transition-all text-center"
         >
           Publications
         </a>

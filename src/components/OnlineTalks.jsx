@@ -94,7 +94,7 @@ export default function OnlineTalks() {
           className="flex items-center gap-4 mb-14"
         >
           <div className="w-8 h-px bg-text/25" />
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-text/40">
+          <p className="font-mono text-sm uppercase tracking-[0.2em] text-text/40">
             Online Talks
           </p>
         </motion.div>
@@ -141,11 +141,11 @@ export default function OnlineTalks() {
                 </div>
                 {/* Info */}
                 <div className="p-4">
-                  <p className="font-display text-[15px] font-medium text-navy leading-snug line-clamp-2">
+                  <p className="font-display text-[19px] font-medium text-navy leading-snug line-clamp-2">
                     {v.title}
                   </p>
                   {v.venue && (
-                    <p className="mt-1.5 font-mono text-[11px] text-text/40">
+                    <p className="mt-1.5 font-mono text-[14px] text-text/40">
                       {v.venue}
                     </p>
                   )}
@@ -170,16 +170,16 @@ export default function OnlineTalks() {
                       <path strokeLinecap="round" strokeLinejoin="round" d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 17.032l.884.884a1.5 1.5 0 002.33-.234l.27-.405a1.5 1.5 0 00-.154-1.82L6.75 12.132v4.9zm0 0V12.132m10.5 4.9l-.884.884a1.5 1.5 0 01-2.33-.234l-.27-.405a1.5 1.5 0 01.154-1.82l3.33-3.325v4.9zm0 0V12.132" />
                     </svg>
                   </div>
-                  <span className="absolute bottom-2 right-3 font-mono text-[9px] uppercase tracking-[0.1em] text-text/30">
+                  <span className="absolute bottom-2 right-3 font-mono text-[11px] uppercase tracking-[0.1em] text-text/30">
                     {ep.note}
                   </span>
                 </div>
                 {/* Info */}
                 <div className="p-4">
-                  <p className="font-display text-[15px] font-medium text-navy leading-snug line-clamp-2">
+                  <p className="font-display text-[19px] font-medium text-navy leading-snug line-clamp-2">
                     {ep.title}
                   </p>
-                  <p className="mt-1.5 font-mono text-[11px] text-text/40">
+                  <p className="mt-1.5 font-mono text-[14px] text-text/40">
                     {ep.show}
                   </p>
                 </div>

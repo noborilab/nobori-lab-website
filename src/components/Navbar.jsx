@@ -38,7 +38,7 @@ export default function Navbar() {
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
         <a
           href="#hero"
-          className="font-logo text-lg font-light uppercase tracking-[0.2em] text-navy whitespace-nowrap shrink-0"
+          className="font-logo text-xl font-light uppercase tracking-[0.2em] text-navy whitespace-nowrap shrink-0"
         >
           Nobori Lab
         </a>
@@ -49,7 +49,7 @@ export default function Navbar() {
             <a
               key={link.href}
               href={link.href}
-              className="font-mono text-[11px] uppercase tracking-[0.1em] text-text/60 hover:text-navy transition-colors whitespace-nowrap"
+              className="font-mono text-[14px] uppercase tracking-[0.1em] text-text/60 hover:text-navy transition-colors whitespace-nowrap"
             >
               {link.label}
             </a>
@@ -95,7 +95,7 @@ export default function Navbar() {
                   key={link.href}
                   href={link.href}
                   onClick={() => setMobileOpen(false)}
-                  className="font-mono text-sm uppercase tracking-widest text-text/70 hover:text-navy transition-colors"
+                  className="font-mono text-base uppercase tracking-widest text-text/70 hover:text-navy transition-colors"
                 >
                   {link.label}
                 </a>
