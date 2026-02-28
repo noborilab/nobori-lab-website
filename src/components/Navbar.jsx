@@ -7,8 +7,8 @@ const navLinks = [
   { label: 'Research', href: '#research' },
   { label: 'Projects', href: '#projects' },
   { label: 'Publications', href: '#publications' },
-  { label: 'Online Talks', href: '#talks' },
-  { label: 'Tatsuya Nobori', href: '#cv' },
+  { label: 'Talks', href: '#talks' },
+  { label: 'PI', href: '#cv' },
   { label: 'Team', href: '#team' },
   { label: 'Gallery', href: '#gallery' },
   { label: 'Contact', href: '#contact' },
@@ -38,18 +38,18 @@ export default function Navbar() {
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
         <a
           href="#hero"
-          className="font-logo text-lg font-light uppercase tracking-[0.2em] text-navy"
+          className="font-logo text-lg font-light uppercase tracking-[0.2em] text-navy whitespace-nowrap shrink-0"
         >
           Nobori Lab
         </a>
 
         {/* Desktop */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden lg:flex items-center gap-5">
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              className="font-mono text-xs uppercase tracking-widest text-text/60 hover:text-navy transition-colors"
+              className="font-mono text-[11px] uppercase tracking-[0.1em] text-text/60 hover:text-navy transition-colors whitespace-nowrap"
             >
               {link.label}
             </a>
@@ -59,7 +59,7 @@ export default function Navbar() {
         {/* Mobile toggle */}
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
-          className="md:hidden flex flex-col gap-1.5 p-2"
+          className="lg:hidden flex flex-col gap-1.5 p-2"
           aria-label="Toggle menu"
         >
           <span
@@ -87,7 +87,7 @@ export default function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-bg/95 backdrop-blur-md border-b border-border overflow-hidden"
+            className="lg:hidden bg-bg/95 backdrop-blur-md border-b border-border overflow-hidden"
           >
             <div className="px-6 py-4 flex flex-col gap-4">
               {navLinks.map((link) => (
