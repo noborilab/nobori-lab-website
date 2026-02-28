@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { motion } from 'framer-motion'
+import { useState, useMemo } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { newsItems } from '../data/news'
 
 const dotColors = {
@@ -14,12 +14,34 @@ const tagStyles = {
   navy: { background: 'rgba(46,58,92,0.07)', color: '#2E3A5C' },
 }
 
-const VISIBLE_COUNT = 4
+const tagColorMap = { Paper: 'coral', Press: 'navy', Lab: 'sage' }
+
+const VISIBLE_COUNT = 5
+
+// Extract unique years from dates (e.g. "Feb 2026" → "2026", "2024" → "2024")
+const allYears = [...new Set(newsItems.map((n) => n.date.match(/\d{4}/)?.[0]).filter(Boolean))].sort((a, b) => b - a)
+
+const tagOptions = ['All', 'Paper', 'Press', 'Lab']
 
 export default function News() {
   const [expanded, setExpanded] = useState(false)
-  const visible = expanded ? newsItems : newsItems.slice(0, VISIBLE_COUNT)
-  const hasMore = newsItems.length > VISIBLE_COUNT
+  const [activeTag, setActiveTag] = useState('All')
+  const [activeYear, setActiveYear] = useState('All')
+  const [search, setSearch] = useState('')
+
+  const filtered = useMemo(() => {
+    const q = search.toLowerCase().trim()
+    return newsItems.filter((item) => {
+      if (activeTag !== 'All' && item.tag !== activeTag) return false
+      if (activeYear !== 'All' && !item.date.includes(activeYear)) return false
+      if (q && !item.title.toLowerCase().includes(q) && !item.description.toLowerCase().includes(q)) return false
+      return true
+    })
+  }, [activeTag, activeYear, search])
+
+  const isFiltered = activeTag !== 'All' || activeYear !== 'All' || search.trim() !== ''
+  const showPagination = filtered.length > VISIBLE_COUNT
+  const visible = !isFiltered && !expanded && showPagination ? filtered.slice(0, VISIBLE_COUNT) : filtered
 
   return (
     <section id="news" className="py-24 bg-bg px-6">
@@ -38,85 +60,183 @@ export default function News() {
           </p>
         </motion.div>
 
+        {/* Filter bar */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-50px' }}
+          transition={{ duration: 0.5, delay: 0.05 }}
+          className="flex flex-wrap items-center gap-3 mb-8"
+        >
+          {/* Tag pills */}
+          <div className="flex gap-2">
+            {tagOptions.map((tag) => {
+              const isActive = activeTag === tag
+              const color = tag === 'All' ? '#2E3A5C' : dotColors[tagColorMap[tag]]
+              return (
+                <button
+                  key={tag}
+                  onClick={() => setActiveTag(tag)}
+                  className="font-mono text-[13px] uppercase tracking-[0.1em] px-3 py-1 rounded-full border transition-all duration-200"
+                  style={
+                    isActive
+                      ? { backgroundColor: color, borderColor: color, color: '#fff' }
+                      : { backgroundColor: 'transparent', borderColor: `${color}30`, color }
+                  }
+                >
+                  {tag}
+                </button>
+              )
+            })}
+          </div>
+
+          {/* Year filter */}
+          <div className="flex gap-2 ml-1">
+            {['All', ...allYears].map((yr) => {
+              const isActive = activeYear === yr
+              const label = yr === 'All' ? 'All Years' : yr
+              return (
+                <button
+                  key={yr}
+                  onClick={() => setActiveYear(yr)}
+                  className={`font-mono text-[13px] tracking-[0.1em] px-3 py-1 rounded-full border transition-all duration-200 ${
+                    isActive
+                      ? 'bg-navy text-white border-navy'
+                      : 'bg-transparent text-text/40 border-border hover:text-navy hover:border-navy/30'
+                  }`}
+                >
+                  {label}
+                </button>
+              )
+            })}
+          </div>
+
+          {/* Search box */}
+          <div className="relative ml-auto">
+            <svg
+              className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text/25"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+            </svg>
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search news..."
+              className="font-mono text-[13px] tracking-[0.05em] pl-9 pr-3 py-1.5 rounded-full border border-border bg-transparent text-text/70 placeholder:text-text/25 focus:outline-none focus:border-navy/30 transition-colors w-[180px]"
+            />
+          </div>
+        </motion.div>
+
+        {/* Result count when filtered */}
+        {isFiltered && (
+          <p className="font-mono text-[13px] text-text/30 mb-6">
+            {filtered.length} {filtered.length === 1 ? 'item' : 'items'}
+          </p>
+        )}
+
+        {/* No results */}
+        {filtered.length === 0 && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="py-16 text-center"
+          >
+            <p className="font-display text-[22px] italic text-text/30">
+              No matching news
+            </p>
+          </motion.div>
+        )}
+
         {/* Desktop timeline */}
         <div className="hidden md:block relative">
-          {visible.map((item, i) => (
-            <motion.div
-              key={item.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-50px' }}
-              transition={{ duration: 0.5, delay: i * 0.08 }}
-              className="relative flex items-start gap-10 pb-10 last:pb-0"
-            >
-              {/* Left column: date */}
-              <div className="w-[100px] shrink-0 text-right pt-5">
-                <p className="font-display text-[17px] italic text-text/45">
-                  {item.date}
-                </p>
-              </div>
-
-              {/* Center: dot + line */}
-              <div className="relative flex flex-col items-center shrink-0">
-                <div className="pt-[22px]">
-                  <div
-                    className="w-3 h-3 rounded-full z-10 ring-4 ring-bg"
-                    style={{ backgroundColor: dotColors[item.color] }}
-                  />
-                </div>
-                {i < visible.length - 1 && (
-                  <div className="w-px flex-1 bg-border" />
-                )}
-              </div>
-
-              {/* Right: card */}
-              <a
-                href={item.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group flex-1 bg-bg rounded-lg border border-border p-5 shadow-[0_1px_3px_rgba(0,0,0,0.04)] hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(0,0,0,0.08)] hover:border-navy/20 transition-all duration-300"
+          <AnimatePresence mode="popLayout">
+            {visible.map((item, i) => (
+              <motion.div
+                key={item.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.3, delay: i * 0.04 }}
+                layout
+                className="relative flex items-start gap-10 pb-10 last:pb-0"
               >
-                <CardContent item={item} />
-              </a>
-            </motion.div>
-          ))}
+                {/* Left column: date */}
+                <div className="w-[100px] shrink-0 text-right pt-5">
+                  <p className="font-display text-[17px] italic text-text/45">
+                    {item.date}
+                  </p>
+                </div>
+
+                {/* Center: dot + line */}
+                <div className="relative flex flex-col items-center shrink-0">
+                  <div className="pt-[22px]">
+                    <div
+                      className="w-3 h-3 rounded-full z-10 ring-4 ring-bg"
+                      style={{ backgroundColor: dotColors[item.color] }}
+                    />
+                  </div>
+                  {i < visible.length - 1 && (
+                    <div className="w-px flex-1 bg-border" />
+                  )}
+                </div>
+
+                {/* Right: card */}
+                <a
+                  href={item.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex-1 bg-bg rounded-lg border border-border p-5 shadow-[0_1px_3px_rgba(0,0,0,0.04)] hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(0,0,0,0.08)] hover:border-navy/20 transition-all duration-300"
+                >
+                  <CardContent item={item} />
+                </a>
+              </motion.div>
+            ))}
+          </AnimatePresence>
         </div>
 
         {/* Mobile layout: stacked, no line */}
         <div className="md:hidden space-y-6">
-          {visible.map((item, i) => (
-            <motion.div
-              key={item.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-50px' }}
-              transition={{ duration: 0.5, delay: i * 0.08 }}
-            >
-              {/* Date with dot */}
-              <div className="flex items-center gap-2 mb-2">
-                <div
-                  className="w-2.5 h-2.5 rounded-full shrink-0"
-                  style={{ backgroundColor: dotColors[item.color] }}
-                />
-                <p className="font-display text-[16px] italic text-text/45">
-                  {item.date}
-                </p>
-              </div>
-              {/* Card */}
-              <a
-                href={item.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group block bg-bg rounded-lg border border-border p-5 shadow-[0_1px_3px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.08)] hover:border-navy/20 transition-all duration-300"
+          <AnimatePresence mode="popLayout">
+            {visible.map((item, i) => (
+              <motion.div
+                key={item.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.3, delay: i * 0.04 }}
+                layout
               >
-                <CardContent item={item} />
-              </a>
-            </motion.div>
-          ))}
+                {/* Date with dot */}
+                <div className="flex items-center gap-2 mb-2">
+                  <div
+                    className="w-2.5 h-2.5 rounded-full shrink-0"
+                    style={{ backgroundColor: dotColors[item.color] }}
+                  />
+                  <p className="font-display text-[16px] italic text-text/45">
+                    {item.date}
+                  </p>
+                </div>
+                {/* Card */}
+                <a
+                  href={item.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group block bg-bg rounded-lg border border-border p-5 shadow-[0_1px_3px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.08)] hover:border-navy/20 transition-all duration-300"
+                >
+                  <CardContent item={item} />
+                </a>
+              </motion.div>
+            ))}
+          </AnimatePresence>
         </div>
 
-        {/* Show more / less */}
-        {hasMore && (
+        {/* Show more / less — only when not filtered */}
+        {!isFiltered && showPagination && (
           <div className="mt-10 text-center">
             <button
               onClick={() => setExpanded(!expanded)}
