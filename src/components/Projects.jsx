@@ -30,15 +30,15 @@ function ProjectCard({ project, index }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
       transition={{ duration: 0.5, delay: index * 0.08 }}
-      className="bg-bg rounded-xl border border-border overflow-hidden flex flex-col"
+      className="bg-bg rounded-xl border border-border overflow-hidden"
     >
       {/* Media */}
       {project.image && (
-        <div className="relative flex-1 min-h-[180px]">
+        <div className="relative">
           <img
             src={import.meta.env.BASE_URL + project.image.replace(/^\//, '')}
             alt={project.title}
-            className="w-full h-full object-cover rounded-t-xl"
+            className="w-full rounded-t-xl"
           />
           {project.imageCredit && (
             <p className="absolute bottom-1 right-2 text-[11px] text-white/60 italic">
@@ -48,16 +48,14 @@ function ProjectCard({ project, index }) {
         </div>
       )}
       {project.video && (
-        <div className="relative flex-1 min-h-[180px]">
-          <video
-            src={import.meta.env.BASE_URL + project.video.replace(/^\//, '')}
-            autoPlay
-            muted
-            loop
-            playsInline
-            className="w-full h-full object-cover rounded-t-xl"
-          />
-        </div>
+        <video
+          src={import.meta.env.BASE_URL + project.video.replace(/^\//, '')}
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="w-full rounded-t-xl"
+        />
       )}
 
       {/* Content */}
@@ -188,7 +186,7 @@ export default function Projects() {
         </motion.p>
 
         {/* Project cards — 2-column grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
           {projects.map((project, i) => (
             <ProjectCard key={project.id} project={project} index={i} />
           ))}
