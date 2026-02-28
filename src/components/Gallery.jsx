@@ -1,10 +1,16 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
+const highlights = [
+  { src: '/images/team/group-photo.jpg', alt: 'Nobori Lab group photo' },
+  { src: '/images/lab/20250327_VIB.JPG', alt: 'VIB Conference, Antwerp 2025' },
+  { src: '/images/lab/DSC_1340.JPG', alt: 'Conference at TSL' },
+  { src: '/images/lab/IMG_0669.jpg', alt: 'The Sainsbury Laboratory' },
+]
+
 const photos = [
   { src: '/images/lab/20240925_group_photo.jpg', alt: 'Group photo Sep 2024' },
   { src: '/images/lab/20241101_group_photo.jpg', alt: 'Group photo Nov 2024' },
-  { src: '/images/lab/DSC_1340.JPG', alt: 'Conference at TSL' },
   { src: '/images/lab/IMG_0157.JPG', alt: 'Science outreach' },
   { src: '/images/lab/IMG_0158.JPG', alt: 'Norwich' },
   { src: '/images/lab/IMG_0159.JPG', alt: 'Norwich' },
@@ -31,7 +37,10 @@ const photos = [
   { src: '/images/lab/lab-selfie.png', alt: 'Lab selfie' },
 ]
 
-// Duplicate for seamless loop
+// All images for lightbox (highlights first, then carousel)
+const allPhotos = [...highlights, ...photos]
+
+// Duplicate carousel for seamless loop
 const loopPhotos = [...photos, ...photos]
 
 export default function Gallery() {
@@ -47,13 +56,12 @@ export default function Gallery() {
     if (!el) return
 
     let lastTime = null
-    const speed = 0.5 // px per frame (~30px/s)
+    const speed = 0.5
 
     const tick = (time) => {
       if (lastTime !== null && !paused) {
         const dt = time - lastTime
         posRef.current += speed * (dt / 16)
-        // Reset when first set is fully scrolled
         const halfWidth = el.scrollWidth / 2
         if (posRef.current >= halfWidth) {
           posRef.current -= halfWidth
@@ -68,13 +76,13 @@ export default function Gallery() {
     return () => cancelAnimationFrame(animRef.current)
   }, [paused])
 
-  const openLightbox = (i) => setLightboxIdx(i % photos.length)
+  const openLightbox = (i) => setLightboxIdx(i)
   const closeLightbox = () => setLightboxIdx(null)
 
   const goPrev = useCallback(
     (e) => {
       e.stopPropagation()
-      setLightboxIdx((prev) => (prev > 0 ? prev - 1 : photos.length - 1))
+      setLightboxIdx((prev) => (prev > 0 ? prev - 1 : allPhotos.length - 1))
     },
     [],
   )
@@ -82,16 +90,16 @@ export default function Gallery() {
   const goNext = useCallback(
     (e) => {
       e.stopPropagation()
-      setLightboxIdx((prev) => (prev < photos.length - 1 ? prev + 1 : 0))
+      setLightboxIdx((prev) => (prev < allPhotos.length - 1 ? prev + 1 : 0))
     },
     [],
   )
 
-  const currentImage = lightboxIdx !== null ? photos[lightboxIdx] : null
+  const currentImage = lightboxIdx !== null ? allPhotos[lightboxIdx] : null
 
   return (
     <section id="gallery" className="py-16 bg-bg">
-      <div className="max-w-5xl mx-auto px-6 mb-6">
+      <div className="max-w-5xl mx-auto px-6 mb-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -104,6 +112,35 @@ export default function Gallery() {
             Gallery
           </p>
         </motion.div>
+      </div>
+
+      {/* Highlights row */}
+      <div className="max-w-5xl mx-auto px-6 mb-8">
+        <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-text/30 mb-3">
+          Highlights
+        </p>
+        <div className="flex gap-1 overflow-x-auto [&::-webkit-scrollbar]:hidden" style={{ scrollbarWidth: 'none' }}>
+          {highlights.map((photo, i) => (
+            <div
+              key={photo.src}
+              className="h-[180px] shrink-0 rounded-[6px] overflow-hidden cursor-pointer hover:scale-[1.02] hover:shadow-[0_4px_16px_rgba(0,0,0,0.12)] transition-all duration-300"
+              onClick={() => openLightbox(i)}
+            >
+              <img
+                src={import.meta.env.BASE_URL + photo.src.replace(/^\//, '')}
+                alt={photo.alt}
+                className="h-full w-auto object-cover"
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* More label */}
+      <div className="max-w-5xl mx-auto px-6 mb-3">
+        <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-text/30">
+          More
+        </p>
       </div>
 
       {/* Film strip carousel */}
@@ -119,7 +156,7 @@ export default function Gallery() {
             <div
               key={i}
               className="h-[220px] shrink-0 rounded-[4px] overflow-hidden cursor-pointer hover:opacity-90 transition-opacity"
-              onClick={() => openLightbox(i)}
+              onClick={() => openLightbox(highlights.length + (i % photos.length))}
             >
               <img
                 src={import.meta.env.BASE_URL + photo.src.replace(/^\//, '')}
@@ -149,7 +186,6 @@ export default function Gallery() {
             className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center"
             onClick={closeLightbox}
           >
-            {/* Prev */}
             <button
               onClick={goPrev}
               className="absolute left-4 md:left-8 text-white/50 hover:text-white text-4xl z-10 select-none"
@@ -157,7 +193,6 @@ export default function Gallery() {
               &#8249;
             </button>
 
-            {/* Image */}
             <motion.div
               key={lightboxIdx}
               initial={{ opacity: 0, scale: 0.92 }}
@@ -174,7 +209,6 @@ export default function Gallery() {
               />
             </motion.div>
 
-            {/* Next */}
             <button
               onClick={goNext}
               className="absolute right-4 md:right-8 text-white/50 hover:text-white text-4xl z-10 select-none"
@@ -182,12 +216,10 @@ export default function Gallery() {
               &#8250;
             </button>
 
-            {/* Caption */}
             <p className="absolute bottom-8 font-mono text-xs text-white/40">
               {currentImage.alt}
             </p>
 
-            {/* Close */}
             <button
               onClick={closeLightbox}
               className="absolute top-4 right-4 md:top-6 md:right-6 text-white/50 hover:text-white text-2xl"
@@ -195,9 +227,8 @@ export default function Gallery() {
               &times;
             </button>
 
-            {/* Counter */}
             <span className="absolute bottom-4 font-mono text-[10px] text-white/25">
-              {lightboxIdx + 1} / {photos.length}
+              {lightboxIdx + 1} / {allPhotos.length}
             </span>
           </motion.div>
         )}
