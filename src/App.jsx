@@ -19,13 +19,13 @@ export default function App() {
       <Navbar />
       <main>
         <Hero />
-        <CV />
+        <News />
         <Research />
         <ParallaxBreak gradient="linear-gradient(135deg, #2E3A5C 0%, #1C1E22 60%, #6B8F6B 100%)" />
         <Projects />
-        <News />
         <ParallaxBreak gradient="linear-gradient(135deg, #6B8F6B 0%, #2E3A5C 50%, #C85A3A 100%)" />
         <Publications />
+        <CV />
         <Team />
         <Gallery />
         <Contact />

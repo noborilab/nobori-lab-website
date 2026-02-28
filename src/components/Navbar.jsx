@@ -3,11 +3,11 @@ import { motion, AnimatePresence } from 'framer-motion'
 
 const navLinks = [
   { label: 'Home', href: '#hero' },
-  { label: 'Tatsuya Nobori', href: '#cv' },
+  { label: 'News', href: '#news' },
   { label: 'Research', href: '#research' },
   { label: 'Projects', href: '#projects' },
-  { label: 'News', href: '#news' },
   { label: 'Publications', href: '#publications' },
+  { label: 'Tatsuya Nobori', href: '#cv' },
   { label: 'Team', href: '#team' },
   { label: 'Gallery', href: '#gallery' },
   { label: 'Contact', href: '#contact' },
