@@ -211,9 +211,10 @@ export default function CV() {
                         href={item.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="hover:text-navy transition-colors"
+                        className="inline-flex items-center gap-1 hover:text-navy hover:translate-x-[3px] transition-all duration-200"
                       >
                         {item.text}
+                        <span className="text-sage/50 text-[14px] group-hover:text-sage">&#8599;</span>
                       </a>
                     ) : (
                       item.text

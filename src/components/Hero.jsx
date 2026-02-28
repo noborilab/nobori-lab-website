@@ -54,10 +54,10 @@ export default function Hero() {
         className="mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto"
       >
         <a
-          href="#research"
+          href="#projects"
           className="px-6 py-3 border border-border text-text/50 font-mono text-sm uppercase tracking-widest rounded-lg hover:bg-navy/5 hover:border-navy/30 hover:text-navy transition-all text-center"
         >
-          Explore Research
+          Explore Projects
         </a>
         <a
           href="#publications"
@@ -66,6 +66,17 @@ export default function Hero() {
           Publications
         </a>
       </motion.div>
+
+      {/* Group leader link */}
+      <motion.a
+        href="#cv"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 1.0 }}
+        className="mt-5 font-body text-[16px] text-navy hover:underline transition-all"
+      >
+        Tatsuya Nobori, Group Leader &rarr;
+      </motion.a>
 
       {/* Scroll indicator */}
       <motion.div
