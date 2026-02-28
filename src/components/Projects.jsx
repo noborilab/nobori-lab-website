@@ -2,76 +2,97 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { projects } from '../data/projects'
 
+const dotColor = {
+  sage: 'bg-sage',
+  navy: 'bg-navy',
+  coral: 'bg-coral',
+}
+
+const gradients = {
+  navy: 'linear-gradient(135deg, #2E3A5C 0%, #1C1E22 100%)',
+  sage: 'linear-gradient(135deg, #6B8F6B 0%, #3A5C3A 100%)',
+  coral: 'linear-gradient(135deg, #C85A3A 0%, #8B3A22 100%)',
+}
+
 export default function Projects() {
   const [activeId, setActiveId] = useState(projects[0].id)
   const active = projects.find((p) => p.id === activeId)
 
   return (
-    <section id="projects" className="py-24 bg-bg px-6">
-      <div className="max-w-6xl mx-auto">
+    <section id="projects" className="py-24 bg-bg-soft px-6">
+      <div className="max-w-5xl mx-auto">
+        {/* Section label */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-100px' }}
           transition={{ duration: 0.6 }}
+          className="flex items-center gap-4 mb-14"
         >
-          <p className="font-mono text-xs uppercase tracking-widest text-sage mb-2">
-            Our Work
-          </p>
-          <h2 className="font-display text-4xl md:text-5xl font-semibold text-navy">
+          <div className="w-8 h-px bg-text/25" />
+          <p className="font-mono text-xs uppercase tracking-[0.2em] text-text/40">
             Projects
-          </h2>
+          </p>
         </motion.div>
 
-        <div className="mt-12 flex flex-col md:flex-row gap-8">
-          {/* Tab buttons */}
-          <div className="flex md:flex-col gap-2 md:w-64 shrink-0 overflow-x-auto md:overflow-visible">
-            {projects.map((project) => (
-              <button
-                key={project.id}
-                onClick={() => setActiveId(project.id)}
-                className={`text-left px-5 py-3 rounded-xl font-mono text-sm uppercase tracking-wide transition-all whitespace-nowrap ${
-                  activeId === project.id
-                    ? 'bg-navy text-white'
-                    : 'bg-bg-soft text-text/60 hover:text-navy hover:bg-border/50'
-                }`}
-              >
-                {project.title}
-              </button>
-            ))}
+        <div className="flex flex-col lg:flex-row gap-10 lg:gap-14">
+          {/* LEFT — project cards */}
+          <div className="flex flex-col gap-0 lg:w-[340px] shrink-0">
+            {projects.map((project, i) => {
+              const isActive = activeId === project.id
+              return (
+                <motion.button
+                  key={project.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-50px' }}
+                  transition={{ duration: 0.5, delay: i * 0.1 }}
+                  onClick={() => setActiveId(project.id)}
+                  className={`text-left py-6 border-t border-border last:border-b transition-all duration-300 ${
+                    isActive
+                      ? 'opacity-100'
+                      : 'opacity-40 hover:opacity-70 hover:translate-x-1'
+                  }`}
+                >
+                  <div className="flex items-center gap-2.5 mb-2">
+                    <span
+                      className={`w-2 h-2 rounded-full ${dotColor[project.color]}`}
+                    />
+                    <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-text/50">
+                      {project.tag}
+                    </span>
+                  </div>
+                  <h3 className="font-display text-[26px] font-semibold text-navy leading-snug">
+                    {project.title}
+                  </h3>
+                  <p className="mt-1.5 text-[14px] text-text/50 leading-relaxed">
+                    {project.summary}
+                  </p>
+                </motion.button>
+              )
+            })}
           </div>
 
-          {/* Active panel */}
-          <div className="flex-1 min-h-[300px] relative">
+          {/* RIGHT — sticky detail panel */}
+          <div className="flex-1 lg:sticky lg:top-24 lg:self-start">
             <AnimatePresence mode="wait">
               <motion.div
                 key={active.id}
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.3 }}
-                className="bg-bg-soft rounded-2xl p-8 border border-border"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.35 }}
               >
-                <p className="font-mono text-xs uppercase tracking-widest text-coral">
-                  {active.subtitle}
+                {/* Image placeholder — 4:3 */}
+                <div
+                  className="w-full aspect-[4/3] rounded-2xl"
+                  style={{ background: gradients[active.color] }}
+                />
+
+                {/* Detail text */}
+                <p className="mt-6 text-[15px] text-text/65 leading-relaxed">
+                  {active.detail}
                 </p>
-                <h3 className="mt-2 font-display text-3xl font-semibold text-navy">
-                  {active.title}
-                </h3>
-                <p className="mt-4 text-text/70 leading-relaxed">
-                  {active.description}
-                </p>
-                <ul className="mt-6 space-y-2">
-                  {active.highlights.map((h) => (
-                    <li
-                      key={h}
-                      className="flex items-start gap-2 text-text/70"
-                    >
-                      <span className="text-sage mt-0.5">&#9656;</span>
-                      {h}
-                    </li>
-                  ))}
-                </ul>
               </motion.div>
             </AnimatePresence>
           </div>

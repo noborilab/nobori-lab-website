@@ -1,41 +1,35 @@
 export const projects = [
   {
-    id: 'sensors',
-    title: 'Nanosensors for Plant Health',
-    subtitle: 'Real-time molecular diagnostics',
-    description:
-      'We develop carbon nanotube-based sensors that can detect plant hormones and signaling molecules in real time, enabling non-destructive monitoring of plant health status.',
-    highlights: [
-      'Non-destructive, real-time detection',
-      'Single-molecule sensitivity',
-      'Field-deployable platforms',
-    ],
+    id: 'immunity',
+    tag: 'Immunity',
+    color: 'navy',
+    title: 'Plant Immune Cell States',
+    summary:
+      'Plants lack specialized immune cells — any cell encountering pathogens must mount responses and communicate with surrounding cells.',
+    detail:
+      'We discovered PRIMER cells — a rare cell state acting as sentinels at infection sites. Using single-cell multi-omics we map diverse immune cell states and their spatial organization.',
     image: null,
   },
   {
-    id: 'delivery',
-    title: 'Nanoparticle Delivery',
-    subtitle: 'Targeted cargo transport in plants',
-    description:
-      'Our lab engineers nanoparticles for efficient delivery of genetic material, nutrients, and agrochemicals directly to plant cells, bypassing traditional barriers.',
-    highlights: [
-      'Species-independent delivery',
-      'Chloroplast targeting',
-      'DNA-free genome editing',
-    ],
+    id: 'phytomap',
+    tag: 'Technology',
+    color: 'sage',
+    title: 'PHYTOMap',
+    summary:
+      'Spatial gene expression mapping at single-molecule resolution in 3D whole-mount plant tissues.',
+    detail:
+      'No tissue sectioning required. Works across species at low cost. We\u2019re building SnailFinder for computational SNAIL probe design.',
     image: null,
   },
   {
-    id: 'imaging',
-    title: 'Near-Infrared Imaging',
-    subtitle: 'Visualizing plant biology',
-    description:
-      'Using near-infrared fluorescent nanosensors, we image biochemical processes in living plants with unprecedented spatial and temporal resolution.',
-    highlights: [
-      'In vivo imaging capability',
-      'Multiplexed analyte detection',
-      'High spatiotemporal resolution',
-    ],
+    id: 'transcriptomics',
+    tag: 'Genomics',
+    color: 'coral',
+    title: 'Bacterial Transcriptomics',
+    summary:
+      'Profiling bacterial gene expression directly in planta during plant-microbe interactions.',
+    detail:
+      'Capturing the molecular dialogue between organisms by profiling how pathogens reprogram gene expression under plant immunity.',
     image: null,
   },
 ]
