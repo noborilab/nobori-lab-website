@@ -2,7 +2,7 @@ export const teamMembers = [
   { id: 1, name: 'Tatsuya Nobori', initials: 'TN', role: 'Group Leader', image: '/images/team/tatsuya-nobori.jpg' },
   { id: 2, name: 'Vangeli Geshkovski', initials: 'VG', role: 'Postdoc', image: '/images/team/Vangeli-Geshkovski-O07A7835.jpg' },
   { id: 3, name: 'Phon Green', initials: 'PG', role: 'Research Assistant', image: '/images/team/Phon.JPG' },
-  { id: 4, name: 'Akari Maeda', initials: 'AM', role: 'Postdoc', image: null },
+  { id: 4, name: 'Akari Maeda', initials: 'AM', role: 'Postdoc', image: '/images/team/Akira-Maeda_M8A3226.jpg' },
   { id: 5, name: 'Fernanda Navarro Aguad', initials: 'FN', role: '', image: '/images/team/Fernanda-Navarro-Aguad_M8A2071.jpg' },
   { id: 6, name: 'Hsuan Pai', initials: 'HP', role: 'Research Assistant', image: '/images/team/Pai_s.png' },
   { id: 7, name: 'Siyu Song', initials: 'SS', role: 'Postdoc', image: '/images/team/Siyu.jpeg' },
