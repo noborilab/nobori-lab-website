@@ -33,6 +33,7 @@ export const selected = [
     link: 'https://www.cell.com/cell-host-microbe/fulltext/S1931-3128(25)00245-8',
     pdf: 'https://drive.google.com/file/d/1eSKSpw8RDWJdfwSAyr9hZIxlRRRZRddu/view',
     highlights: [],
+    threadUrl: '',
   },
   {
     id: 's2',
@@ -45,6 +46,7 @@ export const selected = [
     link: 'https://nph.onlinelibrary.wiley.com/doi/10.1111/nph.70220',
     pdf: 'https://drive.google.com/file/d/1Q8uAc3R7F6HSxmTC_jsHR-zWMiZMC3KD/view',
     highlights: [],
+    threadUrl: '',
   },
   {
     id: 's3',
@@ -61,6 +63,7 @@ export const selected = [
       { text: 'Zheng et al. (2025), Molecular Plant', href: 'https://www.sciencedirect.com/science/article/pii/S1674205225000991' },
       { text: 'Thingujam et al. (2025), Trends in Plant Science', href: 'https://www.cell.com/trends/plant-science/fulltext/S1360-1385(25)00105-0' },
     ],
+    threadUrl: '',
   },
   {
     id: 's4',
@@ -72,6 +75,7 @@ export const selected = [
     link: 'https://www.nature.com/articles/s41477-025-02072-z',
     pdf: 'https://drive.google.com/file/d/13kWH4v2Rc0B6cz4yMdNlqY1AIZgljkLm/view',
     highlights: [],
+    threadUrl: '',
   },
   {
     id: 's5',
@@ -88,6 +92,7 @@ export const selected = [
       { text: 'Research Briefing, Nature Plants', href: 'https://www.nature.com/articles/s41477-023-01440-x' },
       { text: 'Media: The Scientist, CBS8, GenomeWeb, Spectrum News' },
     ],
+    threadUrl: '',
   },
   {
     id: 's6',
@@ -98,6 +103,7 @@ export const selected = [
     link: 'https://www.embopress.org/doi/full/10.15252/embr.202255380',
     pdf: 'https://drive.google.com/file/d/1q0Ym-3KD7zaNE4MNu4mKXBFb9eEA5YoQ/view',
     highlights: [],
+    threadUrl: '',
   },
   {
     id: 's7',
@@ -108,6 +114,7 @@ export const selected = [
     link: 'https://www.nature.com/articles/s41477-020-0690-7',
     pdf: 'https://drive.google.com/file/d/1gOwHXksI2Ae0cYDack5kqcKvwc3SZUfP/view',
     highlights: [],
+    threadUrl: '',
   },
   {
     id: 's8',
@@ -120,6 +127,7 @@ export const selected = [
     highlights: [
       { text: 'Cohen et al. (2018), Trends in Plant Science' },
     ],
+    threadUrl: '',
   },
 ]
 

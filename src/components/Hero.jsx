@@ -22,7 +22,7 @@ export default function Hero() {
         <img
           src={labLogo}
           alt="Nobori Lab"
-          className="w-[min(420px,70vw)] h-auto"
+          className="w-[min(500px,85vw)] h-auto"
         />
       </motion.div>
 

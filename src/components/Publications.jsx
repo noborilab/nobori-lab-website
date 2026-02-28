@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   selected,
@@ -6,6 +6,21 @@ import {
   reviews,
   journalColors,
 } from '../data/publications'
+
+let twitterLoaded = false
+function loadTwitterWidgets() {
+  if (twitterLoaded) return Promise.resolve()
+  return new Promise((resolve) => {
+    const script = document.createElement('script')
+    script.src = 'https://platform.twitter.com/widgets.js'
+    script.async = true
+    script.onload = () => {
+      twitterLoaded = true
+      resolve()
+    }
+    document.head.appendChild(script)
+  })
+}
 
 const tabs = [
   { key: 'selected', label: 'Selected' },
@@ -49,7 +64,40 @@ function JournalName({ journal, journalNote }) {
   )
 }
 
+function TweetEmbed({ url }) {
+  const containerRef = useRef(null)
+  const [loaded, setLoaded] = useState(false)
+
+  const renderTweet = useCallback(async () => {
+    if (!containerRef.current || loaded) return
+    await loadTwitterWidgets()
+    if (window.twttr && containerRef.current) {
+      containerRef.current.innerHTML = ''
+      window.twttr.widgets.createTweet(
+        url.split('/').pop(),
+        containerRef.current,
+        { conversation: 'none', width: 550 },
+      ).then(() => setLoaded(true))
+    }
+  }, [url, loaded])
+
+  useState(() => { renderTweet() })
+
+  return (
+    <div
+      ref={containerRef}
+      className="max-w-[550px]"
+    >
+      {!loaded && (
+        <p className="text-[14px] text-text/30 py-4">Loading thread...</p>
+      )}
+    </div>
+  )
+}
+
 function SelectedCard({ pub, index }) {
+  const [showThread, setShowThread] = useState(false)
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -127,6 +175,33 @@ function SelectedCard({ pub, index }) {
                 </p>
               ),
             )}
+          </div>
+        )}
+
+        {/* Tweet thread toggle */}
+        {pub.threadUrl && (
+          <div className="mt-4">
+            <button
+              onClick={() => setShowThread(!showThread)}
+              className="font-mono text-[13px] uppercase tracking-[0.1em] text-text/35 hover:text-navy transition-colors"
+            >
+              {showThread ? 'Hide thread \u25B4' : 'View thread \u25BE'}
+            </button>
+            <AnimatePresence>
+              {showThread && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="overflow-hidden"
+                >
+                  <div className="mt-3 border border-border rounded-lg p-4 max-w-[550px]">
+                    <TweetEmbed url={pub.threadUrl} />
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         )}
       </div>
