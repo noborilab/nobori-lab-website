@@ -186,14 +186,7 @@ export default function News() {
                 </div>
 
                 {/* Right: card */}
-                <a
-                  href={item.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex-1 bg-bg rounded-lg border border-border p-5 shadow-[0_1px_3px_rgba(0,0,0,0.04)] hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(0,0,0,0.08)] hover:border-navy/20 transition-all duration-300"
-                >
-                  <CardContent item={item} />
-                </a>
+                <NewsCard item={item} className="flex-1" />
               </motion.div>
             ))}
           </AnimatePresence>
@@ -222,14 +215,7 @@ export default function News() {
                   </p>
                 </div>
                 {/* Card */}
-                <a
-                  href={item.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group block bg-bg rounded-lg border border-border p-5 shadow-[0_1px_3px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.08)] hover:border-navy/20 transition-all duration-300"
-                >
-                  <CardContent item={item} />
-                </a>
+                <NewsCard item={item} />
               </motion.div>
             ))}
           </AnimatePresence>
@@ -251,31 +237,43 @@ export default function News() {
   )
 }
 
-function CardContent({ item }) {
-  return (
+function NewsCard({ item, className = '' }) {
+  const cardClass = `group bg-bg rounded-lg border border-border p-5 shadow-[0_1px_3px_rgba(0,0,0,0.04)] transition-all duration-300 ${className}`
+
+  const content = (
     <>
-      {/* Tag pill */}
       <span
         className="inline-block font-mono text-[13px] font-medium uppercase tracking-[0.15em] px-2.5 py-1 rounded-full mb-3"
         style={tagStyles[item.color]}
       >
         {item.tag}
       </span>
-
-      {/* Title */}
       <h3 className="font-display text-[24px] font-semibold text-navy leading-snug group-hover:text-navy/80 transition-colors">
         {item.title}
       </h3>
-
-      {/* Description */}
       <p className="mt-2 text-[17px] text-text/55 leading-relaxed">
         {item.description}
       </p>
-
-      {/* Read link */}
-      <p className="mt-3 font-mono text-[13px] uppercase tracking-[0.12em] text-text/30 group-hover:text-navy transition-colors">
-        Read &rarr;
-      </p>
+      {item.link && (
+        <p className="mt-3 font-mono text-[13px] uppercase tracking-[0.12em] text-text/30 group-hover:text-navy transition-colors">
+          Read &rarr;
+        </p>
+      )}
     </>
   )
+
+  if (item.link) {
+    return (
+      <a
+        href={item.link}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={`${cardClass} block hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(0,0,0,0.08)] hover:border-navy/20`}
+      >
+        {content}
+      </a>
+    )
+  }
+
+  return <div className={cardClass}>{content}</div>
 }

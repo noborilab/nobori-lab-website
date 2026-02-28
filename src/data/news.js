@@ -6,7 +6,7 @@ export const newsItems = [
     description: 'Nanne joins as a new postdoc. He completed his PhD at the University of Amsterdam, working on plant-pathogen interactions at hydathode water pores.',
     tag: 'Lab',
     color: 'sage',
-    link: 'https://x.com/nobolly/status/1886364207842607417',
+    link: '',
   },
   {
     id: 6,
@@ -15,7 +15,7 @@ export const newsItems = [
     description: 'Akari joins as a new postdoc supported by a JSPS fellowship. She was awarded the JSPS Ikushi Prize for her work on the circadian clock.',
     tag: 'Lab',
     color: 'sage',
-    link: 'https://x.com/nobolly/status/1879807224247234690',
+    link: '',
   },
   {
     id: 7,
@@ -24,7 +24,7 @@ export const newsItems = [
     description: 'Phon was awarded the TSL Autumn 2025 Prize for Support Research & Engagement, recognising her incredible work managing plants from Arabidopsis to crops.',
     tag: 'Lab',
     color: 'sage',
-    link: 'https://x.com/nobolly/status/1860993072888369583',
+    link: '',
   },
   {
     id: 8,
@@ -33,7 +33,7 @@ export const newsItems = [
     description: 'Tatsuya received the Young Investigator Award from the Japanese Society of Plant Physiologists. The award ceremony will take place at the Tokyo Annual Meeting in March 2026.',
     tag: 'Press',
     color: 'navy',
-    link: 'https://x.com/TheSainsburyLab/status/1856747049940803648',
+    link: 'https://www.tsl.ac.uk/news/tatsuya-nobori-jspp-award/',
   },
   {
     id: 9,
@@ -42,7 +42,7 @@ export const newsItems = [
     description: 'Tatsuya delivered the Early Career Research Award Lecture at the Biochemical Society Plant Proteins meeting, discussing PHYTOMap and spatial transcriptomics.',
     tag: 'Press',
     color: 'navy',
-    link: 'https://x.com/nobolly/status/1845854262576160776',
+    link: 'https://www.biochemistry.org/grants-and-awards/grants-and-bursaries/early-career-research-awards/',
   },
   {
     id: 10,
@@ -51,7 +51,7 @@ export const newsItems = [
     description: 'Ru joins as a visiting researcher from Kyoto University. She is an expert in plant-fungal interactions and will work on plant immune cell states.',
     tag: 'Lab',
     color: 'sage',
-    link: 'https://x.com/nobolly/status/1843268286796263500',
+    link: '',
   },
   {
     id: 11,
@@ -60,7 +60,16 @@ export const newsItems = [
     description: 'Fernanda MN Aguad joins as Hort Assistant, trained at UNIST in South Korea. Karen Uchida joins as Predoc Intern, completing her MPhil at Cambridge.',
     tag: 'Lab',
     color: 'sage',
-    link: 'https://x.com/nobolly/status/1836002877361455471',
+    link: '',
+  },
+  {
+    id: 12,
+    date: 'Aug 2025',
+    title: 'Immune cell states perspective in Cell Host & Microbe',
+    description: 'Tatsuya proposes \u2018immune cell states\u2019 as a framework for uniting molecular and cellular perspectives on the plant immune system.',
+    tag: 'Paper',
+    color: 'coral',
+    link: 'https://www.cell.com/cell-host-microbe/abstract/S1931-3128(25)00295-1',
   },
   {
     id: 1,
@@ -69,7 +78,7 @@ export const newsItems = [
     description: 'Tatsuya was featured for his work on spatial transcriptomics and PHYTOMap technology in plants.',
     tag: 'Press',
     color: 'navy',
-    link: 'https://www.the-scientist.com/living-maps-uncovering-the-spatial-biology-of-plants-73690',
+    link: 'https://www.the-scientist.com/tatsuya-nobori-spatial-biology-of-plants-72694',
   },
   {
     id: 2,
