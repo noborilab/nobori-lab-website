@@ -8,7 +8,7 @@ export const projects = [
       'Plants lack specialized immune cells — any cell encountering pathogens must mount responses and communicate with surrounding cells.',
     detail:
       'We discovered PRIMER cells — a rare cell state acting as sentinels at infection sites. Using single-cell multi-omics we map diverse immune cell states and their spatial organization.',
-    image: null,
+    image: '/images/projects/primer-cover.jpg',
   },
   {
     id: 'phytomap',

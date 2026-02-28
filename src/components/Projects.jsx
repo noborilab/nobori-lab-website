@@ -83,11 +83,19 @@ export default function Projects() {
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.35 }}
               >
-                {/* Image placeholder — 4:3 */}
-                <div
-                  className="w-full aspect-[4/3] rounded-2xl"
-                  style={{ background: gradients[active.color] }}
-                />
+                {/* Image / gradient */}
+                {active.image ? (
+                  <img
+                    src={import.meta.env.BASE_URL + active.image.replace(/^\//, '')}
+                    alt={active.title}
+                    className="w-full rounded-2xl object-contain"
+                  />
+                ) : (
+                  <div
+                    className="w-full aspect-[4/3] rounded-2xl"
+                    style={{ background: gradients[active.color] }}
+                  />
+                )}
 
                 {/* Detail text */}
                 <p className="mt-6 text-[15px] text-text/65 leading-relaxed">

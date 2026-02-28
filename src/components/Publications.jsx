@@ -56,9 +56,21 @@ function SelectedCard({ pub, index }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
       transition={{ duration: 0.5, delay: index * 0.08 }}
-      className="bg-bg rounded-xl border border-border p-5"
+      className={`bg-bg rounded-xl border border-border overflow-hidden ${pub.figure ? 'flex flex-col md:flex-row' : 'p-5'}`}
     >
-      <div className="flex items-center gap-2 mb-2">
+      {/* Optional figure */}
+      {pub.figure && (
+        <div className="md:w-[200px] shrink-0 bg-bg-soft">
+          <img
+            src={import.meta.env.BASE_URL + pub.figure.replace(/^\//, '')}
+            alt={pub.title}
+            className="w-full h-full object-cover"
+          />
+        </div>
+      )}
+
+      <div className={pub.figure ? 'p-5 flex-1' : ''}>
+        <div className="flex items-center gap-2 mb-2">
         <JournalName journal={pub.journal} journalNote={pub.journalNote} />
         <span className="font-mono text-[11px] text-text/30">{pub.year}</span>
       </div>
@@ -98,6 +110,7 @@ function SelectedCard({ pub, index }) {
           )}
         </div>
       )}
+      </div>
     </motion.div>
   )
 }
