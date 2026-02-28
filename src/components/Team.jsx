@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion'
 import { teamMembers, alumni } from '../data/team'
-import groupPhotoUrl from '/images/team/group-photo.jpg'
 
 export default function Team() {
   return (
@@ -18,21 +17,6 @@ export default function Team() {
           <p className="font-mono text-xs uppercase tracking-[0.2em] text-text/40">
             The Team
           </p>
-        </motion.div>
-
-        {/* Group photo banner */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-50px' }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="mb-10 rounded-xl overflow-hidden"
-        >
-          <img
-            src={groupPhotoUrl}
-            alt="Nobori Lab group photo"
-            className="w-full h-auto"
-          />
         </motion.div>
 
         {/* Group page link */}
