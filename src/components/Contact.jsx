@@ -5,7 +5,7 @@ const links = [
   { label: 'The Scientist Profile', href: 'https://www.the-scientist.com/living-maps-uncovering-the-spatial-biology-of-plants-73690' },
   { label: 'Bluesky @tatsuyanobori', href: 'https://bsky.app/profile/tatsuyanobori.bsky.social' },
   { label: 'X / Twitter @nobolly', href: 'https://twitter.com/nobolly' },
-  { label: 'Google Scholar', href: 'https://scholar.google.com/citations?user=GOOGLE_SCHOLAR_ID' },
+  { label: 'Google Scholar', href: 'https://scholar.google.com/citations?user=35_IIHgAAAAJ&hl=en' },
 ]
 
 export default function Contact() {
