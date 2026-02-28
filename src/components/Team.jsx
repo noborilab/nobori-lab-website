@@ -31,7 +31,7 @@ export default function Team() {
           <img
             src={groupPhotoUrl}
             alt="Nobori Lab group photo"
-            className="w-full max-h-[400px] object-cover"
+            className="w-full h-auto"
           />
         </motion.div>
 
