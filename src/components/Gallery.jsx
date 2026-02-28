@@ -1,14 +1,11 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
-const highlights = [
+const photos = [
   { src: '/images/team/group-photo.jpg', alt: 'Nobori Lab group photo' },
   { src: '/images/lab/20250327_VIB.JPG', alt: 'VIB Conference, Antwerp 2025' },
   { src: '/images/lab/DSC_1340.JPG', alt: 'Conference at TSL' },
   { src: '/images/lab/IMG_0669.jpg', alt: 'The Sainsbury Laboratory' },
-]
-
-const photos = [
   { src: '/images/lab/20240925_group_photo.jpg', alt: 'Group photo Sep 2024' },
   { src: '/images/lab/20241101_group_photo.jpg', alt: 'Group photo Nov 2024' },
   { src: '/images/lab/IMG_0157.JPG', alt: 'Science outreach' },
@@ -37,21 +34,20 @@ const photos = [
   { src: '/images/lab/lab-selfie.png', alt: 'Lab selfie' },
 ]
 
-// All images for lightbox (highlights first, then carousel)
-const allPhotos = [...highlights, ...photos]
-
-// Duplicate carousel for seamless loop
+// Duplicate for seamless loop
 const loopPhotos = [...photos, ...photos]
 
 export default function Gallery() {
+  const [mode, setMode] = useState('carousel')
   const stripRef = useRef(null)
   const [paused, setPaused] = useState(false)
   const [lightboxIdx, setLightboxIdx] = useState(null)
   const animRef = useRef(null)
   const posRef = useRef(0)
 
-  // Auto-scroll animation
+  // Auto-scroll animation (only active in carousel mode)
   useEffect(() => {
+    if (mode !== 'carousel') return
     const el = stripRef.current
     if (!el) return
 
@@ -74,7 +70,7 @@ export default function Gallery() {
 
     animRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(animRef.current)
-  }, [paused])
+  }, [paused, mode])
 
   const openLightbox = (i) => setLightboxIdx(i)
   const closeLightbox = () => setLightboxIdx(null)
@@ -82,7 +78,7 @@ export default function Gallery() {
   const goPrev = useCallback(
     (e) => {
       e.stopPropagation()
-      setLightboxIdx((prev) => (prev > 0 ? prev - 1 : allPhotos.length - 1))
+      setLightboxIdx((prev) => (prev > 0 ? prev - 1 : photos.length - 1))
     },
     [],
   )
@@ -90,12 +86,12 @@ export default function Gallery() {
   const goNext = useCallback(
     (e) => {
       e.stopPropagation()
-      setLightboxIdx((prev) => (prev < allPhotos.length - 1 ? prev + 1 : 0))
+      setLightboxIdx((prev) => (prev < photos.length - 1 ? prev + 1 : 0))
     },
     [],
   )
 
-  const currentImage = lightboxIdx !== null ? allPhotos[lightboxIdx] : null
+  const currentImage = lightboxIdx !== null ? photos[lightboxIdx] : null
 
   return (
     <section id="gallery" className="py-16 bg-bg">
@@ -111,70 +107,67 @@ export default function Gallery() {
           <p className="font-mono text-sm uppercase tracking-[0.2em] text-text/40">
             Gallery
           </p>
+
+          {/* Toggle pill */}
+          <button
+            onClick={() => setMode(mode === 'carousel' ? 'grid' : 'carousel')}
+            className="ml-auto font-mono text-[13px] uppercase tracking-[0.15em] px-4 py-1.5 border border-border rounded-full text-text/50 hover:text-navy hover:border-navy/30 transition-colors"
+          >
+            {mode === 'carousel' ? 'View All' : 'Carousel'}
+          </button>
         </motion.div>
       </div>
 
-      {/* Highlights row */}
-      <div className="max-w-5xl mx-auto px-6 mb-8">
-        <p className="font-mono text-[13px] uppercase tracking-[0.15em] text-text/30 mb-3">
-          Highlights
-        </p>
-        <div className="flex gap-1 overflow-x-auto [&::-webkit-scrollbar]:hidden" style={{ scrollbarWidth: 'none' }}>
-          {highlights.map((photo, i) => (
-            <div
-              key={photo.src}
-              className="h-[180px] shrink-0 rounded-[6px] overflow-hidden cursor-pointer hover:scale-[1.02] hover:shadow-[0_4px_16px_rgba(0,0,0,0.12)] transition-all duration-300"
-              onClick={() => openLightbox(i)}
-            >
-              <img
-                src={import.meta.env.BASE_URL + photo.src.replace(/^\//, '')}
-                alt={photo.alt}
-                className="h-full w-auto object-cover"
-              />
-            </div>
-          ))}
+      {mode === 'carousel' ? (
+        /* Film strip carousel */
+        <div
+          ref={stripRef}
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+          className="overflow-hidden [&::-webkit-scrollbar]:hidden"
+          style={{ scrollbarWidth: 'none' }}
+        >
+          <div className="flex gap-[5px] w-max">
+            {loopPhotos.map((photo, i) => (
+              <div
+                key={i}
+                className="h-[220px] shrink-0 rounded-[4px] overflow-hidden cursor-pointer hover:opacity-90 transition-opacity"
+                onClick={() => openLightbox(i % photos.length)}
+              >
+                <img
+                  src={import.meta.env.BASE_URL + photo.src.replace(/^\//, '')}
+                  alt={photo.alt}
+                  loading="lazy"
+                  className="h-full w-auto object-cover"
+                />
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
-
-      {/* More label */}
-      <div className="max-w-5xl mx-auto px-6 mb-3">
-        <p className="font-mono text-[13px] uppercase tracking-[0.15em] text-text/30">
-          More
-        </p>
-      </div>
-
-      {/* Film strip carousel */}
-      <div
-        ref={stripRef}
-        onMouseEnter={() => setPaused(true)}
-        onMouseLeave={() => setPaused(false)}
-        className="overflow-hidden [&::-webkit-scrollbar]:hidden"
-        style={{ scrollbarWidth: 'none' }}
-      >
-        <div className="flex gap-[5px] w-max">
-          {loopPhotos.map((photo, i) => (
-            <div
-              key={i}
-              className="h-[220px] shrink-0 rounded-[4px] overflow-hidden cursor-pointer hover:opacity-90 transition-opacity"
-              onClick={() => openLightbox(highlights.length + (i % photos.length))}
-            >
-              <img
-                src={import.meta.env.BASE_URL + photo.src.replace(/^\//, '')}
-                alt={photo.alt}
-                loading="lazy"
-                className="h-full w-auto object-cover"
-              />
-            </div>
-          ))}
+      ) : (
+        /* Grid mode */
+        <div className="max-w-5xl mx-auto px-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+            {photos.map((photo, i) => (
+              <motion.div
+                key={photo.src}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3, delay: i * 0.02 }}
+                className="aspect-square rounded-[6px] overflow-hidden cursor-pointer hover:scale-[1.02] hover:shadow-[0_4px_16px_rgba(0,0,0,0.1)] transition-all duration-300"
+                onClick={() => openLightbox(i)}
+              >
+                <img
+                  src={import.meta.env.BASE_URL + photo.src.replace(/^\//, '')}
+                  alt={photo.alt}
+                  loading="lazy"
+                  className="w-full h-full object-cover"
+                />
+              </motion.div>
+            ))}
+          </div>
         </div>
-      </div>
-
-      {/* Caption */}
-      <div className="max-w-5xl mx-auto px-6 mt-4">
-        <p className="font-mono text-[13px] uppercase tracking-[0.15em] text-text/30 text-center">
-          Lab Life &middot; Conferences &middot; Norwich
-        </p>
-      </div>
+      )}
 
       {/* Lightbox */}
       <AnimatePresence>
@@ -228,7 +221,7 @@ export default function Gallery() {
             </button>
 
             <span className="absolute bottom-4 font-mono text-[13px] text-white/25">
-              {lightboxIdx + 1} / {allPhotos.length}
+              {lightboxIdx + 1} / {photos.length}
             </span>
           </motion.div>
         )}
