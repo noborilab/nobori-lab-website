@@ -56,65 +56,79 @@ function SelectedCard({ pub, index }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
       transition={{ duration: 0.5, delay: index * 0.08 }}
-      className={`bg-bg rounded-xl border border-border overflow-hidden ${pub.figure ? 'flex flex-col md:flex-row' : 'p-5'}`}
+      className="bg-bg rounded-xl border border-border overflow-hidden flex flex-col md:flex-row"
     >
-      {/* Optional figure */}
-      {pub.figure && (
-        <div className="md:w-[200px] shrink-0 bg-bg-soft relative">
-          <img
-            src={import.meta.env.BASE_URL + pub.figure.replace(/^\//, '')}
-            alt={pub.title}
-            className="w-full h-full object-cover"
-          />
-          {pub.figureCredit && (
-            <p className="absolute bottom-1 right-2 text-[11px] text-white/60 italic">
-              {pub.figureCredit}
-            </p>
-          )}
-        </div>
-      )}
-
-      <div className={pub.figure ? 'p-5 flex-1' : ''}>
-        <div className="flex items-center gap-2 mb-2">
-        <JournalName journal={pub.journal} journalNote={pub.journalNote} />
-        <span className="font-mono text-[14px] text-text/30">{pub.year}</span>
-      </div>
-
-      <h3 className="font-display text-[24px] font-semibold text-navy leading-snug">
-        {pub.title}
-      </h3>
-
-      <p className="mt-1.5 text-[16px] text-text/45">{pub.authors}</p>
-
-      {/* Link chips */}
-      <div className="mt-3 flex flex-wrap gap-2">
-        <LinkChip href={pub.link}>Link</LinkChip>
-        <LinkChip href={pub.pdf}>PDF</LinkChip>
-        {pub.biorxiv && <LinkChip href={pub.biorxiv}>bioRxiv</LinkChip>}
-      </div>
-
-      {/* Highlights / media */}
-      {pub.highlights && pub.highlights.length > 0 && (
-        <div className="mt-3 pl-3 border-l-2 border-border space-y-1">
-          {pub.highlights.map((h, i) =>
-            h.href ? (
-              <a
-                key={i}
-                href={h.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block text-[15px] text-text/40 hover:text-navy transition-colors"
-              >
-                {h.text}
-              </a>
-            ) : (
-              <p key={i} className="text-[15px] text-text/40">
-                {h.text}
+      {/* Thumbnail — image or colored placeholder */}
+      <div className="md:w-[180px] shrink-0 relative">
+        {pub.figure ? (
+          <>
+            <img
+              src={import.meta.env.BASE_URL + pub.figure.replace(/^\//, '')}
+              alt={pub.title}
+              className="w-full h-full object-cover"
+            />
+            {pub.figureCredit && (
+              <p className="absolute bottom-1 right-2 text-[11px] text-white/60 italic">
+                {pub.figureCredit}
               </p>
-            ),
-          )}
+            )}
+          </>
+        ) : (
+          <div
+            className="w-full h-full min-h-[120px] flex items-center justify-center px-4"
+            style={{ background: `${journalColors[pub.journal] || '#666'}12` }}
+          >
+            <span
+              className="font-display text-[16px] italic text-center leading-snug"
+              style={{ color: journalColors[pub.journal] || '#666' }}
+            >
+              {pub.journal}
+            </span>
+          </div>
+        )}
+      </div>
+
+      <div className="p-5 flex-1">
+        <div className="flex items-center gap-2 mb-2">
+          <JournalName journal={pub.journal} journalNote={pub.journalNote} />
+          <span className="font-mono text-[14px] text-text/30">{pub.year}</span>
         </div>
-      )}
+
+        <h3 className="font-display text-[24px] font-semibold text-navy leading-snug">
+          {pub.title}
+        </h3>
+
+        <p className="mt-1.5 text-[16px] text-text/45">{pub.authors}</p>
+
+        {/* Link chips */}
+        <div className="mt-3 flex flex-wrap gap-2">
+          <LinkChip href={pub.link}>Link</LinkChip>
+          <LinkChip href={pub.pdf}>PDF</LinkChip>
+          {pub.biorxiv && <LinkChip href={pub.biorxiv}>bioRxiv</LinkChip>}
+        </div>
+
+        {/* Highlights / media */}
+        {pub.highlights && pub.highlights.length > 0 && (
+          <div className="mt-3 pl-3 border-l-2 border-border space-y-1">
+            {pub.highlights.map((h, i) =>
+              h.href ? (
+                <a
+                  key={i}
+                  href={h.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block text-[15px] text-text/40 hover:text-navy transition-colors"
+                >
+                  {h.text}
+                </a>
+              ) : (
+                <p key={i} className="text-[15px] text-text/40">
+                  {h.text}
+                </p>
+              ),
+            )}
+          </div>
+        )}
       </div>
     </motion.div>
   )
