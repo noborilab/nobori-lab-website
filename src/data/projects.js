@@ -47,7 +47,7 @@ export const projects = [
     resources: [
       { label: 'Data Browser', href: 'https://arabidopsisdevatlas.salk.edu/' },
     ],
-    image: null,
+    image: '/images/projects/atlas_arabidopsis.jpeg',
     video: null,
   },
   {
@@ -61,7 +61,7 @@ export const projects = [
       { text: 'Nobori, T., et al. (2018) PNAS', href: 'https://www.pnas.org/doi/abs/10.1073/pnas.1800529115' },
     ],
     resources: [],
-    image: null,
+    image: '/images/projects/In_planta_bacterial_omics.jpg',
     video: null,
   },
 ]
