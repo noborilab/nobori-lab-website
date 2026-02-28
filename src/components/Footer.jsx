@@ -12,7 +12,7 @@ export default function Footer() {
         </div>
 
         <nav className="flex gap-6 flex-wrap justify-center">
-          {['Research', 'Projects', 'Publications', 'Team', 'Contact'].map(
+          {['Projects', 'Publications', 'Team', 'Contact'].map(
             (link) => (
               <a
                 key={link}
