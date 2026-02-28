@@ -90,22 +90,12 @@ export default function Gallery() {
                   }`}
                   onClick={() => openLightbox(i)}
                 >
-                  {img.src ? (
-                    <img
-                      src={img.src}
-                      alt={img.alt}
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <div
-                      className="w-full h-full flex items-center justify-center"
-                      style={{ backgroundColor: img.color }}
-                    >
-                      <span className="font-mono text-[10px] text-white/40 uppercase">
-                        Photo
-                      </span>
-                    </div>
-                  )}
+                  <img
+                    src={import.meta.env.BASE_URL + img.src.replace(/^\//, '')}
+                    alt={img.alt}
+                    loading="lazy"
+                    className="w-full h-full object-cover"
+                  />
                 </motion.div>
               )
             })}
@@ -141,22 +131,11 @@ export default function Gallery() {
               className="max-w-[85vw] max-h-[80vh] aspect-[4/3] rounded-lg overflow-hidden"
               onClick={(e) => e.stopPropagation()}
             >
-              {currentImage.src ? (
-                <img
-                  src={currentImage.src}
-                  alt={currentImage.alt}
-                  className="w-full h-full object-contain"
-                />
-              ) : (
-                <div
-                  className="w-full h-full flex items-center justify-center min-w-[60vw] min-h-[40vh]"
-                  style={{ backgroundColor: currentImage.color }}
-                >
-                  <span className="font-mono text-sm text-white/30">
-                    {currentImage.alt}
-                  </span>
-                </div>
-              )}
+              <img
+                src={import.meta.env.BASE_URL + currentImage.src.replace(/^\//, '')}
+                alt={currentImage.alt}
+                className="w-full h-full object-contain"
+              />
             </motion.div>
 
             {/* Next */}
