@@ -7,8 +7,8 @@ const photos = [
   { src: '/images/lab/20250327_VIB.JPG', alt: 'VIB Conference, Antwerp 2025' },
   { src: '/images/lab/DSC_1340.JPG', alt: 'Conference at TSL' },
   { src: '/images/lab/IMG_0669.jpg', alt: 'The Sainsbury Laboratory' },
-  { src: '/images/lab/20240925_group_photo.jpg', alt: 'Group photo Sep 2024' },
-  { src: '/images/lab/20241101_group_photo.jpg', alt: 'Group photo Nov 2024' },
+  { src: '/images/lab/group_photo/20240925_group_photo.jpg', alt: 'Group photo Sep 2024' },
+  { src: '/images/lab/group_photo/20241101_group_photo.jpg', alt: 'Group photo Nov 2024' },
   { src: '/images/lab/IMG_0157.JPG', alt: 'Science outreach' },
   { src: '/images/lab/IMG_0158.JPG', alt: 'Norwich' },
   { src: '/images/lab/IMG_0159.JPG', alt: 'Norwich' },
@@ -313,35 +313,38 @@ export default function Gallery() {
             className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center"
             onClick={closeLightbox}
           >
-            <button
-              onClick={goPrev}
-              className="absolute left-4 md:left-8 text-white/50 hover:text-white text-[45px] z-10 select-none"
-            >
-              &#8249;
-            </button>
+            {/* Image + arrows grouped together */}
+            <div className="relative flex items-center gap-2 md:gap-4 max-w-[95vw]">
+              <button
+                onClick={goPrev}
+                className="shrink-0 text-white/50 hover:text-white text-[45px] z-10 select-none px-1 md:px-2"
+              >
+                &#8249;
+              </button>
 
-            <motion.div
-              key={lightboxIdx}
-              initial={{ opacity: 0, scale: 0.92 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.92 }}
-              transition={{ duration: 0.2 }}
-              className="max-w-[90vw] max-h-[85vh] rounded-lg overflow-hidden"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <img
-                src={import.meta.env.BASE_URL + currentImage.src.replace(/^\//, '')}
-                alt={currentImage.alt}
-                className="max-w-[90vw] max-h-[85vh] object-contain"
-              />
-            </motion.div>
+              <motion.div
+                key={lightboxIdx}
+                initial={{ opacity: 0, scale: 0.92 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.92 }}
+                transition={{ duration: 0.2 }}
+                className="max-w-[80vw] max-h-[85vh] rounded-lg overflow-hidden"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <img
+                  src={import.meta.env.BASE_URL + currentImage.src.replace(/^\//, '')}
+                  alt={currentImage.alt}
+                  className="max-w-[80vw] max-h-[85vh] object-contain"
+                />
+              </motion.div>
 
-            <button
-              onClick={goNext}
-              className="absolute right-4 md:right-8 text-white/50 hover:text-white text-[45px] z-10 select-none"
-            >
-              &#8250;
-            </button>
+              <button
+                onClick={goNext}
+                className="shrink-0 text-white/50 hover:text-white text-[45px] z-10 select-none px-1 md:px-2"
+              >
+                &#8250;
+              </button>
+            </div>
 
             <p className="absolute bottom-8 font-mono text-sm text-white/40">
               {currentImage.alt}

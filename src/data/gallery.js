@@ -26,8 +26,8 @@ export const galleryAlbums = [
     id: 'lab',
     title: 'Lab Life',
     images: [
-      { id: 1, src: base + '20240925_group_photo.jpg', alt: 'Group photo Sep 2024' },
-      { id: 2, src: base + '20241101_group_photo.jpg', alt: 'Group photo Nov 2024' },
+      { id: 1, src: base + 'group_photo/20240925_group_photo.jpg', alt: 'Group photo Sep 2024' },
+      { id: 2, src: base + 'group_photo/20241101_group_photo.jpg', alt: 'Group photo Nov 2024' },
       { id: 3, src: base + 'IMG_9850.jpg', alt: 'Lab life' },
       { id: 4, src: base + 'IMG_9851.JPG', alt: 'Lab life' },
       { id: 5, src: base + 'IMG_9859.JPG', alt: 'Lab life' },
