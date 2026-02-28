@@ -85,11 +85,18 @@ export default function Projects() {
               >
                 {/* Image / gradient */}
                 {active.image ? (
-                  <img
-                    src={import.meta.env.BASE_URL + active.image.replace(/^\//, '')}
-                    alt={active.title}
-                    className="w-full rounded-2xl object-contain"
-                  />
+                  <div>
+                    <img
+                      src={import.meta.env.BASE_URL + active.image.replace(/^\//, '')}
+                      alt={active.title}
+                      className="w-full rounded-2xl object-contain"
+                    />
+                    {active.imageCredit && (
+                      <p className="mt-1.5 text-right text-[11px] text-text/30 italic">
+                        Image credit: {active.imageCredit}
+                      </p>
+                    )}
+                  </div>
                 ) : (
                   <div
                     className="w-full aspect-[4/3] rounded-2xl"

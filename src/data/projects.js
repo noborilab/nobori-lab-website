@@ -9,6 +9,7 @@ export const projects = [
     detail:
       'We discovered PRIMER cells — a rare cell state acting as sentinels at infection sites. Using single-cell multi-omics we map diverse immune cell states and their spatial organization.',
     image: '/images/projects/primer-cover.jpg',
+    imageCredit: 'Hsuan Pai',
   },
   {
     id: 'phytomap',

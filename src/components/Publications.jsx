@@ -60,12 +60,17 @@ function SelectedCard({ pub, index }) {
     >
       {/* Optional figure */}
       {pub.figure && (
-        <div className="md:w-[200px] shrink-0 bg-bg-soft">
+        <div className="md:w-[200px] shrink-0 bg-bg-soft relative">
           <img
             src={import.meta.env.BASE_URL + pub.figure.replace(/^\//, '')}
             alt={pub.title}
             className="w-full h-full object-cover"
           />
+          {pub.figureCredit && (
+            <p className="absolute bottom-1 right-2 text-[9px] text-white/60 italic">
+              {pub.figureCredit}
+            </p>
+          )}
         </div>
       )}
 

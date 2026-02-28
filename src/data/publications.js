@@ -51,6 +51,7 @@ export const selected = [
     title: 'A rare PRIMER cell state in plant immunity',
     journal: 'Nature',
     figure: '/images/projects/primer-cover.jpg',
+    figureCredit: 'Hsuan Pai',
     link: 'https://www.nature.com/articles/s41586-024-08383-z',
     pdf: 'https://drive.google.com/file/d/1bfV-sV39hGOwr2rA5kCwsU0b5n3vOWz8/view',
     highlights: [
