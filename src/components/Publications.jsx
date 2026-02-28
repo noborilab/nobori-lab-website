@@ -236,9 +236,10 @@ function CompactRow({ pub, index }) {
             href={pub.link}
             target="_blank"
             rel="noopener noreferrer"
-            className="font-mono text-[11px] uppercase tracking-[0.1em] text-text/35 hover:text-navy transition-colors shrink-0"
+            className="inline-flex items-center gap-1 font-mono text-[13px] uppercase tracking-[0.1em] px-2.5 py-0.5 rounded-full border border-border text-text/45 hover:text-navy hover:border-navy transition-colors shrink-0"
           >
-            Link &rarr;
+            Link
+            <span className="text-[11px]">&#8599;</span>
           </a>
         )}
       </div>
