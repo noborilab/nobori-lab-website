@@ -2,9 +2,9 @@ import { motion } from 'framer-motion'
 import { newsItems } from '../data/news'
 
 const tagStyles = {
-  coral: { background: 'rgba(74,127,181,0.08)', color: '#4A7FB5' },
-  sage: { background: 'rgba(107,143,107,0.12)', color: '#6B8F6B' },
-  navy: { background: 'rgba(123,94,167,0.08)', color: '#7B5EA7' },
+  coral: { background: 'rgba(200,90,58,0.07)', color: '#C85A3A' },
+  sage: { background: 'rgba(107,143,107,0.07)', color: '#6B8F6B' },
+  navy: { background: 'rgba(46,58,92,0.07)', color: '#2E3A5C' },
 }
 
 export default function News() {

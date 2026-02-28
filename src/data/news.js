@@ -5,7 +5,7 @@ export const newsItems = [
     title: 'Profiled in The Scientist',
     description: 'Feature on spatial biology of plants and PHYTOMap technology.',
     tag: 'Press',
-    color: 'coral',
+    color: 'navy',
     link: 'https://www.the-scientist.com/living-maps-uncovering-the-spatial-biology-of-plants-73690',
   },
   {
@@ -23,7 +23,7 @@ export const newsItems = [
     title: 'Arabidopsis atlas in Nature Plants',
     description: 'Single-cell, spatial transcriptomic atlas of the full life cycle.',
     tag: 'Paper',
-    color: 'sage',
+    color: 'coral',
     link: 'https://www.nature.com/articles/s41477-025-02072-z',
   },
   {
@@ -32,7 +32,7 @@ export const newsItems = [
     title: 'Lab opens at TSL',
     description: 'Nobori Lab officially launches at The Sainsbury Laboratory, Norwich.',
     tag: 'Lab',
-    color: 'navy',
+    color: 'sage',
     link: 'https://www.tsl.ac.uk/our-work/scientific-groups/tatsuya-nobori-group',
   },
 ]
