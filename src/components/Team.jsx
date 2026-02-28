@@ -72,30 +72,36 @@ export default function Team() {
             </motion.div>
           ))}
 
-          {/* Open Positions card */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-30px' }}
-            transition={{ duration: 0.4, delay: teamMembers.length * 0.05 }}
-            className="text-center"
-          >
-            <a
-              href="#contact"
-              className="block w-[72px] h-[72px] rounded-full mx-auto border-2 border-dashed border-border hover:border-navy flex items-center justify-center transition-colors group"
-            >
-              <span className="font-display text-3xl text-text/20 group-hover:text-navy transition-colors">
-                +
-              </span>
-            </a>
-            <h3 className="mt-2.5 font-display text-[19px] font-semibold text-navy leading-tight">
-              Join Us
-            </h3>
-            <p className="mt-0.5 font-mono text-[11px] uppercase tracking-[0.15em] text-coral">
-              Open Positions
-            </p>
-          </motion.div>
         </div>
+
+        {/* Join Us card */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-40px' }}
+          transition={{ duration: 0.5, delay: 0.15 }}
+          className="mt-14 max-w-2xl mx-auto bg-bg rounded-xl border border-border border-l-4 border-l-sage p-6 md:p-8"
+        >
+          <h3 className="font-display text-[28px] font-semibold text-navy mb-3">
+            Join Us!
+          </h3>
+          <p className="text-[17px] text-text/60 leading-relaxed">
+            If you are interested in joining our lab, please{' '}
+            <a
+              href="mailto:tatsuya.nobori@tsl.ac.uk"
+              className="text-navy underline underline-offset-2 hover:text-coral transition-colors"
+            >
+              email Tatsuya
+            </a>{' '}
+            your <span className="text-sage font-medium">CV</span> along with a{' '}
+            <span className="text-sage font-medium">cover letter</span> that includes:
+          </p>
+          <ul className="mt-4 space-y-2 text-[17px] text-text/60 leading-relaxed pl-5">
+            <li className="list-disc">Your research experience so far</li>
+            <li className="list-disc">(for PD/PhD) your intended research focus</li>
+            <li className="list-disc">Why you are interested in joining us at TSL</li>
+          </ul>
+        </motion.div>
 
         {/* Alumni */}
         {alumni.length > 0 && (
