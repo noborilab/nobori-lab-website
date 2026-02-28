@@ -1,5 +1,32 @@
 export const newsItems = [
   {
+    id: 5,
+    date: 'Feb 2026',
+    title: 'Welcome Nanne Taks',
+    description: 'Nanne joins as a new postdoc. He completed his PhD at the University of Amsterdam, working on plant-pathogen interactions at hydathode water pores.',
+    tag: 'Lab',
+    color: 'sage',
+    link: 'https://x.com/nobolly/status/1886364207842607417',
+  },
+  {
+    id: 6,
+    date: 'Jan 2026',
+    title: 'Welcome Akari Maeda',
+    description: 'Akari joins as a new postdoc supported by a JSPS fellowship. She was awarded the JSPS Ikushi Prize for her work on the circadian clock.',
+    tag: 'Lab',
+    color: 'sage',
+    link: 'https://x.com/nobolly/status/1879807224247234690',
+  },
+  {
+    id: 7,
+    date: 'Nov 2025',
+    title: 'Phon Green wins TSL Prize',
+    description: 'Phon was awarded the TSL Autumn 2025 Prize for Support Research & Engagement, recognising her incredible work managing plants from Arabidopsis to crops.',
+    tag: 'Lab',
+    color: 'sage',
+    link: 'https://x.com/nobolly/status/1860993072888369583',
+  },
+  {
     id: 1,
     date: 'Feb 2025',
     title: 'Profiled in The Scientist',
