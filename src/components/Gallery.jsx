@@ -38,6 +38,136 @@ const photos = [
 // Duplicate for seamless loop
 const loopPhotos = [...photos, ...photos]
 
+function MomentItem({ moment, i, total, isDesktop }) {
+  if (isDesktop) {
+    return (
+      <motion.div
+        key={moment.id}
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-50px' }}
+        transition={{ duration: 0.5, delay: i * 0.08 }}
+        className="relative flex items-start gap-10 pb-10 last:pb-0"
+      >
+        <div className="w-[120px] shrink-0 text-right pt-4">
+          <p className="font-display text-[17px] italic text-text/45">
+            {moment.date}
+          </p>
+        </div>
+        <div className="relative flex flex-col items-center shrink-0">
+          <div className="pt-[18px]">
+            <div className="w-3 h-3 rounded-full z-10 ring-4 ring-bg bg-sage" />
+          </div>
+          {i < total - 1 && <div className="w-px flex-1 bg-border" />}
+        </div>
+        <div className="flex-1 max-w-[600px]">
+          <img
+            src={import.meta.env.BASE_URL + moment.src.replace(/^\//, '')}
+            alt={moment.caption}
+            loading="lazy"
+            className="w-full rounded-lg shadow-[0_2px_8px_rgba(0,0,0,0.08)]"
+          />
+          <p className="mt-2 text-[15px] text-text/40 italic">{moment.caption}</p>
+        </div>
+      </motion.div>
+    )
+  }
+
+  return (
+    <motion.div
+      key={moment.id}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-50px' }}
+      transition={{ duration: 0.5, delay: i * 0.08 }}
+    >
+      <div className="flex items-center gap-2 mb-2">
+        <div className="w-2.5 h-2.5 rounded-full shrink-0 bg-sage" />
+        <p className="font-display text-[16px] italic text-text/45">{moment.date}</p>
+      </div>
+      <img
+        src={import.meta.env.BASE_URL + moment.src.replace(/^\//, '')}
+        alt={moment.caption}
+        loading="lazy"
+        className="w-full rounded-lg shadow-[0_2px_8px_rgba(0,0,0,0.08)]"
+      />
+      <p className="mt-2 text-[15px] text-text/40 italic">{moment.caption}</p>
+    </motion.div>
+  )
+}
+
+function LabMoments() {
+  const [showPrevious, setShowPrevious] = useState(false)
+  const newest = labMoments[0]
+  const older = labMoments.slice(1)
+
+  return (
+    <div className="max-w-5xl mx-auto px-6 mb-16">
+      <motion.h3
+        initial={{ opacity: 0, y: 15 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-50px' }}
+        transition={{ duration: 0.5 }}
+        className="font-display text-[28px] font-semibold text-navy mb-8"
+      >
+        Lab Moments
+      </motion.h3>
+
+      {/* Desktop */}
+      <div className="hidden md:block">
+        <MomentItem moment={newest} i={0} total={showPrevious ? labMoments.length : 1} isDesktop />
+        <AnimatePresence>
+          {showPrevious && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.35 }}
+              className="overflow-hidden"
+            >
+              {older.map((moment, i) => (
+                <MomentItem key={moment.id} moment={moment} i={i} total={older.length} isDesktop />
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+
+      {/* Mobile */}
+      <div className="md:hidden space-y-8">
+        <MomentItem moment={newest} i={0} total={1} isDesktop={false} />
+        <AnimatePresence>
+          {showPrevious && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.35 }}
+              className="overflow-hidden space-y-8"
+            >
+              {older.map((moment, i) => (
+                <MomentItem key={moment.id} moment={moment} i={i} total={older.length} isDesktop={false} />
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+
+      {/* Toggle */}
+      {older.length > 0 && (
+        <div className="mt-6 md:pl-[164px]">
+          <button
+            onClick={() => setShowPrevious(!showPrevious)}
+            className="font-mono text-[14px] uppercase tracking-[0.12em] text-text/35 hover:text-navy transition-colors"
+          >
+            {showPrevious ? 'Hide \u25B4' : 'Previous photos \u25BE'}
+          </button>
+        </div>
+      )}
+    </div>
+  )
+}
+
 export default function Gallery() {
   const [mode, setMode] = useState('carousel')
   const stripRef = useRef(null)
@@ -120,88 +250,7 @@ export default function Gallery() {
       </div>
 
       {/* Lab Moments timeline */}
-      <div className="max-w-5xl mx-auto px-6 mb-16">
-        <motion.h3
-          initial={{ opacity: 0, y: 15 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-50px' }}
-          transition={{ duration: 0.5 }}
-          className="font-display text-[28px] font-semibold text-navy mb-8"
-        >
-          Lab Moments
-        </motion.h3>
-
-        {/* Desktop timeline */}
-        <div className="hidden md:block">
-          {labMoments.map((moment, i) => (
-            <motion.div
-              key={moment.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-50px' }}
-              transition={{ duration: 0.5, delay: i * 0.08 }}
-              className="relative flex items-start gap-10 pb-10 last:pb-0"
-            >
-              {/* Date */}
-              <div className="w-[120px] shrink-0 text-right pt-4">
-                <p className="font-display text-[17px] italic text-text/45">
-                  {moment.date}
-                </p>
-              </div>
-              {/* Dot + line */}
-              <div className="relative flex flex-col items-center shrink-0">
-                <div className="pt-[18px]">
-                  <div className="w-3 h-3 rounded-full z-10 ring-4 ring-bg bg-sage" />
-                </div>
-                {i < labMoments.length - 1 && (
-                  <div className="w-px flex-1 bg-border" />
-                )}
-              </div>
-              {/* Photo */}
-              <div className="flex-1 max-w-[600px]">
-                <img
-                  src={import.meta.env.BASE_URL + moment.src.replace(/^\//, '')}
-                  alt={moment.caption}
-                  loading="lazy"
-                  className="w-full rounded-lg shadow-[0_2px_8px_rgba(0,0,0,0.08)]"
-                />
-                <p className="mt-2 text-[15px] text-text/40 italic">
-                  {moment.caption}
-                </p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Mobile: stacked, no line */}
-        <div className="md:hidden space-y-8">
-          {labMoments.map((moment, i) => (
-            <motion.div
-              key={moment.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-50px' }}
-              transition={{ duration: 0.5, delay: i * 0.08 }}
-            >
-              <div className="flex items-center gap-2 mb-2">
-                <div className="w-2.5 h-2.5 rounded-full shrink-0 bg-sage" />
-                <p className="font-display text-[16px] italic text-text/45">
-                  {moment.date}
-                </p>
-              </div>
-              <img
-                src={import.meta.env.BASE_URL + moment.src.replace(/^\//, '')}
-                alt={moment.caption}
-                loading="lazy"
-                className="w-full rounded-lg shadow-[0_2px_8px_rgba(0,0,0,0.08)]"
-              />
-              <p className="mt-2 text-[15px] text-text/40 italic">
-                {moment.caption}
-              </p>
-            </motion.div>
-          ))}
-        </div>
-      </div>
+      <LabMoments />
 
       {mode === 'carousel' ? (
         /* Film strip carousel */
