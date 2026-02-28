@@ -239,7 +239,7 @@ function CompactRow({ pub, index }) {
             className="inline-flex items-center gap-1 font-mono text-[13px] uppercase tracking-[0.1em] px-2.5 py-0.5 rounded-full border border-border text-text/45 hover:text-navy hover:border-navy transition-colors shrink-0"
           >
             Link
-            <span className="text-[11px]">&#8599;</span>
+            <svg className="w-3 h-3" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3.5 8.5L8.5 3.5M8.5 3.5H4.5M8.5 3.5V7.5"/></svg>
           </a>
         )}
       </div>

@@ -78,12 +78,12 @@ export default function Hero() {
         Tatsuya Nobori, Group Leader &rarr;
       </motion.a>
 
-      {/* Scroll indicator */}
+      {/* Scroll indicator — desktop only */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.4 }}
-        className="absolute bottom-10"
+        className="absolute bottom-10 hidden md:block"
       >
         <motion.div
           animate={{ y: [0, 8, 0] }}
