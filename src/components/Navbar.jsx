@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 const navLinks = [
+  { label: 'Home', href: '#hero' },
+  { label: 'Tatsuya Nobori', href: '#cv' },
   { label: 'Research', href: '#research' },
   { label: 'Projects', href: '#projects' },
   { label: 'News', href: '#news' },

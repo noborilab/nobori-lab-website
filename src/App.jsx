@@ -1,6 +1,7 @@
 import Navbar from './components/Navbar'
 import ScrollProgress from './components/ScrollProgress'
 import Hero from './components/Hero'
+import CV from './components/CV'
 import Research from './components/Research'
 import ParallaxBreak from './components/ParallaxBreak'
 import Projects from './components/Projects'
@@ -18,6 +19,7 @@ export default function App() {
       <Navbar />
       <main>
         <Hero />
+        <CV />
         <Research />
         <ParallaxBreak gradient="linear-gradient(135deg, #2E3A5C 0%, #1C1E22 60%, #6B8F6B 100%)" />
         <Projects />
