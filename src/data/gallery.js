@@ -1,3 +1,24 @@
+export const labMoments = [
+  {
+    id: 'gp-202602',
+    date: 'February 2026',
+    caption: 'Group photo',
+    src: '/images/lab/group_photo/20260214_group_photo.jpg',
+  },
+  {
+    id: 'gp-202411',
+    date: 'November 2024',
+    caption: 'Group photo',
+    src: '/images/lab/group_photo/20241101_group_photo.jpg',
+  },
+  {
+    id: 'gp-202409',
+    date: 'September 2024',
+    caption: 'Group photo',
+    src: '/images/lab/group_photo/20240925_group_photo.jpg',
+  },
+]
+
 const base = '/images/lab/'
 
 export const galleryAlbums = [
