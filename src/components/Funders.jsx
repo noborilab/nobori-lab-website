@@ -1,10 +1,9 @@
 import { motion } from 'framer-motion'
 
 const funders = [
-  { name: 'HFSP', href: 'https://www.hfsp.org/' },
-  { name: 'BBSRC', href: 'https://www.ukri.org/councils/bbsrc/' },
-  { name: 'Gatsby Foundation', href: 'https://www.gatsby.org.uk/' },
-  { name: 'TSL', href: 'https://www.tsl.ac.uk/' },
+  { name: 'UKRI', logo: '/images/funders/UKRI_logo.webp', href: 'https://www.ukri.org/' },
+  { name: 'BBSRC', logo: '/images/funders/bbsrc-logo.png', href: 'https://www.ukri.org/councils/bbsrc/' },
+  { name: 'Gatsby Foundation', logo: '/images/funders/GATSBY_Logo_RGB-1_Jessica-Roberts.jpg', href: 'https://www.gatsby.org.uk/' },
 ]
 
 export default function Funders() {
@@ -41,12 +40,11 @@ export default function Funders() {
               rel="noopener noreferrer"
               className="group"
             >
-              {/* Placeholder box — replace with <img> when logos are available */}
-              <div className="h-[50px] px-6 flex items-center justify-center rounded-lg border border-border bg-bg grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300">
-                <span className="font-mono text-[15px] uppercase tracking-[0.15em] text-text/60 group-hover:text-navy transition-colors">
-                  {funder.name}
-                </span>
-              </div>
+              <img
+                src={import.meta.env.BASE_URL + funder.logo.replace(/^\//, '')}
+                alt={funder.name}
+                className="h-[50px] w-auto object-contain grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300"
+              />
             </a>
           ))}
         </motion.div>
