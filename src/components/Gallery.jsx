@@ -204,7 +204,7 @@ function Lightbox({ photos, index, onClose, onPrev, onNext }) {
       className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center"
       onClick={onClose}
     >
-      <div className="relative flex items-center gap-2 md:gap-4 max-w-[95vw]">
+      <div className="relative flex items-center gap-2 md:gap-4 max-w-[calc(100vw-1rem)]">
         <button
           onClick={(e) => { e.stopPropagation(); onPrev() }}
           className="shrink-0 text-white/50 hover:text-white text-[45px] z-10 select-none px-1 md:px-2"
