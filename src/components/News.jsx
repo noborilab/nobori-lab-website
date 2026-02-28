@@ -1,10 +1,10 @@
 import { motion } from 'framer-motion'
 import { newsItems } from '../data/news'
 
-const tagColors = {
-  coral: 'bg-coral/10 text-coral',
-  sage: 'bg-sage/10 text-sage',
-  navy: 'bg-navy/10 text-navy',
+const tagStyles = {
+  coral: { background: 'rgba(200,90,58,0.12)', color: '#C85A3A' },
+  sage: { background: 'rgba(74,110,74,0.12)', color: '#4A6E4A' },
+  navy: { background: 'rgba(46,58,92,0.12)', color: '#2E3A5C' },
 }
 
 export default function News() {
@@ -42,7 +42,8 @@ export default function News() {
               {/* Tag + date */}
               <div className="flex items-center gap-2.5 mb-3">
                 <span
-                  className={`font-mono text-[10px] uppercase tracking-[0.15em] px-2 py-0.5 rounded-full ${tagColors[item.color]}`}
+                  className="font-mono text-[10px] font-medium uppercase tracking-[0.15em] px-2.5 py-1 rounded-full"
+                  style={tagStyles[item.color]}
                 >
                   {item.tag}
                 </span>
