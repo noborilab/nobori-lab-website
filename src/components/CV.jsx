@@ -223,7 +223,7 @@ export default function CV() {
                     key={year}
                     year={year}
                     talks={invitedTalksByYear[year]}
-                    defaultOpen={year === '2025' || year === '2026'}
+                    defaultOpen={year === '2025' || year === '2026' || year === '2027'}
                   />
                 ))}
               </div>
