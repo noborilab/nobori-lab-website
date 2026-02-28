@@ -1,17 +1,11 @@
 import { motion } from 'framer-motion'
 
-const timeline = [
-  { years: '2024\u2014', role: 'Group Leader, The Sainsbury Laboratory' },
-  { years: '2019\u201324', role: 'HFSP Fellow, Salk Institute' },
-  { years: '2015\u201319', role: 'Ph.D., MPI Plant Breeding Research' },
-]
-
 const links = [
-  { label: 'TSL Group Page', href: 'https://www.tsl.ac.uk/' },
-  { label: 'The Scientist Profile', href: 'https://www.the-scientist.com/' },
-  { label: 'Bluesky @tatsuyanobori', href: 'https://bsky.app/' },
-  { label: 'X / Twitter @nobolly', href: 'https://x.com/nobolly' },
-  { label: 'Google Scholar', href: 'https://scholar.google.com/' },
+  { label: 'TSL Group Page', href: 'https://www.tsl.ac.uk/our-work/scientific-groups/tatsuya-nobori-group' },
+  { label: 'The Scientist Profile', href: 'https://www.the-scientist.com/living-maps-uncovering-the-spatial-biology-of-plants-73690' },
+  { label: 'Bluesky @tatsuyanobori', href: 'https://bsky.app/profile/tatsuyanobori.bsky.social' },
+  { label: 'X / Twitter @nobolly', href: 'https://twitter.com/nobolly' },
+  { label: 'Google Scholar', href: 'https://scholar.google.com/citations?user=GOOGLE_SCHOLAR_ID' },
 ]
 
 export default function Contact() {
@@ -33,7 +27,7 @@ export default function Contact() {
         </motion.div>
 
         <div className="grid md:grid-cols-2 gap-14">
-          {/* Left — heading + timeline */}
+          {/* Left — contact info */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -44,17 +38,34 @@ export default function Contact() {
               Get in touch
             </h2>
 
-            <div className="space-y-4">
-              {timeline.map((item, i) => (
-                <div key={i} className="flex gap-4 items-baseline">
-                  <span className="font-display text-[15px] italic text-sage shrink-0 w-20">
-                    {item.years}
-                  </span>
-                  <span className="text-[14px] text-text/60">
-                    {item.role}
-                  </span>
-                </div>
-              ))}
+            <div className="space-y-5 text-[14px] text-text/60">
+              <div>
+                <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-text/35 block mb-1">
+                  Email
+                </span>
+                <a
+                  href="mailto:Tatsuya.Nobori@tsl.ac.uk"
+                  className="hover:text-navy transition-colors"
+                >
+                  Tatsuya.Nobori@tsl.ac.uk
+                </a>
+              </div>
+              <div>
+                <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-text/35 block mb-1">
+                  Address
+                </span>
+                <p>
+                  Norwich Research Park
+                  <br />
+                  Norwich NR4 7UH, United Kingdom
+                </p>
+              </div>
+              <div>
+                <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-text/35 block mb-1">
+                  Phone
+                </span>
+                <p>(+44) 01603 450504</p>
+              </div>
             </div>
           </motion.div>
 
