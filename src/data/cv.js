@@ -57,26 +57,37 @@ export const awards = [
   'French Government Scholarship 2013\u20132014',
 ]
 
-export const invitedTalks = [
-  'Keystone Symposia, Vancouver (May 2027)',
-  'Norwich Single-Cell and Spatial Symposium 2026 (Keynote), Norwich',
-  'ICAR 2026 (Plenary), Singapore',
-  'CRAG, Barcelona (Apr 2026)',
-  'IPMB, University of Zurich (Apr 2026)',
-  'CSHL Plant Genomes (Dec 2025)',
-  'Cambridge Crop Science Centre (Nov 2025)',
-  'Oxford University Biology Dept (Oct 2025)',
-  'FASEB Plant Development (Aug 2025)',
-  'GRC Single-Cell Plant Biology (Aug 2025)',
-  'Plant Biology 2025 (Plenary), Milwaukee',
-  '14th EFPP (Plenary), Uppsala (Jun 2025)',
-  'VIB-UGent, Ghent (Mar 2025)',
-  'DBMV, University of Lausanne (Feb 2025)',
-  'ENS Lyon (Dec 2024)',
-  'IBENS Paris (Dec 2024)',
-  'MPI Biology T\u00fcbingen, DSSS (Nov 2024)',
-  'And ~20 more from 2022\u20132024',
-]
+export const invitedTalksByYear = {
+  2027: [
+    'Keystone Symposia, Vancouver (May)',
+  ],
+  2026: [
+    'Norwich Single-Cell and Spatial Symposium (Keynote), Norwich',
+    'ICAR (Plenary), Singapore',
+    'CRAG, Barcelona (Apr)',
+    'IPMB, University of Zurich (Apr)',
+  ],
+  2025: [
+    'CSHL Plant Genomes (Dec)',
+    'Cambridge Crop Science Centre (Nov)',
+    'Oxford University Biology Dept (Oct)',
+    'FASEB Plant Development (Aug)',
+    'GRC Single-Cell Plant Biology (Aug)',
+    'Plant Biology 2025 (Plenary), Milwaukee',
+    '14th EFPP (Plenary), Uppsala (Jun)',
+    'VIB-UGent, Ghent (Mar)',
+    'DBMV, University of Lausanne (Feb)',
+  ],
+  2024: [
+    'ENS Lyon (Dec)',
+    'IBENS Paris (Dec)',
+    'MPI Biology T\u00fcbingen, DSSS (Nov)',
+    'And ~10 more',
+  ],
+  '2022\u201323': [
+    'And ~10 more',
+  ],
+}
 
 export const reviewerGrants = [
   'ERC Advanced', 'ERC Consolidator', 'BBSRC', 'ANR', 'SPS', 'NSF',

@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { teamMembers, alumni } from '../data/team'
+import groupPhotoUrl from '/images/team/group-photo.jpg'
 
 export default function Team() {
   return (
@@ -19,12 +20,27 @@ export default function Team() {
           </p>
         </motion.div>
 
+        {/* Group photo banner */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-50px' }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="mb-10 rounded-xl overflow-hidden"
+        >
+          <img
+            src={groupPhotoUrl}
+            alt="Nobori Lab group photo"
+            className="w-full max-h-[400px] object-cover"
+          />
+        </motion.div>
+
         {/* Group page link */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-50px' }}
-          transition={{ duration: 0.5, delay: 0.1 }}
+          transition={{ duration: 0.5, delay: 0.15 }}
           className="mb-12"
         >
           <a
@@ -48,10 +64,18 @@ export default function Team() {
               transition={{ duration: 0.4, delay: i * 0.05 }}
               className="text-center"
             >
-              <div className="w-[72px] h-[72px] rounded-full mx-auto bg-border/30 flex items-center justify-center hover:bg-border/50 transition-colors">
-                <span className="font-display text-lg text-navy/30">
-                  {member.initials}
-                </span>
+              <div className="w-[72px] h-[72px] rounded-full mx-auto bg-border/30 flex items-center justify-center hover:bg-border/50 transition-colors overflow-hidden">
+                {member.image ? (
+                  <img
+                    src={member.image}
+                    alt={member.name}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <span className="font-display text-lg text-navy/30">
+                    {member.initials}
+                  </span>
+                )}
               </div>
               <h3 className="mt-2.5 font-display text-[15px] font-semibold text-navy leading-tight">
                 {member.name}
