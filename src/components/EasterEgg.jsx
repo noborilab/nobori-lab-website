@@ -1,13 +1,10 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 
-// Auto-detect images from easter-egg folder at build time
-const imageModules = import.meta.glob(
-  '/public/images/easter-egg/*.{jpg,JPG,jpeg,JPEG,png,PNG,webp,gif}',
-  { eager: false },
-)
-const easterEggImages = Object.keys(imageModules).map((p) =>
-  p.replace('/public', ''),
-)
+// Hardcoded image list (import.meta.glob doesn't work on static hosts)
+const easterEggImages = [
+  '/images/easter-egg/mNeonG_mCherry.png',
+  '/images/easter-egg/phytomap_plant.png',
+]
 
 const KONAMI = [
   'ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown',
