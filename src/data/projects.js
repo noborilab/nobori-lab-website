@@ -1,5 +1,5 @@
 export const projectsIntro =
-  'Our research focuses on unraveling the complexity of plant and microbial cell states, with a particular emphasis on plant immune cell states. Recent discoveries have revealed that plants interacting with microbes exhibit various immune cell states that are molecularly and spatiotemporally distinct. Our projects aim to uncover the diversity, regulation, and functions of these immune cell states, and their interactions. To achieve these goals, we employ single-cell and spatial omics technologies, along with advanced molecular biology and computational approaches. Below are technologies and resources available in our group.'
+  'Our research unravels the complexity of plant and microbial cell states during their interactions, with a particular focus on plant immune cell states. Recent discoveries have revealed that plants interacting with microbes exhibit various immune cell states that are molecularly and spatiotemporally distinct. Our projects aim to uncover the diversity, regulation, and functions of these immune cell states, and their interactions. To achieve these goals, we employ single-cell and spatial omics technologies, along with advanced molecular biology and computational approaches. Below are technologies and resources available in our group.'
 
 export const projects = [
   {
