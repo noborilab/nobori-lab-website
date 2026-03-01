@@ -11,9 +11,12 @@ import Gallery from './components/Gallery'
 import Contact from './components/Contact'
 import Funders from './components/Funders'
 import Footer from './components/Footer'
+import EasterEgg from './components/EasterEgg'
+
 export default function App() {
   return (
     <>
+      <EasterEgg />
       <ScrollProgress />
       <Navbar />
       <main>
