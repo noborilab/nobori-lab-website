@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { projects, projectsIntro } from '../data/projects'
+import ParallaxImage from './ParallaxImage'
 
 function ResourcePill({ href, children }) {
   return (
@@ -26,15 +27,15 @@ function ProjectCard({ project, index }) {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
-      transition={{ duration: 0.5, delay: index * 0.08 }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
       className="bg-bg rounded-xl border border-border overflow-hidden break-inside-avoid mb-6"
     >
       {/* Media */}
       {project.image && (
-        <div className="relative">
+        <ParallaxImage className="relative">
           <img
             src={import.meta.env.BASE_URL + project.image.replace(/^\//, '')}
             alt={project.title}
@@ -45,17 +46,19 @@ function ProjectCard({ project, index }) {
               Image credit: {project.imageCredit}
             </p>
           )}
-        </div>
+        </ParallaxImage>
       )}
       {project.video && (
-        <video
-          src={import.meta.env.BASE_URL + project.video.replace(/^\//, '')}
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="w-full rounded-t-xl"
-        />
+        <ParallaxImage>
+          <video
+            src={import.meta.env.BASE_URL + project.video.replace(/^\//, '')}
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="w-full rounded-t-xl"
+          />
+        </ParallaxImage>
       )}
 
       {/* Content */}
@@ -147,7 +150,7 @@ export default function Projects() {
       <div className="max-w-5xl mx-auto">
         {/* Section label */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-100px' }}
           transition={{ duration: 0.6 }}
@@ -161,22 +164,24 @@ export default function Projects() {
 
         {/* Summary image */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.6, delay: 0.1 }}
           className="flex justify-center mb-8"
         >
-          <img
-            src={import.meta.env.BASE_URL + 'images/projects/projects_summary.png'}
-            alt="Research overview"
-            className="w-full max-w-[900px] rounded-lg"
-          />
+          <ParallaxImage className="w-full max-w-[900px]">
+            <img
+              src={import.meta.env.BASE_URL + 'images/projects/projects_summary.png'}
+              alt="Research overview"
+              className="w-full rounded-lg"
+            />
+          </ParallaxImage>
         </motion.div>
 
         {/* Intro paragraph */}
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.6, delay: 0.2 }}

@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { labMoments, galleryByYear } from '../data/gallery'
+import ParallaxImage from './ParallaxImage'
 
 // Flatten all photos for lightbox navigation
 const allPhotos = galleryByYear.flatMap((g) => g.photos)
@@ -11,7 +12,7 @@ function MomentItem({ moment, i, total, isDesktop }) {
   if (isDesktop) {
     return (
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-50px' }}
         transition={{ duration: 0.5, delay: i * 0.08 }}
@@ -29,12 +30,14 @@ function MomentItem({ moment, i, total, isDesktop }) {
           {i < total - 1 && <div className="w-px flex-1 bg-border" />}
         </div>
         <div className="flex-1 max-w-[600px]">
-          <img
-            src={import.meta.env.BASE_URL + moment.src.replace(/^\//, '')}
-            alt={moment.caption}
-            loading="lazy"
-            className="w-full rounded-lg shadow-[0_2px_8px_rgba(0,0,0,0.08)]"
-          />
+          <ParallaxImage className="rounded-lg shadow-[0_2px_8px_rgba(0,0,0,0.08)]">
+            <img
+              src={import.meta.env.BASE_URL + moment.src.replace(/^\//, '')}
+              alt={moment.caption}
+              loading="lazy"
+              className="w-full"
+            />
+          </ParallaxImage>
           <p className="mt-2 text-[15px] text-text/40 italic">{moment.caption}</p>
         </div>
       </motion.div>
@@ -43,7 +46,7 @@ function MomentItem({ moment, i, total, isDesktop }) {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-50px' }}
       transition={{ duration: 0.5, delay: i * 0.08 }}
@@ -52,12 +55,14 @@ function MomentItem({ moment, i, total, isDesktop }) {
         <div className="w-2.5 h-2.5 rounded-full shrink-0 bg-sage" />
         <p className="font-display text-[16px] italic text-text/45">{moment.date}</p>
       </div>
-      <img
-        src={import.meta.env.BASE_URL + moment.src.replace(/^\//, '')}
-        alt={moment.caption}
-        loading="lazy"
-        className="w-full rounded-lg shadow-[0_2px_8px_rgba(0,0,0,0.08)]"
-      />
+      <ParallaxImage className="rounded-lg shadow-[0_2px_8px_rgba(0,0,0,0.08)]">
+        <img
+          src={import.meta.env.BASE_URL + moment.src.replace(/^\//, '')}
+          alt={moment.caption}
+          loading="lazy"
+          className="w-full"
+        />
+      </ParallaxImage>
       <p className="mt-2 text-[15px] text-text/40 italic">{moment.caption}</p>
     </motion.div>
   )
@@ -273,7 +278,7 @@ export default function Gallery() {
     <section id="gallery" className="py-16 bg-bg">
       <div className="max-w-5xl mx-auto px-6 mb-8">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-50px' }}
           transition={{ duration: 0.6 }}

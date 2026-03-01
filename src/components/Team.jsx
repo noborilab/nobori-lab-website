@@ -7,7 +7,7 @@ export default function Team() {
       <div className="max-w-5xl mx-auto">
         {/* Section label */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-100px' }}
           transition={{ duration: 0.6 }}
@@ -42,10 +42,10 @@ export default function Team() {
           {teamMembers.map((member, i) => (
             <motion.div
               key={member.id}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-30px' }}
-              transition={{ duration: 0.4, delay: i * 0.05 }}
+              transition={{ duration: 0.4, delay: i * 0.07 }}
               className="text-center"
             >
               <div className="w-[72px] h-[72px] rounded-full mx-auto bg-border/30 flex items-center justify-center hover:bg-border/50 transition-colors overflow-hidden">
@@ -76,7 +76,7 @@ export default function Team() {
 
         {/* Join Us card */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-40px' }}
           transition={{ duration: 0.5, delay: 0.15 }}

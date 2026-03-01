@@ -1,9 +1,29 @@
-import { motion } from 'framer-motion'
+import { useRef } from 'react'
+import { motion, useScroll, useTransform } from 'framer-motion'
+import { useReducedMotion } from '../hooks/useReducedMotion'
 import labLogo from '/images/lab-logo.gif'
 
 export default function Hero() {
+  const sectionRef = useRef(null)
+  const reduced = useReducedMotion()
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start start', 'end start'],
+  })
+
+  // Hero parallax: logo scales down + fades, tagline drifts up slower
+  const logoScale = useTransform(scrollYProgress, [0, 1], [1, 0.88])
+  const logoOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0])
+  const logoY = useTransform(scrollYProgress, [0, 1], [0, 60])
+  const taglineY = useTransform(scrollYProgress, [0, 1], [0, 30])
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
+
+  const parallax = !reduced
+
   return (
     <section
+      ref={sectionRef}
       id="hero"
       className="relative min-h-screen flex flex-col items-center justify-center bg-bg px-6"
     >
@@ -12,6 +32,7 @@ export default function Hero() {
         initial={{ opacity: 0, scale: 0.92 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 1.2, ease: 'easeOut' }}
+        style={parallax ? { scale: logoScale, opacity: logoOpacity, y: logoY, willChange: 'transform, opacity' } : undefined}
         className="relative mb-10"
       >
         {/* Warm radial glow */}
@@ -31,6 +52,7 @@ export default function Hero() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.4 }}
+        style={parallax ? { y: taglineY, opacity: contentOpacity, willChange: 'transform, opacity' } : undefined}
         className="font-display text-[clamp(1.1rem,3vw,1.5rem)] text-text/70 text-center max-w-2xl leading-relaxed italic"
       >
         Understanding the molecular and cellular basis of plant-microbe interactions
@@ -41,6 +63,7 @@ export default function Hero() {
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.6 }}
+        style={parallax ? { opacity: contentOpacity, willChange: 'opacity' } : undefined}
         className="mt-3 font-mono text-sm uppercase tracking-[0.1em] sm:tracking-[0.2em] text-text/40"
       >
         The Sainsbury Laboratory &middot; Norwich, UK
@@ -51,6 +74,7 @@ export default function Hero() {
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.8 }}
+        style={parallax ? { opacity: contentOpacity, willChange: 'opacity' } : undefined}
         className="mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto"
       >
         <a
@@ -73,6 +97,7 @@ export default function Hero() {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 1.0 }}
+        style={parallax ? { opacity: contentOpacity, willChange: 'opacity' } : undefined}
         className="mt-5 font-body text-[16px] text-navy hover:underline transition-all"
       >
         Tatsuya Nobori, Group Leader &rarr;
@@ -83,6 +108,7 @@ export default function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.4 }}
+        style={parallax ? { opacity: contentOpacity, willChange: 'opacity' } : undefined}
         className="absolute bottom-10 hidden md:block"
       >
         <motion.div
