@@ -72,7 +72,7 @@ export const selected = [
     title: 'A single-cell, spatial transcriptomic atlas of the Arabidopsis life cycle',
     journal: 'Nature Plants',
     journalNote: '*Co-first',
-    figure: '/images/publications/nature-plants-2025-atlas.jpg',
+    figure: '/images/publications/nature-plants-2025-atlas.webp',
     link: 'https://www.nature.com/articles/s41477-025-02072-z',
     pdf: 'https://drive.google.com/file/d/13kWH4v2Rc0B6cz4yMdNlqY1AIZgljkLm/view',
     highlights: [],
