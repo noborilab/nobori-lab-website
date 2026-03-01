@@ -162,30 +162,13 @@ export default function Projects() {
           </p>
         </motion.div>
 
-        {/* Summary image */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="flex justify-center mb-8"
-        >
-          <ParallaxImage className="w-full max-w-[900px]">
-            <img
-              src={import.meta.env.BASE_URL + 'images/projects/projects_summary.png'}
-              alt="Research overview"
-              className="w-full rounded-lg"
-            />
-          </ParallaxImage>
-        </motion.div>
-
         {/* Intro paragraph */}
         <motion.p
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-[18px] text-text/60 leading-relaxed max-w-4xl mx-auto mb-16"
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="text-[1.1em] text-text/55 leading-relaxed max-w-[750px] mx-auto py-8 mb-10 border-l-[3px] border-sage pl-6"
         >
           {projectsIntro}
         </motion.p>
