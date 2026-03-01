@@ -162,16 +162,22 @@ export default function Projects() {
           </p>
         </motion.div>
 
-        {/* Intro paragraph */}
-        <motion.p
+        {/* Intro — pull quote + body */}
+        <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="text-[1.1em] text-text/55 leading-relaxed max-w-[750px] mx-auto py-8 mb-10 border-l-[3px] border-sage pl-6"
+          className="max-w-[750px] mx-auto text-center py-8 mb-10"
         >
-          {projectsIntro}
-        </motion.p>
+          <p className="font-display text-[1.3em] italic text-navy leading-relaxed mb-4">
+            {projectsIntro.split('. ')[0]}.
+          </p>
+          <p className="text-[17px] text-text/55 leading-relaxed">
+            {projectsIntro.split('. ').slice(1).join('. ')}
+          </p>
+          <div className="mt-8 mx-auto w-16 h-px bg-border" />
+        </motion.div>
 
         {/* Project cards — masonry columns */}
         <div className="md:columns-2 gap-6 space-y-6 md:space-y-0">
