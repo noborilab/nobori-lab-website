@@ -11,7 +11,6 @@ import Gallery from './components/Gallery'
 import Contact from './components/Contact'
 import Funders from './components/Funders'
 import Footer from './components/Footer'
-
 export default function App() {
   return (
     <>
