@@ -34,6 +34,50 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* ── Publication figure thumbnails ── */
+.pub-thumb {
+  width: 140px !important;
+  height: 140px !important;
+  min-width: 140px !important;
+  min-height: 140px !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+  flex-shrink: 0 !important;
+  position: relative !important;
+}
+.pub-thumb img {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 140px !important;
+  height: 140px !important;
+  object-fit: cover !important;
+  max-width: none !important;
+  max-height: none !important;
+  display: block !important;
+}
+.pub-thumb-sm {
+  width: 80px !important;
+  height: 80px !important;
+  min-width: 80px !important;
+  min-height: 80px !important;
+  border-radius: 6px !important;
+  overflow: hidden !important;
+  flex-shrink: 0 !important;
+  position: relative !important;
+}
+.pub-thumb-sm img {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 80px !important;
+  height: 80px !important;
+  object-fit: cover !important;
+  max-width: none !important;
+  max-height: none !important;
+  display: block !important;
+}
+
 /* ── Reduced Motion ── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

@@ -154,54 +154,95 @@ function SelectedCard({ pub, index }) {
       className="bg-bg rounded-xl border border-border overflow-hidden"
     >
       {/* Top row: image + info side by side */}
-      <div className="flex flex-row items-start">
-        {/* Thumbnail — mobile: 80px square, desktop: 160px square */}
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'flex-start',
+        }}
+      >
         {imgSrc ? (
           <>
-            {/* Mobile thumbnail */}
-            <button
+            {/* Mobile — 80x80 */}
+            <div
               onClick={() => setLightbox(true)}
-              className="shrink-0 relative mt-5 ml-5 rounded-md overflow-hidden md:hidden"
-              style={{ width: 80, height: 80, minWidth: 80 }}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => e.key === 'Enter' && setLightbox(true)}
+              aria-label={`View ${pub.title} figure`}
+              className="md:hidden"
+              style={{
+                width: 80, height: 80, minWidth: 80, minHeight: 80,
+                borderRadius: 6, overflow: 'hidden', flexShrink: 0,
+                position: 'relative', cursor: 'pointer',
+                marginTop: 20, marginLeft: 20,
+              }}
             >
               <img
                 src={imgSrc}
-                alt={pub.title}
-                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                alt=""
+                style={{
+                  position: 'absolute', top: 0, left: 0,
+                  width: '80px', height: '80px',
+                  objectFit: 'cover', maxWidth: 'none', maxHeight: 'none',
+                  display: 'block',
+                }}
               />
-              {/* Magnifying glass hint */}
-              <span className="absolute bottom-1 right-1 w-4 h-4 flex items-center justify-center rounded-full bg-white/80 shadow-sm">
-                <svg className="w-2.5 h-2.5 text-text/50" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <span style={{ position: 'absolute', bottom: '4px', right: '4px', width: '16px', height: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%', backgroundColor: 'rgba(255,255,255,0.8)' }}>
+                <svg style={{ width: '10px', height: '10px', color: 'rgba(0,0,0,0.4)' }} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                   <circle cx="11" cy="11" r="7" /><path d="M21 21l-4.35-4.35" strokeLinecap="round" />
                 </svg>
               </span>
-            </button>
-            {/* Desktop square */}
-            <div className="shrink-0 relative m-4 rounded-lg overflow-hidden hidden md:block" style={{ width: 160, height: 160, minHeight: 160, maxHeight: 160, alignSelf: 'flex-start' }}>
+            </div>
+            {/* Desktop — 140px wide, stretches to match text height */}
+            <div
+              className="hidden md:block"
+              style={{
+                width: 140, minWidth: 140, minHeight: 140,
+                borderRadius: 8, overflow: 'hidden', flexShrink: 0,
+                position: 'relative', margin: 16, alignSelf: 'stretch',
+              }}
+            >
               <img
                 src={imgSrc}
-                alt={pub.title}
-                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                alt=""
+                style={{
+                  position: 'absolute', top: 0, left: 0,
+                  width: '140px', height: '100%',
+                  objectFit: 'cover', maxWidth: 'none', maxHeight: 'none',
+                  display: 'block',
+                }}
               />
               {pub.figureCredit && (
-                <p className="absolute bottom-1 right-2 text-[11px] text-white/60 italic">
+                <p style={{ position: 'absolute', bottom: '4px', right: '8px', fontSize: '11px', color: 'rgba(255,255,255,0.6)', fontStyle: 'italic', margin: 0 }}>
                   {pub.figureCredit}
                 </p>
               )}
             </div>
           </>
         ) : (
-          <div className="shrink-0 m-4 rounded-lg overflow-hidden hidden md:flex items-center justify-center px-4" style={{ width: 160, height: 160, background: `${journalColors[pub.journal] || '#666'}12` }}>
+          <div
+            className="hidden md:flex"
+            style={{
+              width: 140, minWidth: 140, minHeight: 140,
+              borderRadius: 8, overflow: 'hidden', flexShrink: 0,
+              margin: 16, alignSelf: 'stretch',
+              background: `${journalColors[pub.journal] || '#666'}12`,
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '0 16px',
+            }}
+          >
             <span
-              className="font-display text-[16px] italic text-center leading-snug"
-              style={{ color: journalColors[pub.journal] || '#666' }}
+              className="font-display"
+              style={{ fontSize: '16px', fontStyle: 'italic', textAlign: 'center', lineHeight: 1.4, color: journalColors[pub.journal] || '#666' }}
             >
               {pub.journal}
             </span>
           </div>
         )}
 
-        <div className="p-5 flex-1">
+        <div className="p-5 flex-1" style={{ minWidth: 0 }}>
           <div className="flex items-center gap-2 mb-2">
             <JournalName journal={pub.journal} journalNote={pub.journalNote} />
             <span className="font-mono text-[14px] text-text/30">{pub.year}</span>
@@ -226,29 +267,6 @@ function SelectedCard({ pub, index }) {
             )}
           </div>
 
-          {/* Highlights / media */}
-          {pub.highlights && pub.highlights.length > 0 && (
-            <div className="mt-3 pl-3 border-l-2 border-border space-y-1">
-              {pub.highlights.map((h, i) =>
-                h.href ? (
-                  <a
-                    key={i}
-                    href={h.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block text-[15px] text-text/40 hover:text-navy transition-colors"
-                  >
-                    {h.text}
-                  </a>
-                ) : (
-                  <p key={i} className="text-[15px] text-text/40">
-                    {h.text}
-                  </p>
-                ),
-              )}
-            </div>
-          )}
-
           {/* Mobile: Tweet thread toggle button */}
           {pub.threadUrl && (
             <div className="mt-4 md:hidden">
@@ -262,6 +280,30 @@ function SelectedCard({ pub, index }) {
           )}
         </div>
       </div>
+
+      {/* Highlights / media — full width below image+info row */}
+      {pub.highlights && pub.highlights.length > 0 && (
+        <div className="border-t border-border mx-5 mb-4 pt-3 pl-3 border-l-2 border-l-border space-y-1">
+          <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-text/30">Highlighted in</span>
+          {pub.highlights.map((h, i) =>
+            h.href ? (
+              <a
+                key={i}
+                href={h.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block text-[15px] text-text/40 hover:text-navy transition-colors"
+              >
+                {h.text}
+              </a>
+            ) : (
+              <p key={i} className="text-[15px] text-text/40">
+                {h.text}
+              </p>
+            ),
+          )}
+        </div>
+      )}
 
       {/* Mobile: Tweet embed — full width below both image and info */}
       {pub.threadUrl && (
