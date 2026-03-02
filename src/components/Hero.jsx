@@ -64,9 +64,10 @@ export default function Hero() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.6 }}
         style={parallax ? { opacity: contentOpacity, willChange: 'opacity' } : undefined}
-        className="mt-3 font-mono text-sm uppercase tracking-[0.1em] sm:tracking-[0.2em] text-text/40"
+        className="mt-3 font-mono text-sm uppercase tracking-[0.1em] sm:tracking-[0.2em] text-text/40 text-center"
       >
-        The Sainsbury Laboratory &middot; Norwich, UK
+        <span className="sm:hidden">The Sainsbury Laboratory<br />Norwich, UK</span>
+        <span className="hidden sm:inline">The Sainsbury Laboratory &middot; Norwich, UK</span>
       </motion.p>
 
       {/* Buttons */}
