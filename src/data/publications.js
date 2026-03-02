@@ -63,7 +63,7 @@ export const selected = [
       { text: 'Zheng et al. (2025), Molecular Plant', href: 'https://www.sciencedirect.com/science/article/pii/S1674205225000991' },
       { text: 'Thingujam et al. (2025), Trends in Plant Science', href: 'https://www.cell.com/trends/plant-science/fulltext/S1360-1385(25)00105-0' },
     ],
-    threadUrl: '',
+    threadUrl: 'https://x.com/nobolly/status/1877028605504471516?s=20',
   },
   {
     id: 's4',
@@ -94,7 +94,7 @@ export const selected = [
       { text: 'Research Briefing, Nature Plants', href: 'https://www.nature.com/articles/s41477-023-01440-x' },
       { text: 'Media: The Scientist, CBS8, GenomeWeb, Spectrum News' },
     ],
-    threadUrl: '',
+    threadUrl: 'https://x.com/nobolly/status/1553408598759198722?s=20',
   },
   {
     id: 's6',
@@ -106,7 +106,7 @@ export const selected = [
     link: 'https://www.embopress.org/doi/full/10.15252/embr.202255380',
     pdf: 'https://drive.google.com/file/d/1q0Ym-3KD7zaNE4MNu4mKXBFb9eEA5YoQ/view',
     highlights: [],
-    threadUrl: '',
+    threadUrl: 'https://x.com/nobolly/status/1386786822940860417?s=20',
   },
   {
     id: 's7',
@@ -118,7 +118,7 @@ export const selected = [
     link: 'https://www.nature.com/articles/s41477-020-0690-7',
     pdf: 'https://drive.google.com/file/d/1gOwHXksI2Ae0cYDack5kqcKvwc3SZUfP/view',
     highlights: [],
-    threadUrl: '',
+    threadUrl: 'https://x.com/nobolly/status/1272550030956589056?s=20',
   },
   {
     id: 's8',
@@ -132,7 +132,7 @@ export const selected = [
     highlights: [
       { text: 'Cohen et al. (2018), Trends in Plant Science' },
     ],
-    threadUrl: '',
+    threadUrl: 'https://x.com/nobolly/status/973280759590113280?s=20',
   },
 ]
 
