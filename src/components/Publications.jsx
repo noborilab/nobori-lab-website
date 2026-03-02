@@ -137,6 +137,41 @@ function TweetEmbed({ url }) {
   )
 }
 
+function FigureLightbox({ imgSrc, alt, onClose }) {
+  useEffect(() => {
+    const handleKey = (e) => { if (e.key === 'Escape') onClose() }
+    window.addEventListener('keydown', handleKey)
+    return () => window.removeEventListener('keydown', handleKey)
+  }, [onClose])
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.2 }}
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+      onClick={onClose}
+    >
+      <div className="absolute inset-0 bg-black/70" />
+      <button
+        onClick={onClose}
+        className="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-white/15 flex items-center justify-center text-white/80 hover:bg-white/25 transition-colors"
+        aria-label="Close"
+      >
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" d="M18 6L6 18M6 6l12 12" /></svg>
+      </button>
+      <img
+        src={imgSrc}
+        alt={alt}
+        className="relative z-10"
+        style={{ maxWidth: '80vw', maxHeight: '85vh', objectFit: 'contain', borderRadius: 8 }}
+        onClick={(e) => e.stopPropagation()}
+      />
+    </motion.div>
+  )
+}
+
 function SelectedCard({ pub, index }) {
   const [showThread, setShowThread] = useState(false)
   const [lightbox, setLightbox] = useState(false)
@@ -149,7 +184,7 @@ function SelectedCard({ pub, index }) {
     <motion.div
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-40px' }}
+      viewport={{ once: true, margin: '200px' }}
       transition={{ duration: 0.5, delay: index * 0.08 }}
       className="bg-bg rounded-xl border border-border overflow-hidden"
     >
@@ -163,14 +198,22 @@ function SelectedCard({ pub, index }) {
       >
         {imgSrc ? (
           <>
-            {/* Desktop — 140px wide, stretches to match text height */}
+            {/* Desktop — 140px wide, stretches to match text height, clickable lightbox */}
             <div
+              onClick={() => setLightbox(true)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => e.key === 'Enter' && setLightbox(true)}
+              aria-label={`View ${pub.title} figure`}
               className="hidden md:block"
               style={{
                 width: 140, minWidth: 140, minHeight: 140,
                 borderRadius: 8, overflow: 'hidden', flexShrink: 0,
                 position: 'relative', margin: 16, alignSelf: 'stretch',
+                cursor: 'pointer', transition: 'transform 0.2s ease',
               }}
+              onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.03)' }}
+              onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)' }}
             >
               <img
                 src={imgSrc}
@@ -323,32 +366,10 @@ function SelectedCard({ pub, index }) {
         </AnimatePresence>
       )}
 
-      {/* Mobile lightbox */}
+      {/* Figure lightbox (mobile + desktop) */}
       <AnimatePresence>
         {lightbox && imgSrc && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center p-4"
-            onClick={() => setLightbox(false)}
-          >
-            <div className="absolute inset-0 bg-black/70" />
-            <button
-              onClick={() => setLightbox(false)}
-              className="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-white/15 flex items-center justify-center text-white/80"
-              aria-label="Close"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" d="M18 6L6 18M6 6l12 12" /></svg>
-            </button>
-            <img
-              src={imgSrc}
-              alt={pub.title}
-              className="relative z-10"
-              style={{ maxWidth: '90vw', maxHeight: '85vh', objectFit: 'contain', borderRadius: 8 }}
-            />
-          </motion.div>
+          <FigureLightbox imgSrc={imgSrc} alt={pub.title} onClose={() => setLightbox(false)} />
         )}
       </AnimatePresence>
     </motion.div>
@@ -360,7 +381,7 @@ function CompactRow({ pub, index }) {
     <motion.div
       initial={{ opacity: 0, y: 12 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-20px' }}
+      viewport={{ once: true, margin: '200px' }}
       transition={{ duration: 0.35, delay: index * 0.04 }}
       className="py-3.5 border-t border-border first:border-t-0"
     >
@@ -395,6 +416,7 @@ function CompactRow({ pub, index }) {
 
 export default function Publications() {
   const [activeTab, setActiveTab] = useState('selected')
+  const tabsRef = useRef(null)
 
   const dataMap = {
     selected,
@@ -404,6 +426,14 @@ export default function Publications() {
 
   const items = dataMap[activeTab]
 
+  const handleTabChange = (key) => {
+    setActiveTab(key)
+    // Scroll tabs into view so new content is visible
+    setTimeout(() => {
+      tabsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }, 50)
+  }
+
   return (
     <section id="publications" className="py-24 bg-bg-soft px-6">
       <div className="max-w-5xl mx-auto">
@@ -412,16 +442,18 @@ export default function Publications() {
 
         {/* Tabs */}
         <motion.div
+          ref={tabsRef}
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.6, delay: 0.1 }}
           className="flex gap-5 mb-10"
+          style={{ scrollMarginTop: '80px' }}
         >
           {tabs.map((tab) => (
             <button
               key={tab.key}
-              onClick={() => setActiveTab(tab.key)}
+              onClick={() => handleTabChange(tab.key)}
               className={`font-mono text-[14px] uppercase tracking-[0.12em] pb-1 transition-all whitespace-nowrap ${
                 activeTab === tab.key
                   ? 'text-navy border-b-2 border-navy'
