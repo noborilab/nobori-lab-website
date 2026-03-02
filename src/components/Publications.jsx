@@ -150,10 +150,24 @@ function SelectedCard({ pub, index }) {
     >
       {/* Top row: image + info side by side */}
       <div className="flex flex-col md:flex-row md:items-start">
-        {/* Thumbnail — uniform square */}
-        <div className="shrink-0 w-[160px] h-[160px] relative m-4 rounded-lg overflow-hidden hidden md:block">
-          {pub.figure ? (
-            <>
+        {/* Thumbnail — mobile: full-width banner, desktop: square */}
+        {pub.figure ? (
+          <>
+            {/* Mobile banner */}
+            <div className="relative w-full max-h-[150px] overflow-hidden rounded-t-xl md:hidden">
+              <img
+                src={import.meta.env.BASE_URL + pub.figure.replace(/^\//, '')}
+                alt={pub.title}
+                className="w-full h-[150px] object-cover"
+              />
+              {pub.figureCredit && (
+                <p className="absolute bottom-1 right-2 text-[11px] text-white/60 italic">
+                  {pub.figureCredit}
+                </p>
+              )}
+            </div>
+            {/* Desktop square */}
+            <div className="shrink-0 w-[160px] h-[160px] relative m-4 rounded-lg overflow-hidden hidden md:block">
               <img
                 src={import.meta.env.BASE_URL + pub.figure.replace(/^\//, '')}
                 alt={pub.title}
@@ -164,21 +178,18 @@ function SelectedCard({ pub, index }) {
                   {pub.figureCredit}
                 </p>
               )}
-            </>
-          ) : (
-            <div
-              className="w-full h-full flex items-center justify-center px-4"
-              style={{ background: `${journalColors[pub.journal] || '#666'}12` }}
-            >
-              <span
-                className="font-display text-[16px] italic text-center leading-snug"
-                style={{ color: journalColors[pub.journal] || '#666' }}
-              >
-                {pub.journal}
-              </span>
             </div>
-          )}
-        </div>
+          </>
+        ) : (
+          <div className="shrink-0 w-[160px] h-[160px] m-4 rounded-lg overflow-hidden hidden md:flex items-center justify-center px-4" style={{ background: `${journalColors[pub.journal] || '#666'}12` }}>
+            <span
+              className="font-display text-[16px] italic text-center leading-snug"
+              style={{ color: journalColors[pub.journal] || '#666' }}
+            >
+              {pub.journal}
+            </span>
+          </div>
+        )}
 
         <div className="p-5 flex-1">
           <div className="flex items-center gap-2 mb-2">
@@ -197,8 +208,12 @@ function SelectedCard({ pub, index }) {
             <LinkChip href={pub.link}>Link</LinkChip>
             <LinkChip href={pub.pdf}>PDF</LinkChip>
             {pub.biorxiv && <LinkChip href={pub.biorxiv}>bioRxiv</LinkChip>}
-            {/* Desktop: Thread pill link */}
-            {pub.threadUrl && <LinkChip href={pub.threadUrl}><span className="hidden md:inline">Thread</span></LinkChip>}
+            {/* Desktop only: Thread pill link */}
+            {pub.threadUrl && (
+              <span className="hidden md:inline">
+                <LinkChip href={pub.threadUrl}>Thread</LinkChip>
+              </span>
+            )}
           </div>
 
           {/* Highlights / media */}

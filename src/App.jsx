@@ -23,13 +23,13 @@ export default function App() {
       <Navbar />
       <main>
         <Hero />
-        <News />
         <Projects />
         <Publications />
         <OnlineTalks />
         <CV />
         <Team />
         <Gallery />
+        <News />
         <Contact />
         <Funders />
       </main>
