@@ -55,7 +55,7 @@ export default function Hero() {
         style={parallax ? { y: taglineY, opacity: contentOpacity, willChange: 'transform, opacity' } : undefined}
         className="font-display text-[clamp(1.1rem,3vw,1.5rem)] text-text/70 text-center max-w-2xl leading-relaxed italic"
       >
-        Understanding the molecular and cellular basis of plant-microbe interactions
+        Decoding the molecular and cellular basis of plant-microbe interactions
       </motion.p>
 
       {/* Institution */}
