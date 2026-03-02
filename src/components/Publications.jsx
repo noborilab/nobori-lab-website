@@ -150,14 +150,14 @@ function SelectedCard({ pub, index }) {
     >
       {/* Top row: image + info side by side */}
       <div className="flex flex-col md:flex-row md:items-start">
-        {/* Thumbnail — image or colored placeholder */}
-        <div className="md:w-[180px] shrink-0 relative">
+        {/* Thumbnail — uniform square */}
+        <div className="shrink-0 w-[160px] h-[160px] relative m-4 rounded-lg overflow-hidden hidden md:block">
           {pub.figure ? (
             <>
               <img
                 src={import.meta.env.BASE_URL + pub.figure.replace(/^\//, '')}
                 alt={pub.title}
-                className="w-full object-cover"
+                className="w-full h-full object-cover"
               />
               {pub.figureCredit && (
                 <p className="absolute bottom-1 right-2 text-[11px] text-white/60 italic">
@@ -167,7 +167,7 @@ function SelectedCard({ pub, index }) {
             </>
           ) : (
             <div
-              className="w-full min-h-[120px] flex items-center justify-center px-4"
+              className="w-full h-full flex items-center justify-center px-4"
               style={{ background: `${journalColors[pub.journal] || '#666'}12` }}
             >
               <span
@@ -227,7 +227,7 @@ function SelectedCard({ pub, index }) {
             <div className="mt-4">
               <button
                 onClick={() => setShowThread(!showThread)}
-                className="font-mono text-[13px] uppercase tracking-[0.1em] text-text/35 hover:text-navy transition-colors"
+                className={`font-mono uppercase tracking-[0.1em] hover:text-navy transition-colors ${showThread ? 'text-[12px] text-text/25' : 'text-[13px] text-text/35'}`}
               >
                 {showThread ? 'Hide thread \u25B4' : 'View thread \u25BE'}
               </button>
@@ -244,11 +244,11 @@ function SelectedCard({ pub, index }) {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.35, ease: 'easeInOut' }}
               className="overflow-hidden"
             >
-              <div className="border-t border-border px-5 py-4 flex justify-center">
-                <div className="max-w-[550px] w-full">
+              <div className="border-t border-border px-5 pt-4 pb-5 flex justify-center">
+                <div className="max-w-[550px] w-full rounded-xl p-6" style={{ backgroundColor: '#F8F8F4' }}>
                   <TweetEmbed url={pub.threadUrl} />
                 </div>
               </div>
