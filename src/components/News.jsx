@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { newsItems } from '../data/news'
+import TypewriterLabel from './TypewriterLabel'
 
 const dotColors = {
   coral: '#C85A3A',
@@ -47,18 +48,7 @@ export default function News() {
     <section id="news" className="py-24 bg-bg px-6">
       <div className="max-w-5xl mx-auto">
         {/* Section label */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-100px' }}
-          transition={{ duration: 0.6 }}
-          className="flex items-center gap-4 mb-14"
-        >
-          <div className="w-8 h-px bg-text/25" />
-          <p className="font-mono text-sm uppercase tracking-[0.2em] text-text/40">
-            Lab News
-          </p>
-        </motion.div>
+        <TypewriterLabel text="Lab News" className="mb-14" />
 
         {/* Filter bar */}
         <motion.div

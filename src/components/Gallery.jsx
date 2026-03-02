@@ -2,6 +2,7 @@ import { useState, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { labMoments, galleryByYear } from '../data/gallery'
 import ParallaxImage from './ParallaxImage'
+import TypewriterLabel from './TypewriterLabel'
 
 // Flatten all photos for lightbox navigation
 const allPhotos = galleryByYear.flatMap((g) => g.photos)
@@ -277,18 +278,7 @@ export default function Gallery() {
   return (
     <section id="gallery" className="py-16 bg-bg">
       <div className="max-w-5xl mx-auto px-6 mb-8">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-50px' }}
-          transition={{ duration: 0.6 }}
-          className="flex items-center gap-4"
-        >
-          <div className="w-8 h-px bg-text/25" />
-          <p className="font-mono text-sm uppercase tracking-[0.2em] text-text/40">
-            Gallery
-          </p>
-        </motion.div>
+        <TypewriterLabel text="Gallery" />
       </div>
 
       {/* Lab Moments (group photos) */}

@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { projects, projectsIntro } from '../data/projects'
 import ParallaxImage from './ParallaxImage'
+import TypewriterLabel from './TypewriterLabel'
 
 function ResourcePill({ href, children }) {
   return (
@@ -149,18 +150,7 @@ export default function Projects() {
     <section id="projects" className="py-24 bg-bg-soft px-6">
       <div className="max-w-5xl mx-auto">
         {/* Section label */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-100px' }}
-          transition={{ duration: 0.6 }}
-          className="flex items-center gap-4 mb-14"
-        >
-          <div className="w-8 h-px bg-text/25" />
-          <p className="font-mono text-sm uppercase tracking-[0.2em] text-text/40">
-            Projects
-          </p>
-        </motion.div>
+        <TypewriterLabel text="Projects" className="mb-14" />
 
         {/* Intro — pull quote + body */}
         <motion.div

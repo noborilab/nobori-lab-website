@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import TypewriterLabel from './TypewriterLabel'
 
 const links = [
   { label: 'TSL Group Page', href: 'https://www.tsl.ac.uk/our-work/scientific-groups/tatsuya-nobori-group' },
@@ -13,18 +14,7 @@ export default function Contact() {
     <section id="contact" className="py-24 bg-bg px-6">
       <div className="max-w-5xl mx-auto">
         {/* Section label */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-100px' }}
-          transition={{ duration: 0.6 }}
-          className="flex items-center gap-4 mb-14"
-        >
-          <div className="w-8 h-px bg-text/25" />
-          <p className="font-mono text-sm uppercase tracking-[0.2em] text-text/40">
-            Contact
-          </p>
-        </motion.div>
+        <TypewriterLabel text="Contact" className="mb-14" />
 
         <div className="grid md:grid-cols-2 gap-14">
           {/* Left — contact info */}

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import TypewriterLabel from './TypewriterLabel'
 import {
   experience,
   editorial,
@@ -90,18 +91,7 @@ export default function CV() {
     <section id="cv" className="py-24 bg-bg px-6">
       <div className="max-w-5xl mx-auto">
         {/* Section label */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-100px' }}
-          transition={{ duration: 0.6 }}
-          className="flex items-center gap-4 mb-14"
-        >
-          <div className="w-8 h-px bg-text/25" />
-          <p className="font-mono text-sm uppercase tracking-[0.2em] text-text/40">
-            Tatsuya Nobori
-          </p>
-        </motion.div>
+        <TypewriterLabel text="Tatsuya Nobori" className="mb-14" />
 
         <div className="flex flex-col md:flex-row gap-12 md:gap-16">
           {/* Left — photo + identity */}

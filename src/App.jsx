@@ -12,10 +12,12 @@ import Contact from './components/Contact'
 import Funders from './components/Funders'
 import Footer from './components/Footer'
 import EasterEgg from './components/EasterEgg'
+import LoadingScreen from './components/LoadingScreen'
 
 export default function App() {
   return (
     <>
+      <LoadingScreen />
       <EasterEgg />
       <ScrollProgress />
       <Navbar />
