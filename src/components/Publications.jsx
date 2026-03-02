@@ -177,7 +177,7 @@ function SelectedCard({ pub, index }) {
               </span>
             </button>
             {/* Desktop square */}
-            <div className="shrink-0 relative m-4 rounded-lg overflow-hidden hidden md:block" style={{ width: 160, height: 160, minHeight: 160 }}>
+            <div className="shrink-0 relative m-4 rounded-lg overflow-hidden hidden md:block" style={{ width: 160, height: 160, minHeight: 160, maxHeight: 160, alignSelf: 'flex-start' }}>
               <img
                 src={imgSrc}
                 alt={pub.title}
