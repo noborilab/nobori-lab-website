@@ -33,7 +33,7 @@ export const selected = [
     link: 'https://www.cell.com/cell-host-microbe/fulltext/S1931-3128(25)00245-8',
     pdf: 'https://drive.google.com/file/d/1eSKSpw8RDWJdfwSAyr9hZIxlRRRZRddu/view',
     highlights: [],
-    threadUrl: '',
+    threadUrl: 'https://x.com/nobolly/status/1955648186585915878?s=20',
   },
   {
     id: 's2',
