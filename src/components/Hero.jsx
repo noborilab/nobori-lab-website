@@ -70,38 +70,22 @@ export default function Hero() {
         <span className="hidden sm:inline">The Sainsbury Laboratory &middot; Norwich, UK</span>
       </motion.p>
 
-      {/* Buttons */}
-      <motion.div
-        initial={{ opacity: 0, y: 15 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.8 }}
-        style={parallax ? { opacity: contentOpacity, willChange: 'opacity' } : undefined}
-        className="mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto"
-      >
-        <a
-          href="#projects"
-          className="px-6 py-3 border border-border text-text/50 font-mono text-sm uppercase tracking-widest rounded-lg hover:bg-navy/5 hover:border-navy/30 hover:text-navy transition-all text-center"
-        >
-          Explore Projects
-        </a>
-        <a
-          href="#publications"
-          className="px-6 py-3 border border-border text-text/50 font-mono text-sm uppercase tracking-widest rounded-lg hover:bg-navy/5 hover:border-navy/30 hover:text-navy transition-all text-center"
-        >
-          Publications
-        </a>
-      </motion.div>
-
       {/* Group leader link */}
       <motion.a
         href="#cv"
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 1.0 }}
+        transition={{ duration: 0.8, delay: 0.8 }}
         style={parallax ? { opacity: contentOpacity, willChange: 'opacity' } : undefined}
-        className="mt-5 font-body text-[16px] text-navy hover:underline transition-all"
+        className="group/pi mt-10 inline-flex items-center gap-1.5 font-display text-[18px] italic text-navy no-underline transition-colors relative"
       >
-        Tatsuya Nobori, Group Leader &rarr;
+        <span className="relative">
+          Tatsuya Nobori, Group Leader
+          <span className="absolute left-0 -bottom-0.5 h-px bg-navy w-0 group-hover/pi:w-full transition-all duration-300 ease-out" />
+        </span>
+        <span className="inline-block text-[14px] transition-transform duration-300 ease-out group-hover/pi:translate-x-1">
+          &rarr;
+        </span>
       </motion.a>
 
       {/* Scroll indicator — desktop only */}
