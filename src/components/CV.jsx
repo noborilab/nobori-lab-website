@@ -161,7 +161,7 @@ export default function CV() {
                     </span>
                     <div>
                       <p className="text-[18px] text-text/70">
-                        <span className="font-medium text-navy">
+                        <span className="font-medium">
                           {item.institution}
                         </span>
                         {' \u2014 '}
