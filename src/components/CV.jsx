@@ -201,10 +201,10 @@ export default function CV() {
                         href={item.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 hover:text-navy hover:translate-x-[3px] transition-all duration-200"
+                        className="flex items-start gap-2 md:inline-flex md:items-center md:gap-1 hover:text-navy hover:translate-x-[3px] transition-all duration-200"
                       >
-                        {item.text}
-                        <svg className="w-3 h-3 md:w-3.5 md:h-3.5 text-sage/50 group-hover:text-sage shrink-0" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3.5 8.5L8.5 3.5M8.5 3.5H4.5M8.5 3.5V7.5"/></svg>
+                        <span className="flex-1 md:flex-none">{item.text}</span>
+                        <svg className="w-3 h-3 md:w-3.5 md:h-3.5 text-sage/50 group-hover:text-sage shrink-0 mt-1.5 md:mt-0" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3.5 8.5L8.5 3.5M8.5 3.5H4.5M8.5 3.5V7.5"/></svg>
                       </a>
                     ) : (
                       item.text
