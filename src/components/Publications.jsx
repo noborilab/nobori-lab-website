@@ -146,107 +146,116 @@ function SelectedCard({ pub, index }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
       transition={{ duration: 0.5, delay: index * 0.08 }}
-      className="bg-bg rounded-xl border border-border overflow-hidden flex flex-col md:flex-row"
+      className="bg-bg rounded-xl border border-border overflow-hidden"
     >
-      {/* Thumbnail — image or colored placeholder */}
-      <div className="md:w-[180px] shrink-0 relative">
-        {pub.figure ? (
-          <>
-            <img
-              src={import.meta.env.BASE_URL + pub.figure.replace(/^\//, '')}
-              alt={pub.title}
-              className="w-full h-full object-cover"
-            />
-            {pub.figureCredit && (
-              <p className="absolute bottom-1 right-2 text-[11px] text-white/60 italic">
-                {pub.figureCredit}
-              </p>
-            )}
-          </>
-        ) : (
-          <div
-            className="w-full h-full min-h-[120px] flex items-center justify-center px-4"
-            style={{ background: `${journalColors[pub.journal] || '#666'}12` }}
-          >
-            <span
-              className="font-display text-[16px] italic text-center leading-snug"
-              style={{ color: journalColors[pub.journal] || '#666' }}
-            >
-              {pub.journal}
-            </span>
-          </div>
-        )}
-      </div>
-
-      <div className="p-5 flex-1">
-        <div className="flex items-center gap-2 mb-2">
-          <JournalName journal={pub.journal} journalNote={pub.journalNote} />
-          <span className="font-mono text-[14px] text-text/30">{pub.year}</span>
-        </div>
-
-        <h3 className="font-display text-[24px] font-semibold text-navy leading-snug">
-          {pub.title}
-        </h3>
-
-        <p className="mt-1.5 text-[16px] text-text/45">{pub.authors}</p>
-
-        {/* Link chips */}
-        <div className="mt-3 flex flex-wrap gap-2">
-          <LinkChip href={pub.link}>Link</LinkChip>
-          <LinkChip href={pub.pdf}>PDF</LinkChip>
-          {pub.biorxiv && <LinkChip href={pub.biorxiv}>bioRxiv</LinkChip>}
-        </div>
-
-        {/* Highlights / media */}
-        {pub.highlights && pub.highlights.length > 0 && (
-          <div className="mt-3 pl-3 border-l-2 border-border space-y-1">
-            {pub.highlights.map((h, i) =>
-              h.href ? (
-                <a
-                  key={i}
-                  href={h.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block text-[15px] text-text/40 hover:text-navy transition-colors"
-                >
-                  {h.text}
-                </a>
-              ) : (
-                <p key={i} className="text-[15px] text-text/40">
-                  {h.text}
+      {/* Top row: image + info side by side */}
+      <div className="flex flex-col md:flex-row md:items-start">
+        {/* Thumbnail — image or colored placeholder */}
+        <div className="md:w-[180px] shrink-0 relative">
+          {pub.figure ? (
+            <>
+              <img
+                src={import.meta.env.BASE_URL + pub.figure.replace(/^\//, '')}
+                alt={pub.title}
+                className="w-full object-cover"
+              />
+              {pub.figureCredit && (
+                <p className="absolute bottom-1 right-2 text-[11px] text-white/60 italic">
+                  {pub.figureCredit}
                 </p>
-              ),
-            )}
-          </div>
-        )}
-
-        {/* Tweet thread toggle */}
-        {pub.threadUrl && (
-          <div className="mt-4">
-            <button
-              onClick={() => setShowThread(!showThread)}
-              className="font-mono text-[13px] uppercase tracking-[0.1em] text-text/35 hover:text-navy transition-colors"
-            >
-              {showThread ? 'Hide thread \u25B4' : 'View thread \u25BE'}
-            </button>
-            <AnimatePresence>
-              {showThread && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: 'auto' }}
-                  exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.3 }}
-                  className="overflow-hidden"
-                >
-                  <div className="mt-3 border border-border rounded-lg p-4 max-w-[550px]">
-                    <TweetEmbed url={pub.threadUrl} />
-                  </div>
-                </motion.div>
               )}
-            </AnimatePresence>
+            </>
+          ) : (
+            <div
+              className="w-full min-h-[120px] flex items-center justify-center px-4"
+              style={{ background: `${journalColors[pub.journal] || '#666'}12` }}
+            >
+              <span
+                className="font-display text-[16px] italic text-center leading-snug"
+                style={{ color: journalColors[pub.journal] || '#666' }}
+              >
+                {pub.journal}
+              </span>
+            </div>
+          )}
+        </div>
+
+        <div className="p-5 flex-1">
+          <div className="flex items-center gap-2 mb-2">
+            <JournalName journal={pub.journal} journalNote={pub.journalNote} />
+            <span className="font-mono text-[14px] text-text/30">{pub.year}</span>
           </div>
-        )}
+
+          <h3 className="font-display text-[24px] font-semibold text-navy leading-snug">
+            {pub.title}
+          </h3>
+
+          <p className="mt-1.5 text-[16px] text-text/45">{pub.authors}</p>
+
+          {/* Link chips */}
+          <div className="mt-3 flex flex-wrap gap-2">
+            <LinkChip href={pub.link}>Link</LinkChip>
+            <LinkChip href={pub.pdf}>PDF</LinkChip>
+            {pub.biorxiv && <LinkChip href={pub.biorxiv}>bioRxiv</LinkChip>}
+          </div>
+
+          {/* Highlights / media */}
+          {pub.highlights && pub.highlights.length > 0 && (
+            <div className="mt-3 pl-3 border-l-2 border-border space-y-1">
+              {pub.highlights.map((h, i) =>
+                h.href ? (
+                  <a
+                    key={i}
+                    href={h.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block text-[15px] text-text/40 hover:text-navy transition-colors"
+                  >
+                    {h.text}
+                  </a>
+                ) : (
+                  <p key={i} className="text-[15px] text-text/40">
+                    {h.text}
+                  </p>
+                ),
+              )}
+            </div>
+          )}
+
+          {/* Tweet thread toggle button */}
+          {pub.threadUrl && (
+            <div className="mt-4">
+              <button
+                onClick={() => setShowThread(!showThread)}
+                className="font-mono text-[13px] uppercase tracking-[0.1em] text-text/35 hover:text-navy transition-colors"
+              >
+                {showThread ? 'Hide thread \u25B4' : 'View thread \u25BE'}
+              </button>
+            </div>
+          )}
+        </div>
       </div>
+
+      {/* Tweet embed — full width below both image and info */}
+      {pub.threadUrl && (
+        <AnimatePresence>
+          {showThread && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3 }}
+              className="overflow-hidden"
+            >
+              <div className="border-t border-border px-5 py-4 flex justify-center">
+                <div className="max-w-[550px] w-full">
+                  <TweetEmbed url={pub.threadUrl} />
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      )}
     </motion.div>
   )
 }
