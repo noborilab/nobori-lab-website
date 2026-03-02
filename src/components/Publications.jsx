@@ -167,11 +167,11 @@ function SelectedCard({ pub, index }) {
               )}
             </div>
             {/* Desktop square */}
-            <div className="shrink-0 w-[160px] h-[160px] relative m-4 rounded-lg overflow-hidden hidden md:block">
+            <div className="shrink-0 relative m-4 rounded-lg overflow-hidden hidden md:block" style={{ width: 160, height: 160, minHeight: 160 }}>
               <img
                 src={import.meta.env.BASE_URL + pub.figure.replace(/^\//, '')}
                 alt={pub.title}
-                className="w-full h-full object-cover"
+                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
               />
               {pub.figureCredit && (
                 <p className="absolute bottom-1 right-2 text-[11px] text-white/60 italic">
