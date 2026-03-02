@@ -21,21 +21,6 @@ export const projects = [
     video: null,
   },
   {
-    id: 'phytomap',
-    title: 'PHYTOMap',
-    description:
-      'PHYTOMap (Plant HYbridization-based Targeted Observation of gene expression Map) spatially maps expression of dozens of genes at single-molecule resolution in 3D whole-mount plant tissues. No tissue sectioning required \u2014 works in a standard molecular biology lab at low cost and can be applied to many species including non-model species.',
-    publication: {
-      text: 'Nobori, T.*, Oliva, M., Lister, R. and Ecker, J.R.* (2023) Nature Plants',
-      href: 'https://www.nature.com/articles/s41477-023-01439-4',
-    },
-    resources: [
-      { label: 'Protocol', href: 'https://www.protocols.io/view/phytomap-in-arabidopsis-root-tips-rm7vzbp4xvx1/v1' },
-    ],
-    image: null,
-    video: '/images/projects/phytomap.mp4',
-  },
-  {
     id: 'cell-atlas',
     title: 'Plant Cell Atlas',
     description:
@@ -49,6 +34,21 @@ export const projects = [
     ],
     image: '/images/projects/atlas_arabidopsis.jpeg',
     video: null,
+  },
+  {
+    id: 'phytomap',
+    title: 'PHYTOMap',
+    description:
+      'PHYTOMap (Plant HYbridization-based Targeted Observation of gene expression Map) spatially maps expression of dozens of genes at single-molecule resolution in 3D whole-mount plant tissues. No tissue sectioning required \u2014 works in a standard molecular biology lab at low cost and can be applied to many species including non-model species.',
+    publication: {
+      text: 'Nobori, T.*, Oliva, M., Lister, R. and Ecker, J.R.* (2023) Nature Plants',
+      href: 'https://www.nature.com/articles/s41477-023-01439-4',
+    },
+    resources: [
+      { label: 'Protocol', href: 'https://www.protocols.io/view/phytomap-in-arabidopsis-root-tips-rm7vzbp4xvx1/v1' },
+    ],
+    image: null,
+    video: '/images/projects/phytomap.mp4',
   },
   {
     id: 'bacterial-omics',
