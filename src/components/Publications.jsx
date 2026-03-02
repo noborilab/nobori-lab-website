@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from 'react'
+import { useState, useRef, useCallback, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   selected,
@@ -67,30 +67,71 @@ function JournalName({ journal, journalNote }) {
 
 function TweetEmbed({ url }) {
   const containerRef = useRef(null)
-  const [loaded, setLoaded] = useState(false)
+  const [status, setStatus] = useState('loading') // loading | loaded | failed
 
-  const renderTweet = useCallback(async () => {
-    if (!containerRef.current || loaded) return
-    await loadTwitterWidgets()
-    if (window.twttr && containerRef.current) {
-      containerRef.current.innerHTML = ''
-      window.twttr.widgets.createTweet(
-        url.split('/').pop(),
-        containerRef.current,
-        { conversation: 'none', width: 550 },
-      ).then(() => setLoaded(true))
+  useEffect(() => {
+    let cancelled = false
+    const el = containerRef.current
+    if (!el) return
+
+    const timeout = setTimeout(() => {
+      if (!cancelled) setStatus('failed')
+    }, 8000)
+
+    loadTwitterWidgets()
+      .then(() => {
+        if (cancelled || !window.twttr || !containerRef.current) return
+        const tweetId = url.split('/').pop().split('?')[0]
+        return window.twttr.widgets.createTweet(tweetId, containerRef.current, {
+          conversation: 'none',
+          width: 550,
+        })
+      })
+      .then((embedEl) => {
+        if (cancelled) return
+        clearTimeout(timeout)
+        setStatus(embedEl ? 'loaded' : 'failed')
+      })
+      .catch(() => {
+        if (!cancelled) {
+          clearTimeout(timeout)
+          setStatus('failed')
+        }
+      })
+
+    return () => {
+      cancelled = true
+      clearTimeout(timeout)
     }
-  }, [url, loaded])
-
-  useState(() => { renderTweet() })
+  }, [url])
 
   return (
-    <div
-      ref={containerRef}
-      className="max-w-[550px]"
-    >
-      {!loaded && (
-        <p className="text-[14px] text-text/30 py-4">Loading thread...</p>
+    <div className="max-w-[550px]">
+      {status === 'loading' && (
+        <div className="flex items-center gap-3 py-6">
+          <div
+            className="w-5 h-5 border-2 border-text/15 border-t-navy/50 rounded-full"
+            style={{ animation: 'spin 0.8s linear infinite' }}
+          />
+          <span className="text-[14px] text-text/30">Loading tweet...</span>
+          <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+        </div>
+      )}
+      <div ref={containerRef} style={{ display: status === 'loaded' ? 'block' : 'none' }} />
+      {status === 'failed' && (
+        <div className="py-4">
+          <p className="text-[14px] text-text/35">
+            Could not load tweet.{' '}
+            <a
+              href={url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-navy hover:underline"
+            >
+              View on X &rarr;
+            </a>
+          </p>
+        </div>
       )}
     </div>
   )
