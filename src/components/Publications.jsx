@@ -197,6 +197,8 @@ function SelectedCard({ pub, index }) {
             <LinkChip href={pub.link}>Link</LinkChip>
             <LinkChip href={pub.pdf}>PDF</LinkChip>
             {pub.biorxiv && <LinkChip href={pub.biorxiv}>bioRxiv</LinkChip>}
+            {/* Desktop: Thread pill link */}
+            {pub.threadUrl && <LinkChip href={pub.threadUrl}><span className="hidden md:inline">Thread</span></LinkChip>}
           </div>
 
           {/* Highlights / media */}
@@ -222,9 +224,9 @@ function SelectedCard({ pub, index }) {
             </div>
           )}
 
-          {/* Tweet thread toggle button */}
+          {/* Mobile: Tweet thread toggle button */}
           {pub.threadUrl && (
-            <div className="mt-4">
+            <div className="mt-4 md:hidden">
               <button
                 onClick={() => setShowThread(!showThread)}
                 className={`font-mono uppercase tracking-[0.1em] hover:text-navy transition-colors ${showThread ? 'text-[12px] text-text/25' : 'text-[13px] text-text/35'}`}
@@ -236,7 +238,7 @@ function SelectedCard({ pub, index }) {
         </div>
       </div>
 
-      {/* Tweet embed — full width below both image and info */}
+      {/* Mobile: Tweet embed — full width below both image and info */}
       {pub.threadUrl && (
         <AnimatePresence>
           {showThread && (
@@ -245,7 +247,7 @@ function SelectedCard({ pub, index }) {
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.35, ease: 'easeInOut' }}
-              className="overflow-hidden"
+              className="overflow-hidden md:hidden"
             >
               <div className="border-t border-border px-5 pt-4 pb-5 flex justify-center">
                 <div className="max-w-[550px] w-full rounded-xl p-6" style={{ backgroundColor: '#F8F8F4' }}>
