@@ -163,37 +163,6 @@ function SelectedCard({ pub, index }) {
       >
         {imgSrc ? (
           <>
-            {/* Mobile — 80x80 */}
-            <div
-              onClick={() => setLightbox(true)}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => e.key === 'Enter' && setLightbox(true)}
-              aria-label={`View ${pub.title} figure`}
-              className="md:hidden"
-              style={{
-                width: 80, height: 80, minWidth: 80, minHeight: 80,
-                borderRadius: 6, overflow: 'hidden', flexShrink: 0,
-                position: 'relative', cursor: 'pointer',
-                marginTop: 20, marginLeft: 20,
-              }}
-            >
-              <img
-                src={imgSrc}
-                alt=""
-                style={{
-                  position: 'absolute', top: 0, left: 0,
-                  width: '80px', height: '80px',
-                  objectFit: 'cover', maxWidth: 'none', maxHeight: 'none',
-                  display: 'block',
-                }}
-              />
-              <span style={{ position: 'absolute', bottom: '4px', right: '4px', width: '16px', height: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%', backgroundColor: 'rgba(255,255,255,0.8)' }}>
-                <svg style={{ width: '10px', height: '10px', color: 'rgba(0,0,0,0.4)' }} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                  <circle cx="11" cy="11" r="7" /><path d="M21 21l-4.35-4.35" strokeLinecap="round" />
-                </svg>
-              </span>
-            </div>
             {/* Desktop — 140px wide, stretches to match text height */}
             <div
               className="hidden md:block"
@@ -255,7 +224,7 @@ function SelectedCard({ pub, index }) {
           <p className="mt-1.5 text-[16px] text-text/45">{pub.authors}</p>
 
           {/* Link chips */}
-          <div className="mt-3 flex flex-wrap gap-2">
+          <div className="mt-3 flex flex-wrap items-center gap-2">
             <LinkChip href={pub.link}>Link</LinkChip>
             <LinkChip href={pub.pdf}>PDF</LinkChip>
             {pub.biorxiv && <LinkChip href={pub.biorxiv}>bioRxiv</LinkChip>}
@@ -264,6 +233,34 @@ function SelectedCard({ pub, index }) {
               <span className="hidden md:inline">
                 <LinkChip href={pub.threadUrl}>Thread</LinkChip>
               </span>
+            )}
+            {/* Mobile only: 40x40 figure thumbnail inline with pills */}
+            {imgSrc && (
+              <div
+                onClick={() => setLightbox(true)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => e.key === 'Enter' && setLightbox(true)}
+                aria-label={`View ${pub.title} figure`}
+                className="md:hidden"
+                style={{
+                  width: 40, height: 40, minWidth: 40, minHeight: 40,
+                  borderRadius: 6, overflow: 'hidden', flexShrink: 0,
+                  position: 'relative', cursor: 'pointer',
+                  border: '1px solid #E4E2DC',
+                }}
+              >
+                <img
+                  src={imgSrc}
+                  alt=""
+                  style={{
+                    position: 'absolute', top: 0, left: 0,
+                    width: '40px', height: '40px',
+                    objectFit: 'cover', maxWidth: 'none', maxHeight: 'none',
+                    display: 'block',
+                  }}
+                />
+              </div>
             )}
           </div>
 
