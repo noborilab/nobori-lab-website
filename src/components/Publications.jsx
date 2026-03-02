@@ -137,6 +137,25 @@ function TweetEmbed({ url }) {
   )
 }
 
+function ExpandIcon({ alwaysVisible }) {
+  return (
+    <span
+      className={alwaysVisible ? '' : 'opacity-0 group-hover:opacity-100'}
+      style={{
+        position: 'absolute', bottom: 6, right: 6,
+        width: 20, height: 20, borderRadius: '50%',
+        backgroundColor: 'rgba(0,0,0,0.4)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        transition: 'opacity 0.2s ease',
+      }}
+    >
+      <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M10 2h4v4M6 14H2v-4M14 2L9.5 6.5M2 14l4.5-4.5" />
+      </svg>
+    </span>
+  )
+}
+
 function FigureLightbox({ imgSrc, alt, onClose }) {
   useEffect(() => {
     const handleKey = (e) => { if (e.key === 'Escape') onClose() }
@@ -181,13 +200,7 @@ function SelectedCard({ pub, index }) {
     : null
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '200px' }}
-      transition={{ duration: 0.5, delay: index * 0.08 }}
-      className="bg-bg rounded-xl border border-border overflow-hidden"
-    >
+    <div className="bg-bg rounded-xl border border-border overflow-hidden">
       {/* Top row: image + info side by side */}
       <div
         style={{
@@ -205,7 +218,7 @@ function SelectedCard({ pub, index }) {
               tabIndex={0}
               onKeyDown={(e) => e.key === 'Enter' && setLightbox(true)}
               aria-label={`View ${pub.title} figure`}
-              className="hidden md:block"
+              className="group hidden md:block"
               style={{
                 width: 140, minWidth: 140, minHeight: 140,
                 borderRadius: 8, overflow: 'hidden', flexShrink: 0,
@@ -225,8 +238,9 @@ function SelectedCard({ pub, index }) {
                   display: 'block',
                 }}
               />
+              <ExpandIcon />
               {pub.figureCredit && (
-                <p style={{ position: 'absolute', bottom: '4px', right: '8px', fontSize: '11px', color: 'rgba(255,255,255,0.6)', fontStyle: 'italic', margin: 0 }}>
+                <p style={{ position: 'absolute', bottom: '28px', right: '8px', fontSize: '11px', color: 'rgba(255,255,255,0.6)', fontStyle: 'italic', margin: 0 }}>
                   {pub.figureCredit}
                 </p>
               )}
@@ -303,6 +317,7 @@ function SelectedCard({ pub, index }) {
                     display: 'block',
                   }}
                 />
+                <ExpandIcon alwaysVisible />
               </div>
             )}
           </div>
@@ -372,17 +387,13 @@ function SelectedCard({ pub, index }) {
           <FigureLightbox imgSrc={imgSrc} alt={pub.title} onClose={() => setLightbox(false)} />
         )}
       </AnimatePresence>
-    </motion.div>
+    </div>
   )
 }
 
 function CompactRow({ pub, index }) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 12 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '200px' }}
-      transition={{ duration: 0.35, delay: index * 0.04 }}
+    <div
       className="py-3.5 border-t border-border first:border-t-0"
     >
       <div className="flex flex-col md:flex-row md:items-baseline gap-1 md:gap-4">
@@ -410,13 +421,12 @@ function CompactRow({ pub, index }) {
           </a>
         )}
       </div>
-    </motion.div>
+    </div>
   )
 }
 
 export default function Publications() {
   const [activeTab, setActiveTab] = useState('selected')
-  const tabsRef = useRef(null)
 
   const dataMap = {
     selected,
@@ -426,14 +436,6 @@ export default function Publications() {
 
   const items = dataMap[activeTab]
 
-  const handleTabChange = (key) => {
-    setActiveTab(key)
-    // Scroll tabs into view so new content is visible
-    setTimeout(() => {
-      tabsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    }, 50)
-  }
-
   return (
     <section id="publications" className="py-24 bg-bg-soft px-6">
       <div className="max-w-5xl mx-auto">
@@ -442,18 +444,16 @@ export default function Publications() {
 
         {/* Tabs */}
         <motion.div
-          ref={tabsRef}
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.6, delay: 0.1 }}
           className="flex gap-5 mb-10"
-          style={{ scrollMarginTop: '80px' }}
         >
           {tabs.map((tab) => (
             <button
               key={tab.key}
-              onClick={() => handleTabChange(tab.key)}
+              onClick={() => setActiveTab(tab.key)}
               className={`font-mono text-[14px] uppercase tracking-[0.12em] pb-1 transition-all whitespace-nowrap ${
                 activeTab === tab.key
                   ? 'text-navy border-b-2 border-navy'
