@@ -32,7 +32,7 @@ function ProjectCard({ project, index }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="bg-bg rounded-xl border border-border overflow-hidden"
+      className="bg-bg rounded-xl border border-border overflow-hidden break-inside-avoid mb-6"
     >
       {/* Media */}
       {project.image && (
@@ -169,8 +169,8 @@ export default function Projects() {
           <div className="mt-8 mx-auto w-16 h-px bg-border" />
         </motion.div>
 
-        {/* Project cards — 2-column grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+        {/* Project cards — 2-column masonry */}
+        <div className="columns-1 md:columns-2 gap-6">
           {projects.map((project, i) => (
             <ProjectCard key={project.id} project={project} index={i} />
           ))}
