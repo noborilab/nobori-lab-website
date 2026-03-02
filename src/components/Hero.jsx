@@ -12,12 +12,12 @@ export default function Hero() {
     offset: ['start start', 'end start'],
   })
 
-  // Hero parallax: logo scales down + fades, tagline drifts up slower
-  const logoScale = useTransform(scrollYProgress, [0, 1], [1, 0.88])
-  const logoOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0])
-  const logoY = useTransform(scrollYProgress, [0, 1], [0, 60])
-  const taglineY = useTransform(scrollYProgress, [0, 1], [0, 30])
-  const contentOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
+  // Hero parallax: subtle depth, not a disappearing act
+  const logoScale = useTransform(scrollYProgress, [0, 1], [1, 0.94])
+  const logoOpacity = useTransform(scrollYProgress, [0.4, 0.9], [1, 0.1])
+  const logoY = useTransform(scrollYProgress, [0, 1], [0, 30])
+  const taglineY = useTransform(scrollYProgress, [0, 1], [0, 15])
+  const contentOpacity = useTransform(scrollYProgress, [0.5, 0.9], [1, 0.1])
 
   const parallax = !reduced
 
