@@ -139,6 +139,11 @@ function TweetEmbed({ url }) {
 
 function SelectedCard({ pub, index }) {
   const [showThread, setShowThread] = useState(false)
+  const [lightbox, setLightbox] = useState(false)
+
+  const imgSrc = pub.figure
+    ? import.meta.env.BASE_URL + pub.figure.replace(/^\//, '')
+    : null
 
   return (
     <motion.div
@@ -149,27 +154,32 @@ function SelectedCard({ pub, index }) {
       className="bg-bg rounded-xl border border-border overflow-hidden"
     >
       {/* Top row: image + info side by side */}
-      <div className="flex flex-col md:flex-row md:items-start">
-        {/* Thumbnail — mobile: full-width banner, desktop: square */}
-        {pub.figure ? (
+      <div className="flex flex-row items-start">
+        {/* Thumbnail — mobile: 80px square, desktop: 160px square */}
+        {imgSrc ? (
           <>
-            {/* Mobile banner */}
-            <div className="relative w-full max-h-[150px] overflow-hidden rounded-t-xl md:hidden">
+            {/* Mobile thumbnail */}
+            <button
+              onClick={() => setLightbox(true)}
+              className="shrink-0 relative mt-5 ml-5 rounded-md overflow-hidden md:hidden"
+              style={{ width: 80, height: 80, minWidth: 80 }}
+            >
               <img
-                src={import.meta.env.BASE_URL + pub.figure.replace(/^\//, '')}
+                src={imgSrc}
                 alt={pub.title}
-                className="w-full h-[150px] object-cover"
+                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
               />
-              {pub.figureCredit && (
-                <p className="absolute bottom-1 right-2 text-[11px] text-white/60 italic">
-                  {pub.figureCredit}
-                </p>
-              )}
-            </div>
+              {/* Magnifying glass hint */}
+              <span className="absolute bottom-1 right-1 w-4 h-4 flex items-center justify-center rounded-full bg-white/80 shadow-sm">
+                <svg className="w-2.5 h-2.5 text-text/50" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                  <circle cx="11" cy="11" r="7" /><path d="M21 21l-4.35-4.35" strokeLinecap="round" />
+                </svg>
+              </span>
+            </button>
             {/* Desktop square */}
             <div className="shrink-0 relative m-4 rounded-lg overflow-hidden hidden md:block" style={{ width: 160, height: 160, minHeight: 160 }}>
               <img
-                src={import.meta.env.BASE_URL + pub.figure.replace(/^\//, '')}
+                src={imgSrc}
                 alt={pub.title}
                 style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
               />
@@ -181,7 +191,7 @@ function SelectedCard({ pub, index }) {
             </div>
           </>
         ) : (
-          <div className="shrink-0 w-[160px] h-[160px] m-4 rounded-lg overflow-hidden hidden md:flex items-center justify-center px-4" style={{ background: `${journalColors[pub.journal] || '#666'}12` }}>
+          <div className="shrink-0 m-4 rounded-lg overflow-hidden hidden md:flex items-center justify-center px-4" style={{ width: 160, height: 160, background: `${journalColors[pub.journal] || '#666'}12` }}>
             <span
               className="font-display text-[16px] italic text-center leading-snug"
               style={{ color: journalColors[pub.journal] || '#666' }}
@@ -273,6 +283,35 @@ function SelectedCard({ pub, index }) {
           )}
         </AnimatePresence>
       )}
+
+      {/* Mobile lightbox */}
+      <AnimatePresence>
+        {lightbox && imgSrc && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+            onClick={() => setLightbox(false)}
+          >
+            <div className="absolute inset-0 bg-black/70" />
+            <button
+              onClick={() => setLightbox(false)}
+              className="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-white/15 flex items-center justify-center text-white/80"
+              aria-label="Close"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" d="M18 6L6 18M6 6l12 12" /></svg>
+            </button>
+            <img
+              src={imgSrc}
+              alt={pub.title}
+              className="relative z-10"
+              style={{ maxWidth: '90vw', maxHeight: '85vh', objectFit: 'contain', borderRadius: 8 }}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   )
 }
