@@ -46,7 +46,7 @@ export const selected = [
     link: 'https://nph.onlinelibrary.wiley.com/doi/10.1111/nph.70220',
     pdf: 'https://drive.google.com/file/d/1Q8uAc3R7F6HSxmTC_jsHR-zWMiZMC3KD/view',
     highlights: [],
-    threadUrl: '',
+    threadUrl: 'https://x.com/nobolly/status/1925442559016382879?s=20',
   },
   {
     id: 's3',
