@@ -63,13 +63,13 @@ export default function TypewriterLabel({ text, className = '', lineClassName = 
       <div
         className={`h-px bg-text/25 ${lineClassName}`}
         style={{
-          width: `${lineProgress * 32}px`,
+          width: `${lineProgress * 48}px`,
           transition: reduced ? 'none' : 'width 80ms ease-out',
         }}
       />
 
       {/* Text with cursor */}
-      <p className="font-mono text-sm uppercase tracking-[0.2em] text-text/40 whitespace-nowrap">
+      <p className="font-mono text-[15px] uppercase tracking-[0.2em] text-text/40 whitespace-nowrap">
         <span>{text.slice(0, visibleCount)}</span>
         {/* Invisible remaining text to reserve space */}
         <span style={{ visibility: 'hidden' }}>{text.slice(visibleCount)}</span>

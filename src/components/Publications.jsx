@@ -265,32 +265,27 @@ export default function Publications() {
         {/* Section label */}
         <TypewriterLabel text="Publications" className="mb-10" />
 
-        {/* Heading + tabs */}
+        {/* Tabs */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10"
+          className="flex gap-5 mb-10"
         >
-          <h2 className="font-display text-[45px] md:text-[58px] font-semibold text-navy">
-            Publications
-          </h2>
-          <div className="flex gap-5">
-            {tabs.map((tab) => (
-              <button
-                key={tab.key}
-                onClick={() => setActiveTab(tab.key)}
-                className={`font-mono text-[14px] uppercase tracking-[0.12em] pb-1 transition-all whitespace-nowrap ${
-                  activeTab === tab.key
-                    ? 'text-navy border-b-2 border-navy'
-                    : 'text-text/30 hover:text-text/55'
-                }`}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div>
+          {tabs.map((tab) => (
+            <button
+              key={tab.key}
+              onClick={() => setActiveTab(tab.key)}
+              className={`font-mono text-[14px] uppercase tracking-[0.12em] pb-1 transition-all whitespace-nowrap ${
+                activeTab === tab.key
+                  ? 'text-navy border-b-2 border-navy'
+                  : 'text-text/30 hover:text-text/55'
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
         </motion.div>
 
         {/* Content */}

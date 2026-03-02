@@ -24,10 +24,6 @@ export default function Contact() {
             viewport={{ once: true, margin: '-50px' }}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
-            <h2 className="font-display text-4xl md:text-[45px] font-semibold text-navy mb-8">
-              Get in touch
-            </h2>
-
             <div className="space-y-5 text-[18px] text-text/60">
               <div>
                 <span className="font-mono text-[13px] uppercase tracking-[0.2em] text-text/35 block mb-1">
