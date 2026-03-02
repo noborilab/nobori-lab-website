@@ -7,7 +7,7 @@ import TypewriterLabel from './TypewriterLabel'
 // Flatten all photos for lightbox navigation
 const allPhotos = galleryByYear.flatMap((g) => g.photos)
 
-/* ── Lab Moments (group photos) ── */
+/* ── Group Photos (group photos) ── */
 
 function MomentItem({ moment, i, total, isDesktop }) {
   if (isDesktop) {
@@ -83,7 +83,7 @@ function LabMoments() {
         transition={{ duration: 0.5 }}
         className="font-display text-[28px] font-semibold text-navy mb-8"
       >
-        Lab Moments
+        Group Photos
       </motion.h3>
 
       {/* Desktop */}
@@ -281,7 +281,7 @@ export default function Gallery() {
         <TypewriterLabel text="Gallery" />
       </div>
 
-      {/* Lab Moments (group photos) */}
+      {/* Group Photos (group photos) */}
       <LabMoments />
 
       {/* Year-based photo grid */}
