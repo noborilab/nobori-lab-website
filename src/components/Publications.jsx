@@ -137,15 +137,15 @@ function TweetEmbed({ url }) {
   )
 }
 
-function ExpandIcon({ alwaysVisible }) {
+function ExpandIcon() {
   return (
     <span
-      className={alwaysVisible ? '' : 'opacity-0 group-hover:opacity-100'}
+      className="hidden md:flex opacity-0 group-hover:opacity-100"
       style={{
         position: 'absolute', bottom: 6, right: 6,
         width: 20, height: 20, borderRadius: '50%',
         backgroundColor: 'rgba(0,0,0,0.4)',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        alignItems: 'center', justifyContent: 'center',
         transition: 'opacity 0.2s ease',
       }}
     >
@@ -317,7 +317,6 @@ function SelectedCard({ pub, index }) {
                     display: 'block',
                   }}
                 />
-                <ExpandIcon alwaysVisible />
               </div>
             )}
           </div>
