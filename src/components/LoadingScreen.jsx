@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 
-const TOTAL_DURATION = 3200 // ms before slide-up begins
-const SLIDE_DURATION = 600
+const TOTAL_DURATION = 3200 // ms before exit begins
+const EXIT_DURATION = 800
 
 export default function LoadingScreen() {
   const [phase, setPhase] = useState(() => {
@@ -28,7 +28,7 @@ export default function LoadingScreen() {
         setPhase('done')
         sessionStorage.setItem('nobori-loaded', '1')
         document.body.style.overflow = ''
-      }, TOTAL_DURATION + SLIDE_DURATION),
+      }, TOTAL_DURATION + EXIT_DURATION),
     )
 
     return () => {
@@ -59,9 +59,9 @@ export default function LoadingScreen() {
           from { width: 0%; }
           to { width: 100%; }
         }
-        @keyframes ls-exit {
-          from { transform: translateY(0); }
-          to { transform: translateY(-100%); }
+        @keyframes ls-fade-out {
+          from { opacity: 1; }
+          to { opacity: 0; }
         }
       `}</style>
       <div
@@ -76,7 +76,7 @@ export default function LoadingScreen() {
           backgroundColor: '#FAFAF6',
           animation:
             phase === 'exit'
-              ? `ls-exit ${SLIDE_DURATION}ms ease-in-out forwards`
+              ? `ls-fade-out ${EXIT_DURATION}ms ease-out forwards`
               : undefined,
         }}
       >
