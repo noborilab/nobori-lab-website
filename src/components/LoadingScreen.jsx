@@ -1,18 +1,17 @@
 import { useState, useEffect } from 'react'
 
-const TOTAL_DURATION = 2400 // ms before slide-up begins
+const TOTAL_DURATION = 3200 // ms before slide-up begins
 const SLIDE_DURATION = 600
 
 export default function LoadingScreen() {
   const [phase, setPhase] = useState(() => {
     if (sessionStorage.getItem('nobori-loaded')) return 'done'
-    return 'logo' // logo → text → bar → exit → done
+    return 'loading'
   })
 
   useEffect(() => {
     if (phase === 'done') return
 
-    // Check reduced motion
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (reduced) {
       sessionStorage.setItem('nobori-loaded', '1')
@@ -20,13 +19,10 @@ export default function LoadingScreen() {
       return
     }
 
-    // Prevent scroll during loading
     document.body.style.overflow = 'hidden'
 
     const timers = []
-    // After total duration, begin exit
     timers.push(setTimeout(() => setPhase('exit'), TOTAL_DURATION))
-    // After exit animation, remove
     timers.push(
       setTimeout(() => {
         setPhase('done')
@@ -46,9 +42,14 @@ export default function LoadingScreen() {
   return (
     <>
       <style>{`
-        @keyframes ls-logo {
-          from { opacity: 0; transform: scale(0.95); }
-          to { opacity: 1; transform: scale(1); }
+        @keyframes ls-iris {
+          0% { clip-path: circle(0% at 50% 50%); }
+          100% { clip-path: circle(75% at 50% 50%); }
+        }
+        @keyframes ls-color {
+          0% { filter: grayscale(1) opacity(0.3); }
+          60% { filter: grayscale(1) opacity(0.6); }
+          100% { filter: grayscale(0) opacity(1); }
         }
         @keyframes ls-text {
           from { opacity: 0; transform: translateY(6px); }
@@ -79,27 +80,33 @@ export default function LoadingScreen() {
               : undefined,
         }}
       >
-        {/* Logo */}
-        <img
-          src={import.meta.env.BASE_URL + 'images/lab-logo.png'}
-          alt=""
+        {/* Logo — iris reveal + color fade */}
+        <div
           style={{
-            width: 'min(340px, 60vw)',
-            height: 'auto',
-            animation: 'ls-logo 0.8s ease-out both',
+            width: 'min(250px, 55vw)',
+            animation: 'ls-iris 1.2s ease-out both, ls-color 2.0s ease-out both',
           }}
-        />
+        >
+          <img
+            src={import.meta.env.BASE_URL + 'images/lab-logo.png'}
+            alt=""
+            style={{
+              width: '100%',
+              height: 'auto',
+              display: 'block',
+            }}
+          />
+        </div>
 
         {/* Tagline */}
         <p
           style={{
-            fontFamily: '"Josefin Sans", sans-serif',
-            fontSize: '14px',
-            letterSpacing: '0.25em',
-            textTransform: 'uppercase',
+            fontFamily: '"Cormorant Garamond", serif',
+            fontStyle: 'italic',
+            fontSize: '16px',
             color: 'rgba(28, 30, 34, 0.35)',
-            marginTop: '16px',
-            animation: 'ls-text 0.5s ease-out 0.5s both',
+            marginTop: '20px',
+            animation: 'ls-text 0.6s ease-out 1.8s both',
           }}
         >
           Plant-Microbe Interactions
