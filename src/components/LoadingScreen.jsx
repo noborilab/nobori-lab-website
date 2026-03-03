@@ -90,7 +90,7 @@ export default function LoadingScreen() {
           }}
         />
 
-        {/* Institution + research line */}
+        {/* Tagline */}
         <p
           style={{
             fontFamily: '"Josefin Sans", sans-serif',
@@ -100,18 +100,6 @@ export default function LoadingScreen() {
             color: 'rgba(28, 30, 34, 0.35)',
             marginTop: '16px',
             animation: 'ls-text 0.5s ease-out 0.5s both',
-          }}
-        >
-          The Sainsbury Laboratory
-        </p>
-        <p
-          style={{
-            fontFamily: '"Cormorant Garamond", serif',
-            fontStyle: 'italic',
-            fontSize: '13px',
-            color: 'rgba(28, 30, 34, 0.25)',
-            marginTop: '6px',
-            animation: 'ls-text 0.5s ease-out 0.8s both',
           }}
         >
           Plant-Microbe Interactions
