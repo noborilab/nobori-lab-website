@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { useReducedMotion } from '../hooks/useReducedMotion'
 import labLogo from '/images/lab-logo.gif'
@@ -6,6 +6,19 @@ import labLogo from '/images/lab-logo.gif'
 export default function Hero() {
   const sectionRef = useRef(null)
   const reduced = useReducedMotion()
+  const alreadyLoaded = !!sessionStorage.getItem('nobori-loaded')
+  const [logoReady, setLogoReady] = useState(alreadyLoaded)
+
+  useEffect(() => {
+    if (logoReady) return
+    const handler = () => setLogoReady(true)
+    window.addEventListener('hero-logo-ready', handler)
+    // Fallback: check if loading already completed (reduced motion / race)
+    if (sessionStorage.getItem('nobori-loaded')) {
+      setLogoReady(true)
+    }
+    return () => window.removeEventListener('hero-logo-ready', handler)
+  }, [logoReady])
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -27,25 +40,34 @@ export default function Hero() {
       id="hero"
       className="relative min-h-screen flex flex-col items-center justify-center bg-bg px-6"
     >
-      {/* Logo with radial glow */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.92 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1.2, ease: 'easeOut' }}
-        style={parallax ? { scale: logoScale, opacity: logoOpacity, y: logoY, willChange: 'transform, opacity' } : undefined}
-        className="relative mb-10"
+      {/* Logo — hidden until loading screen logo arrives */}
+      <div
+        className="mb-10"
+        style={{
+          opacity: logoReady ? 1 : 0,
+          transition: 'opacity 250ms ease-out',
+        }}
       >
-        {/* Warm radial glow */}
-        <div
-          className="absolute inset-0 rounded-full blur-[60px] -z-10 scale-110"
-          style={{ background: 'radial-gradient(circle, rgba(232,228,216,0.5) 0%, transparent 70%)' }}
-        />
-        <img
-          src={labLogo}
-          alt="Nobori Lab"
-          className="w-[min(500px,calc(100vw-3rem))] h-auto"
-        />
-      </motion.div>
+        <motion.div
+          initial={alreadyLoaded ? { opacity: 0, scale: 0.92 } : false}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.2, ease: 'easeOut' }}
+          style={parallax ? { scale: logoScale, opacity: logoOpacity, y: logoY, willChange: 'transform, opacity' } : undefined}
+          className="relative"
+        >
+          {/* Warm radial glow */}
+          <div
+            className="absolute inset-0 rounded-full blur-[60px] -z-10 scale-110"
+            style={{ background: 'radial-gradient(circle, rgba(232,228,216,0.5) 0%, transparent 70%)' }}
+          />
+          <img
+            data-hero-logo
+            src={labLogo}
+            alt="Nobori Lab"
+            className="w-[min(500px,calc(100vw-3rem))] h-auto"
+          />
+        </motion.div>
+      </div>
 
       {/* Tagline */}
       <motion.p
