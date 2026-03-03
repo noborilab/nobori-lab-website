@@ -93,7 +93,17 @@ export default function Navbar() {
                 <a
                   key={link.href}
                   href={link.href}
-                  onClick={() => setMobileOpen(false)}
+                  onClick={() => {
+                    setMobileOpen(false)
+                    const sectionId = link.href.replace('#', '')
+                    setTimeout(() => {
+                      const el = document.getElementById(sectionId)
+                      if (el) {
+                        el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                      }
+                      window.location.hash = sectionId
+                    }, 300)
+                  }}
                   className="font-mono text-base uppercase tracking-widest text-text/70 hover:text-navy transition-colors"
                 >
                   {link.label}
