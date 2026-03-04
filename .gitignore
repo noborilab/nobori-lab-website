@@ -25,3 +25,5 @@ dist-ssr
 
 # Large media
 public/images/projects/phytomap.m4v
+*.heic
+*.HEIC

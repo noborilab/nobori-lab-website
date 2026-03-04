@@ -40,6 +40,7 @@ function ProjectCard({ project, index }) {
           <img
             src={import.meta.env.BASE_URL + project.image.replace(/^\//, '')}
             alt={project.title}
+            loading="lazy"
             className="w-full rounded-t-xl"
           />
           {project.imageCredit && (

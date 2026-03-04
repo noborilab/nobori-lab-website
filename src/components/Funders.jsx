@@ -33,6 +33,7 @@ export default function Funders() {
               <img
                 src={import.meta.env.BASE_URL + funder.logo.replace(/^\//, '')}
                 alt={funder.name}
+                loading="lazy"
                 className="h-[50px] w-auto object-contain grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300"
               />
             </a>

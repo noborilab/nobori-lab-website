@@ -43,6 +43,7 @@ export default function Team() {
                   <img
                     src={import.meta.env.BASE_URL + member.image.replace(/^\//, '')}
                     alt={member.name}
+                    loading="lazy"
                     className="w-full h-full object-cover"
                   />
                 ) : (

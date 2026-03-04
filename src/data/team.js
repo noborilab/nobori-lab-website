@@ -4,7 +4,7 @@ export const teamMembers = [
   { id: 3, name: 'Phon Green', initials: 'PG', role: 'Research Assistant', image: '/images/team/Phon.JPG' },
   { id: 4, name: 'Akari Maeda', initials: 'AM', role: 'Postdoc', image: '/images/team/Akira-Maeda_M8A3226.jpg' },
   { id: 5, name: 'Fernanda Aguad', initials: 'FN', role: 'Horticultural Technician', image: '/images/team/Fernanda-Navarro-Aguad_M8A2071.jpg' },
-  { id: 6, name: 'Hsuan Pai', initials: 'HP', role: 'Research Assistant', image: '/images/team/Pai_s.png' },
+  { id: 6, name: 'Hsuan Pai', initials: 'HP', role: 'Research Assistant', image: '/images/team/Pai_s.jpg' },
   { id: 7, name: 'Siyu Song', initials: 'SS', role: 'Postdoc', image: '/images/team/Siyu.jpeg' },
   { id: 8, name: 'Nanne Taks', initials: 'NT', role: 'Postdoc', image: '/images/team/Nanne-Taks_M8A3237.jpg' },
   { id: 9, name: 'Benjamin Tremblay', initials: 'BT', role: 'Postdoc', image: '/images/team/Ben.jpg' },

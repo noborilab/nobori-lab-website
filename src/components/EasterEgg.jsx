@@ -214,6 +214,7 @@ export default function EasterEgg() {
           <img
             src={imgSrc}
             alt="Sneak peek"
+            loading="lazy"
             className="w-full max-w-[600px] rounded-2xl mx-auto mb-6 shadow-[0_0_40px_rgba(107,143,107,0.3),0_8px_32px_rgba(0,0,0,0.4)]"
           />
         )}

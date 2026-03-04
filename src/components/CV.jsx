@@ -105,6 +105,7 @@ export default function CV() {
             <img
               src={headshotUrl}
               alt="Tatsuya Nobori"
+              loading="lazy"
               className="w-40 h-40 rounded-full mx-auto md:mx-0 object-cover"
             />
             <div className="mt-5 text-center md:text-left">

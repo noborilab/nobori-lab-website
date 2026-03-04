@@ -231,6 +231,7 @@ function SelectedCard({ pub, index }) {
               <img
                 src={imgSrc}
                 alt=""
+                loading="lazy"
                 style={{
                   position: 'absolute', top: 0, left: 0,
                   width: '140px', height: '100%',
@@ -310,6 +311,7 @@ function SelectedCard({ pub, index }) {
                 <img
                   src={imgSrc}
                   alt=""
+                  loading="lazy"
                   style={{
                     position: 'absolute', top: 0, left: 0,
                     width: '40px', height: '40px',
