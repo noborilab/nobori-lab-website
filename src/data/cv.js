@@ -38,7 +38,7 @@ export const experience = [
 ]
 
 export const editorial = [
-  'Editor, Molecular Plant-Microbe Interactions, 2025\u2013present',
+  'Senior Editor, Molecular Plant-Microbe Interactions, 2025\u2013present',
   'Editor, Plant & Cell Physiology, 2024\u2013present',
   'Editor, Journal of General Plant Pathology, 2024\u2013present',
   'Assistant Features Editor, The Plant Cell, Jan 2021\u2013Dec 2022',

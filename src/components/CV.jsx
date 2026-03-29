@@ -86,6 +86,7 @@ export default function CV() {
   const talkYears = Object.keys(invitedTalksByYear).sort((a, b) =>
     String(b).localeCompare(String(a)),
   )
+  const recentTalkYears = new Set(talkYears.slice(0, 2))
 
   return (
     <section id="cv" className="py-24 bg-bg px-6">
@@ -215,10 +216,10 @@ export default function CV() {
               </ul>
             </CollapsibleSection>
 
-            {/* Selected Invited Talks — collapsed by default, year toggles */}
+            {/* Selected Invited Talks — recent 2 years open by default */}
             <CollapsibleSection
               title="Selected Invited Talks"
-              defaultOpen={false}
+              defaultOpen={true}
             >
               <div className="space-y-3">
                 {talkYears.map((year) => (
@@ -226,7 +227,7 @@ export default function CV() {
                     key={year}
                     year={year}
                     talks={invitedTalksByYear[year]}
-                    defaultOpen={year === '2025' || year === '2026' || year === '2027'}
+                    defaultOpen={recentTalkYears.has(year)}
                   />
                 ))}
               </div>
