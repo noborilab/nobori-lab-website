@@ -71,6 +71,7 @@ export const invitedTalksByYear = {
     'Norwich Single-Cell and Spatial Symposium 2026 (Keynote speaker), Norwich (July 2026)',
     'ICAR 2026 (Plenary speaker), Singapore (July 2026)',
     'Scandinavian Plant Physiology Society (SPPS) conference 2026 (Plenary speaker), Helsinki (August 2026)',
+    'Gatsby Plant Science Network Meeting 2026, Oxford (August 2026)',
     'Centre for Research in Agricultural Genomics (CRAG), Barcelona (April 2026)',
     'Department of Plant and Microbial Biology (IPMB), University of Zurich, Zurich (April 2026)',
   ],
