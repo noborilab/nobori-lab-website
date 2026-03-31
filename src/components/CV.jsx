@@ -86,7 +86,7 @@ export default function CV() {
   const talkYears = Object.keys(invitedTalksByYear).sort((a, b) =>
     String(b).localeCompare(String(a)),
   )
-  const recentTalkYears = new Set(talkYears.slice(0, 2))
+  const recentTalkYears = new Set(talkYears.slice(0, 3))
 
   return (
     <section id="cv" className="py-24 bg-bg px-6">
