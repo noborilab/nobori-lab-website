@@ -169,6 +169,11 @@ export default function CV() {
                         {' \u2014 '}
                         {item.role}
                       </p>
+                      {item.location && (
+                        <p className="text-[13px] font-mono text-text/35 mt-0.5 tracking-wide">
+                          {item.location}
+                        </p>
+                      )}
                       {item.detail && (
                         <p className="text-[16px] text-text/40 mt-0.5">
                           {item.detail}
