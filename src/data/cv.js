@@ -13,7 +13,7 @@ export const experience = [
   },
   {
     period: 'Apr 2015\u2013Apr 2019',
-    institution: 'MPI Plant Breeding Research',
+    institution: 'Max-Planck Institute for Plant Breeding Research',
     role: 'Ph.D. summa cum laude',
     detail: 'Supervisor: Dr. Kenichi Tsuda',
   },
