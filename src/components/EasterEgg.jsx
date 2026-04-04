@@ -2,7 +2,6 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 
 // Hardcoded image list (import.meta.glob doesn't work on static hosts)
 const easterEggImages = [
-  '/images/easter-egg/mNeonG_mCherry.png',
   '/images/easter-egg/phytomap_plant.png',
 ]
 
