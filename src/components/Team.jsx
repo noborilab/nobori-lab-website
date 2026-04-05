@@ -141,9 +141,17 @@ export default function Team() {
     const cRect = container.getBoundingClientRect()
     const cW = cRect.width
     const cH = cRect.height
+
+    // Row-based minimum: ensures all slots always fit regardless of viewport
+    const cols      = isMobile ? 3 : 5
+    const rows      = Math.ceil(teamMembers.length / cols)
+    const CARD_H    = 130  // photo 72px + text ~58px
+    const ROW_GAP   = 32   // gap-y-8
+    const minFromRows = rows * CARD_H + (rows - 1) * ROW_GAP + 100
+
     const containerH = isMobile
-      ? Math.max(window.innerHeight - 150, 400)
-      : Math.max(cH + 150, 500)
+      ? Math.max(minFromRows, window.innerHeight - 150, 400)
+      : Math.max(cH + 150, minFromRows, 500)
     containerSize.current = { w: cW, h: containerH }
 
     const slots = []
@@ -188,7 +196,7 @@ export default function Team() {
     slotsRef.current     = slots
     headshotsRef.current = headshots
     activeRef.current    = true
-    setGameCfg({ r, diam, mobile: isMobile })
+    setGameCfg({ r, diam, mobile: isMobile, height: containerH })
     setMatched(new Set())
     setGameState('playing')
     trackGame('game_start')
@@ -491,7 +499,9 @@ export default function Team() {
 
   // ── Render ────────────────────────────────────────────────────────────────
   return (
-    <section id="team" className="py-24 bg-bg-soft px-6">
+    <section id="team" className="py-24 bg-bg-soft px-6"
+      style={isPlaying ? { paddingBottom: `${gameCfg.height + 100}px` } : undefined}
+    >
       <div className="max-w-5xl mx-auto">
 
         {/* Section label */}
