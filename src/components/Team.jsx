@@ -194,16 +194,6 @@ export default function Team() {
     lastTapRef.current = now
   }
 
-  // ── Prevent page scroll during mobile game ────────────────────────────────
-  useEffect(() => {
-    if (!isPlaying || isDesktop) return
-    const container = containerRef.current
-    if (!container) return
-    const prevent = e => e.preventDefault()
-    container.addEventListener('touchmove', prevent, { passive: false })
-    return () => container.removeEventListener('touchmove', prevent)
-  }, [isPlaying, isDesktop]) // eslint-disable-line react-hooks/exhaustive-deps
-
   // ── Start physics loop + billiard-break sequence when gameState → 'playing' ─
   useEffect(() => {
     if (gameState !== 'playing') return
@@ -521,11 +511,15 @@ export default function Team() {
             display: 'flex', alignItems: 'center', gap: 12,
             animation: 'team-fade-in 0.3s ease',
             ...(gameCfg.mobile ? {
-              position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 200,
+              position: 'fixed', bottom: 20, left: '50%',
+              transform: 'translateX(-50%)',
+              zIndex: 200,
               background: 'rgba(250,250,246,0.97)',
               backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)',
-              padding: '12px 20px',
-              borderTop: '1px solid rgba(46,58,92,0.08)',
+              padding: '10px 20px',
+              borderRadius: 999,
+              boxShadow: '0 4px 20px rgba(46,58,92,0.15)',
+              whiteSpace: 'nowrap',
             } : {
               marginBottom: 20,
             }),
@@ -691,10 +685,10 @@ export default function Team() {
               <>
                 {!gaveUp && <Confetti />}
                 <div style={{
-                  position: 'absolute', inset: 0,
-                  display: 'flex', alignItems: 'flex-start', justifyContent: 'center',
-                  pointerEvents: 'none', zIndex: 60,
-                  paddingTop: 24,
+                  position: 'fixed',
+                  top: '50%', left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  pointerEvents: 'none', zIndex: 9999,
                 }}>
                   <div style={{
                     background: 'rgba(250,250,246,0.95)',
@@ -704,6 +698,7 @@ export default function Team() {
                     boxShadow: '0 8px 32px rgba(46,58,92,0.14), 0 1px 4px rgba(46,58,92,0.08)',
                     animation: 'team-fade-in 0.5s ease 0.55s both',
                     textAlign: 'center',
+                    whiteSpace: 'nowrap',
                   }}>
                     <p style={{
                       fontFamily: "'Cormorant Garamond', serif",
@@ -764,8 +759,9 @@ export default function Team() {
           </div>
         )}
 
-        {/* Join Us card */}
+        {/* Join Us card — hidden while game is active */}
         <motion.div
+          style={isPlaying ? { display: 'none' } : undefined}
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-40px' }}
