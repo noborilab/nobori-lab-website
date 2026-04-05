@@ -2,7 +2,7 @@ import { motion } from 'framer-motion'
 
 export default function Mission() {
   return (
-    <section className="bg-bg py-20 px-6">
+    <section id="mission" className="bg-bg py-20 px-6">
       <motion.h2
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
