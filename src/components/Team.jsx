@@ -105,6 +105,7 @@ export default function Team() {
   const hsNodeRefs      = useRef([])   // DOM refs for floating headshot divs
   const slotNodeRefs    = useRef([])   // DOM refs for slot divs
   const idleNodeRefs    = useRef([])   // DOM refs for normal grid cards
+  const lastFrameTime   = useRef(null) // for delta-time framerate-independent physics
 
   const isPlaying = gameState === 'playing' || gameState === 'complete'
 
@@ -209,8 +210,13 @@ export default function Team() {
     }
   }, [matched, gameState]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  // ── Physics step ──────────────────────────────────────────────────────────
-  function step() {
+  // ── Physics step (delta-time: framerate-independent) ─────────────────────
+  function step(timestamp) {
+    // dt = elapsed frames at 60fps; clamped to 3 to absorb tab-hidden spikes
+    const prev = lastFrameTime.current
+    const dt   = prev !== null ? Math.min((timestamp - prev) / 16.667, 3) : 1
+    lastFrameTime.current = timestamp
+
     const hs = headshotsRef.current
     const { w: CW, h: CH } = containerSize.current
 
@@ -218,16 +224,20 @@ export default function Team() {
       const c = hs[i]
       if (c.placed || c.dragging) continue
 
-      c.x   += c.vx;  c.y   += c.vy;  c.rot += c.rotV
-      c.vx  *= FRICTION;  c.vy  *= FRICTION;  c.rotV *= ROT_FRIC
+      c.x   += c.vx * dt;  c.y   += c.vy * dt;  c.rot += c.rotV * dt
+      // Framerate-independent exponential friction
+      c.vx  *= Math.pow(FRICTION,  dt)
+      c.vy  *= Math.pow(FRICTION,  dt)
+      c.rotV *= Math.pow(ROT_FRIC, dt)
 
+      // Wall bounces — impulse, no dt needed
       if (c.x - c.r < 0)       { c.x = c.r;      c.vx =  Math.abs(c.vx);  c.rotV -= c.vy * 0.05 }
       if (c.y - c.r < 0)       { c.y = c.r;      c.vy =  Math.abs(c.vy);  c.rotV += c.vx * 0.05 }
       if (c.x + c.r > CW)      { c.x = CW - c.r; c.vx = -Math.abs(c.vx);  c.rotV += c.vy * 0.05 }
       if (c.y + c.r > CH)      { c.y = CH - c.r; c.vy = -Math.abs(c.vy);  c.rotV -= c.vx * 0.05 }
     }
 
-    // Circle-circle elastic collisions
+    // Circle-circle elastic collisions — impulse, no dt needed
     for (let i = 0; i < hs.length; i++) {
       for (let j = i + 1; j < hs.length; j++) {
         const a = hs[i], b = hs[j]
@@ -258,7 +268,7 @@ export default function Team() {
       if (c.placed || c.dragging) continue
       if (Math.abs(c.rotV) < 0.3) {
         const target = Math.max(-12, Math.min(12, c.vx * 1.8))
-        c.rot += (target - c.rot) * 0.04
+        c.rot += (target - c.rot) * 0.04 * dt
       }
     }
 
@@ -272,9 +282,10 @@ export default function Team() {
   }
 
   function startLoop() {
-    function loop() {
+    lastFrameTime.current = null
+    function loop(timestamp) {
       if (!activeRef.current) return
-      step()
+      step(timestamp)
       rafRef.current = requestAnimationFrame(loop)
     }
     rafRef.current = requestAnimationFrame(loop)
@@ -661,8 +672,8 @@ export default function Team() {
                 transition={{ duration: 0.4, delay: i * 0.07 }}
                 className="text-center"
               >
-                {member.id === 1 ? (
-                  /* Tatsuya — subtle hover hint + double-click to activate */
+                {member.id === 1 && isDesktop ? (
+                  /* Tatsuya — subtle hover hint + double-click to activate (desktop only) */
                   <div
                     className="tatsuya-hint"
                     onDoubleClick={activate}
