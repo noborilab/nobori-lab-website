@@ -91,6 +91,7 @@ export default function Team() {
   const [gameState, setGameState] = useState('idle')   // 'idle' | 'playing' | 'complete'
   const [matched,   setMatched]   = useState(new Set())
   const [isDesktop, setIsDesktop] = useState(false)
+  const [gaveUp,    setGaveUp]    = useState(false)
 
   const base = import.meta.env.BASE_URL
 
@@ -388,6 +389,7 @@ export default function Team() {
 
   // ── Give up ───────────────────────────────────────────────────────────────
   function giveUp() {
+    setGaveUp(true)
     activeRef.current = false
 
     const hs    = headshotsRef.current
@@ -421,6 +423,7 @@ export default function Team() {
     cancelAnimationFrame(rafRef.current)
     setGameState('idle')
     setMatched(new Set())
+    setGaveUp(false)
   }
 
   // ── Render ────────────────────────────────────────────────────────────────
@@ -612,23 +615,32 @@ export default function Team() {
             {/* Completion overlay */}
             {gameState === 'complete' && (
               <>
-                <Confetti />
+                {!gaveUp && <Confetti />}
                 <div style={{
                   position: 'absolute', inset: 0,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  display: 'flex', alignItems: 'flex-start', justifyContent: 'center',
                   pointerEvents: 'none', zIndex: 60,
+                  paddingTop: 24,
                 }}>
-                  <p style={{
-                    fontFamily: "'Cormorant Garamond', serif",
-                    fontStyle: 'italic',
-                    fontSize: 'clamp(24px, 5vw, 36px)',
-                    color: '#2E3A5C',
-                    animation: 'team-fade-in 0.5s ease 0.4s both',
+                  <div style={{
+                    background: 'rgba(250,250,246,0.95)',
+                    backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)',
+                    padding: '24px 40px',
+                    borderRadius: 12,
+                    boxShadow: '0 8px 32px rgba(46,58,92,0.14), 0 1px 4px rgba(46,58,92,0.08)',
+                    animation: 'team-fade-in 0.5s ease 0.55s both',
                     textAlign: 'center',
-                    padding: '0 24px',
                   }}>
-                    You matched everyone!
-                  </p>
+                    <p style={{
+                      fontFamily: "'Cormorant Garamond', serif",
+                      fontStyle: 'italic',
+                      fontSize: 'clamp(22px, 4vw, 32px)',
+                      color: '#2E3A5C',
+                      margin: 0,
+                    }}>
+                      {gaveUp ? 'Better luck next time! 👀' : '🎉 You know the team!'}
+                    </p>
+                  </div>
                 </div>
               </>
             )}
