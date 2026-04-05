@@ -458,7 +458,7 @@ export default function Publications() {
             <button
               key={tab.key}
               onClick={() => {
-                if (tab.key === 'browse') { setShowFlipbook(true); return }
+                if (tab.key === 'browse') { setShowFlipbook(true); if (typeof window.gtag === 'function') window.gtag('event', 'flipbook_open', { event_category: 'publications' }); return }
                 setActiveTab(tab.key)
               }}
               className={`font-mono text-[14px] uppercase tracking-[0.12em] pb-1 transition-all whitespace-nowrap ${

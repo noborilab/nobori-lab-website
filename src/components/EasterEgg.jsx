@@ -145,6 +145,7 @@ export default function EasterEgg() {
       if (clickCount.current >= 5) {
         clickCount.current = 0
         clearTimeout(clickTimer.current)
+        if (typeof window.gtag === 'function') window.gtag('event', 'easter_egg_logo', { event_category: 'easter_egg' })
         trigger()
       }
     }
@@ -169,6 +170,7 @@ export default function EasterEgg() {
         konamiIdx.current++
         if (konamiIdx.current === KONAMI.length) {
           konamiIdx.current = 0
+          if (typeof window.gtag === 'function') window.gtag('event', 'easter_egg_konami', { event_category: 'easter_egg' })
           trigger()
         }
       } else {
