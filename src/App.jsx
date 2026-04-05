@@ -2,6 +2,7 @@ import Navbar from './components/Navbar'
 import ScrollProgress from './components/ScrollProgress'
 import Hero from './components/Hero'
 import CV from './components/CV'
+import Mission from './components/Mission'
 import Projects from './components/Projects'
 import News from './components/News'
 import Publications from './components/Publications'
@@ -23,6 +24,7 @@ export default function App() {
       <Navbar />
       <main>
         <Hero />
+        <Mission />
         <Projects />
         <Publications />
         <OnlineTalks />
