@@ -164,6 +164,9 @@ export default function Team() {
       const vy    = Math.sin(angle) * drift
       const rotV  = (Math.random() - 0.5) * 0.08
 
+      // Tatsuya (first member) gets 3s drop immunity; all others get 2s
+      const noDropUntil = Date.now() + (member.id === 1 ? 3000 : 2000)
+
       headshots.push({
         memberId: member.id,
         x: circleCx,
@@ -172,6 +175,7 @@ export default function Team() {
         r,
         placed: false,
         dragging: false,
+        noDropUntil,
       })
     })
 
@@ -220,8 +224,9 @@ export default function Team() {
         const avgY = others.reduce((s, h) => s + h.y, 0) / (others.length || 1)
         const dx = avgX - tatsu.x, dy = avgY - tatsu.y
         const dist = Math.sqrt(dx * dx + dy * dy) || 1
-        tatsu.vx   = (dx / dist) * 8
-        tatsu.vy   = (dy / dist) * 8
+        const launchSpeed = gameCfg.mobile ? 14 : 11
+        tatsu.vx   = (dx / dist) * launchSpeed
+        tatsu.vy   = (dy / dist) * launchSpeed
         tatsu.rotV = 1.5
       }, 550)
     }
@@ -347,10 +352,15 @@ export default function Team() {
       if (node) { node.style.zIndex = '10'; node.style.cursor = 'grab' }
       hs.dragging = false
 
-      // Check drop zones
+      // Check drop zones (suppressed during initial chaos phase)
       let dropped = false
       const slots = slotsRef.current
-      for (let si = 0; si < slots.length; si++) {
+      if (Date.now() < hs.noDropUntil) {
+        // Too early — just flick away, no match possible yet
+        hs.vx = (Math.random() - 0.5) * 3
+        hs.vy = -2
+      }
+      for (let si = 0; si < slots.length && Date.now() >= hs.noDropUntil; si++) {
         const slot = slots[si]
         if (slot.matched) continue
         const inX = hs.x >= slot.x - DROP_MARGIN && hs.x <= slot.x + slot.w + DROP_MARGIN
