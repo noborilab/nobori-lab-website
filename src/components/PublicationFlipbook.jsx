@@ -189,6 +189,7 @@ function RightFace({ page }) {
 // ─── Flipbook overlay ─────────────────────────────────────────────────────────
 
 export default function PublicationFlipbook({ onClose }) {
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 640
   const total = PAGES.length
   const [index, setIndex]     = useState(0)
   const [flip, setFlip]       = useState(null)  // arrow/keyboard flip
@@ -387,17 +388,52 @@ export default function PublicationFlipbook({ onClose }) {
       </button>
 
       {/* Book + side arrows */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
-        <ArrowBtn onClick={() => navigate('backward')} disabled={!canPrev || !!flip || isDragging} dir="left" />
+      <div style={{ display: 'flex', alignItems: 'center', gap: isMobile ? 0 : 20 }}>
+        {!isMobile && <ArrowBtn onClick={() => navigate('backward')} disabled={!canPrev || !!flip || isDragging} dir="left" />}
 
         {/* Book */}
-        <div style={{ perspective: '1500px' }}>
+        <div style={{ perspective: '1500px', position: 'relative' }}>
           <div ref={bookRef} style={{
-            width: 'min(600px, 92vw)',
-            height: 'min(450px, calc(92vw * 0.75))',
+            width: isMobile ? '95vw' : 'min(600px, 76vw)',
+            height: isMobile ? 'calc(95vw * 0.75)' : 'min(450px, calc(76vw * 0.75))',
             position: 'relative', borderRadius: 4,
             boxShadow: '0 32px 80px rgba(0,0,0,0.65), 0 0 0 1px rgba(255,255,255,0.06)',
           }}>
+          {/* Mobile overlaid arrow buttons */}
+          {isMobile && (
+            <>
+              <button onClick={() => navigate('backward')} disabled={!canPrev || !!flip || isDragging}
+                aria-label="Previous"
+                style={{
+                  position: 'absolute', left: 8, top: '50%', transform: 'translateY(-50%)',
+                  zIndex: 20, width: 36, height: 36, borderRadius: '50%',
+                  background: (!canPrev || !!flip || isDragging) ? 'rgba(0,0,0,0.15)' : 'rgba(0,0,0,0.45)',
+                  border: 'none', cursor: (!canPrev || !!flip || isDragging) ? 'default' : 'pointer',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  color: (!canPrev || !!flip || isDragging) ? 'rgba(255,255,255,0.25)' : 'rgba(255,255,255,0.85)',
+                  flexShrink: 0,
+                }}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M15 18l-6-6 6-6" />
+                </svg>
+              </button>
+              <button onClick={() => navigate('forward')} disabled={!canNext || !!flip || isDragging}
+                aria-label="Next"
+                style={{
+                  position: 'absolute', right: 8, top: '50%', transform: 'translateY(-50%)',
+                  zIndex: 20, width: 36, height: 36, borderRadius: '50%',
+                  background: (!canNext || !!flip || isDragging) ? 'rgba(0,0,0,0.15)' : 'rgba(0,0,0,0.45)',
+                  border: 'none', cursor: (!canNext || !!flip || isDragging) ? 'default' : 'pointer',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  color: (!canNext || !!flip || isDragging) ? 'rgba(255,255,255,0.25)' : 'rgba(255,255,255,0.85)',
+                  flexShrink: 0,
+                }}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M9 18l6-6-6-6" />
+                </svg>
+              </button>
+            </>
+          )}
 
             {/* Static left half */}
             <div style={{
@@ -490,7 +526,7 @@ export default function PublicationFlipbook({ onClose }) {
           </div>
         </div>
 
-        <ArrowBtn onClick={() => navigate('forward')} disabled={!canNext || !!flip || isDragging} dir="right" />
+        {!isMobile && <ArrowBtn onClick={() => navigate('forward')} disabled={!canNext || !!flip || isDragging} dir="right" />}
       </div>
 
       {/* Page counter */}
