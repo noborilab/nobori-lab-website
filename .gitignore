@@ -23,6 +23,10 @@ dist-ssr
 *.sln
 *.sw?
 
+# First-page PDFs and JPGs (explicitly tracked)
+!public/images/publications/first-pages/*.pdf
+!public/images/publications/first-pages/*.jpg
+
 # Large media
 public/images/projects/phytomap.m4v
 *.heic

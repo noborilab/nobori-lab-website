@@ -84,22 +84,6 @@ function PubLeftPage({ pub }) {
   // Priority: firstPage → figure → journal name
   if (pub.firstPage) {
     const src = base + pub.firstPage.replace(/^\//, '')
-    const ext = pub.firstPage.split('.').pop().toLowerCase()
-
-    if (ext === 'pdf') {
-      return (
-        <div style={{ width: '100%', height: '100%', background: '#fff', overflow: 'hidden' }}>
-          <iframe
-            src={`${src}#toolbar=0&navpanes=0&scrollbar=0&statusbar=0&view=FitH`}
-            title={pub.title}
-            style={{ width: '100%', height: '100%', border: 'none', display: 'block' }}
-            scrolling="no"
-          />
-        </div>
-      )
-    }
-
-    // jpg / png / webp etc.
     return (
       <div style={{ width: '100%', height: '100%', background: '#fff', overflow: 'hidden',
         display: 'flex', alignItems: 'center', justifyContent: 'center' }}>

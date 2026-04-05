@@ -6,22 +6,23 @@
  *   2. Fuzzy-match against all publication titles in src/data/publications.js
  *   3. If matched (>60% word overlap):
  *        - Rename to standardised name: {firstauthor}-{year}-{journal}.pdf
- *        - Update firstPage field in publications.js
  *        - Print: "old.pdf → new.pdf  (matched: 'Title…')"
  *   4. If unmatched:
  *        - Print warning with top guess
  *        - Leave file unchanged
  *   5. Trim to page 1 with pdf-lib (always)
+ *   6. Convert to JPG with sips (always); update firstPage in publications.js
  */
 
 import { readdir, readFile, writeFile, rename } from 'fs/promises'
 import { join, extname, basename } from 'path'
 import { fileURLToPath } from 'url'
-import { createRequire } from 'module'
+import { exec } from 'child_process'
+import { promisify } from 'util'
 import { PDFDocument } from 'pdf-lib'
+import { PDFParse } from 'pdf-parse'
 
-const require   = createRequire(import.meta.url)
-const pdfParse  = require('pdf-parse')
+const execAsync = promisify(exec)
 
 const __dir     = fileURLToPath(new URL('..', import.meta.url))
 const FOLDER    = join(__dir, 'public/images/publications/first-pages')
@@ -124,7 +125,7 @@ if (files.length === 0) {
 }
 
 const THRESHOLD = 0.60
-let matched = 0, unmatched = 0, trimmed = 0
+let matched = 0, unmatched = 0, trimmed = 0, converted = 0
 
 for (const file of files) {
   const filePath = join(FOLDER, file)
@@ -133,16 +134,35 @@ for (const file of files) {
 
   // ── 1. Extract text ──────────────────────────────────────────────────────
   let pdfText = ''
+  let textSource = 'pdf'
   try {
-    const data = await pdfParse(pdfBytes, { max: 1 })
-    pdfText = data.text || ''
+    const parser = new PDFParse({ data: pdfBytes })
+    const result = await parser.getText({ first: 1 })
+    pdfText = result.text || ''
+    await parser.destroy()
   } catch (err) {
-    console.warn(`  ⚠  Could not extract text: ${err.message}`)
+    console.warn(`  ⚠  Could not extract text (${err.message}) — falling back to filename`)
   }
 
-  // ── 2. Fuzzy match ───────────────────────────────────────────────────────
-  const { pub, score } = bestMatch(pdfText)
+  // ── 2. Fuzzy match (text first, filename fallback) ───────────────────────
+  let { pub, score } = bestMatch(pdfText)
+
+  // If text match is weak, also try the filename itself
+  const filenameStem = basename(file, extname(file))
+    .replace(/[-_.]+/g, ' ')   // treat separators as spaces
+    .replace(/[()[\]]/g, '')
+  const filenameMatch = bestMatch(filenameStem)
+
+  if (filenameMatch.score > score) {
+    pub = filenameMatch.pub
+    score = filenameMatch.score
+    textSource = 'filename'
+  }
+
   const pct = Math.round(score * 100)
+  if (pdfText || textSource === 'filename') {
+    console.log(`  (matched via ${textSource})`)
+  }
 
   let destFile = file // default: keep name
   let matched_this = false
@@ -160,10 +180,6 @@ for (const file of files) {
       console.log(`  ✓  ${file} (name already correct)`)
     }
     console.log(`      matched: "${pub.title.slice(0, 60)}${pub.title.length > 60 ? '…' : ''}" (${pct}%)`)
-
-    // Update publications.js
-    await updateFirstPage(pub, newPublicPath)
-    console.log(`      → firstPage updated in publications.js`)
 
     matched++
     matched_this = true
@@ -195,7 +211,28 @@ for (const file of files) {
   } catch (err) {
     console.warn(`  ⚠  Could not trim: ${err.message}`)
   }
+
+  // ── 4. Convert to JPG ────────────────────────────────────────────────────
+  const jpgFile = basename(destFile, '.pdf') + '.jpg'
+  const jpgPath = join(FOLDER, jpgFile)
+  let jpgOk = false
+  try {
+    await execAsync(`/usr/bin/sips -s format jpeg -s formatOptions 90 --resampleWidth 800 "${finalPath}" --out "${jpgPath}"`)
+    jpgOk = true
+    console.log(`      → converted to ${jpgFile}`)
+    converted++
+  } catch (err) {
+    console.warn(`  ⚠  JPG conversion failed: ${err.message}`)
+  }
+
+  if (matched_this) {
+    const publicPath = jpgOk
+      ? `/images/publications/first-pages/${jpgFile}`
+      : `/images/publications/first-pages/${destFile}`
+    await updateFirstPage(pub, publicPath)
+    console.log(`      → firstPage updated: ${basename(publicPath)}`)
+  }
 }
 
 console.log(`\n─────────────────────────────────────`)
-console.log(`Done. ${matched} matched, ${unmatched} unmatched, ${trimmed} trimmed.`)
+console.log(`Done. ${matched} matched, ${unmatched} unmatched, ${trimmed} trimmed, ${converted} converted to JPG.`)
