@@ -29,6 +29,7 @@ export const selected = [
     year: 2025,
     title: 'Immune cell states: critical building blocks of the plant immune system',
     journal: 'Cell Host & Microbe',
+    firstPage: '',
     figure: '/images/publications/cell-host-microbe-2025.png',
     link: 'https://www.cell.com/cell-host-microbe/fulltext/S1931-3128(25)00245-8',
     pdf: 'https://drive.google.com/file/d/1eSKSpw8RDWJdfwSAyr9hZIxlRRRZRddu/view',
@@ -42,6 +43,7 @@ export const selected = [
     title: 'Exploring the untapped potential of single-cell and spatial omics in plant biology',
     journal: 'New Phytologist',
     journalNote: '(Tansley Review)',
+    firstPage: '',
     figure: '/images/publications/new-phytologist-2025.jpg',
     link: 'https://nph.onlinelibrary.wiley.com/doi/10.1111/nph.70220',
     pdf: 'https://drive.google.com/file/d/1Q8uAc3R7F6HSxmTC_jsHR-zWMiZMC3KD/view',
@@ -54,6 +56,7 @@ export const selected = [
     year: 2025,
     title: 'A rare PRIMER cell state in plant immunity',
     journal: 'Nature',
+    firstPage: '',
     figure: '/images/publications/nature-2025-primer.jpg',
     figureCredit: 'Hsuan Pai',
     link: 'https://www.nature.com/articles/s41586-024-08383-z',
@@ -72,6 +75,7 @@ export const selected = [
     title: 'A single-cell, spatial transcriptomic atlas of the Arabidopsis life cycle',
     journal: 'Nature Plants',
     journalNote: '*Co-first',
+    firstPage: '',
     figure: '/images/publications/nature-plants-2025-atlas.webp',
     link: 'https://www.nature.com/articles/s41477-025-02072-z',
     pdf: 'https://drive.google.com/file/d/13kWH4v2Rc0B6cz4yMdNlqY1AIZgljkLm/view',
@@ -85,6 +89,7 @@ export const selected = [
     title: 'Multiplexed single-cell 3D spatial gene expression analysis in plant tissue using PHYTOMap',
     journal: 'Nature Plants',
     journalNote: '*Co-corresponding',
+    firstPage: '',
     figure: '/images/publications/nature-plants-2023-phytomap.jpg',
     link: 'https://www.nature.com/articles/s41477-023-01439-4',
     biorxiv: 'https://www.biorxiv.org/content/10.1101/2022.07.28.501915v1',
@@ -102,6 +107,7 @@ export const selected = [
     year: 2022,
     title: 'Dissecting the co-transcriptome landscape of plants and microbiota',
     journal: 'EMBO Reports',
+    firstPage: '',
     figure: '/images/publications/embo-reports-2022-cotranscriptome.jpg',
     link: 'https://www.embopress.org/doi/full/10.15252/embr.202255380',
     pdf: 'https://drive.google.com/file/d/1q0Ym-3KD7zaNE4MNu4mKXBFb9eEA5YoQ/view',
@@ -114,6 +120,7 @@ export const selected = [
     year: 2020,
     title: 'Multidimensional gene regulatory landscape of a bacterial pathogen in plants',
     journal: 'Nature Plants',
+    firstPage: '',
     figure: '/images/publications/nature-plants-2020-multidimensional.jpeg',
     link: 'https://www.nature.com/articles/s41477-020-0690-7',
     pdf: 'https://drive.google.com/file/d/1gOwHXksI2Ae0cYDack5kqcKvwc3SZUfP/view',
@@ -122,10 +129,11 @@ export const selected = [
   },
   {
     id: 's8',
-    authors: 'Nobori, T., Vel\u00e1squez, A.C., et al.',
+    authors: 'Nobori, T., Velásquez, A.C., et al.',
     year: 2018,
     title: 'Transcriptome Landscape of a Bacterial Pathogen under Plant Immunity',
     journal: 'PNAS',
+    firstPage: '',
     figure: '/images/publications/pnas-2018-transcriptome.jpg',
     link: 'https://www.pnas.org/doi/abs/10.1073/pnas.1800529115',
     pdf: 'https://drive.google.com/file/d/19xoI7v8d4XUDbwPdgKDT_LKzf4YokPql/view',
@@ -143,6 +151,7 @@ export const originalArticles = [
     year: 2025,
     title: 'An embryo-derived peptide signal directs endosperm polarity in Arabidopsis',
     journal: 'bioRxiv',
+    firstPage: '',
     link: 'https://www.biorxiv.org/content/10.64898/2025.12.11.693621v1',
   },
   {
@@ -151,6 +160,7 @@ export const originalArticles = [
     year: 2025,
     title: 'Drought recovery in plants triggers a cell-state-specific immune activation',
     journal: 'Nature Communications',
+    firstPage: '',
     link: 'https://www.nature.com/articles/s41467-025-63467-2',
   },
   {
@@ -159,6 +169,7 @@ export const originalArticles = [
     year: 2025,
     title: 'A single-cell, spatial transcriptomic atlas of the Arabidopsis life cycle',
     journal: 'Nature Plants',
+    firstPage: '',
     link: 'https://www.nature.com/articles/s41477-025-02072-z',
   },
   {
@@ -167,6 +178,7 @@ export const originalArticles = [
     year: 2025,
     title: 'A rare PRIMER cell state in plant immunity',
     journal: 'Nature',
+    firstPage: '',
     link: 'https://www.nature.com/articles/s41586-024-08383-z',
   },
   {
@@ -175,6 +187,7 @@ export const originalArticles = [
     year: 2024,
     title: 'Streamlined spatial and environmental expression signatures characterize the minimalist duckweed Wolffia australiana',
     journal: 'Genome Research',
+    firstPage: '',
     link: 'https://genome.cshlp.org/content/early/2024/06/28/gr.279091.124.abstract',
   },
   {
@@ -183,6 +196,7 @@ export const originalArticles = [
     year: 2024,
     title: 'Spatial IMA1 regulation restricts root iron acquisition on MAMP perception',
     journal: 'Nature',
+    firstPage: '',
     link: 'https://www.nature.com/articles/s41586-023-06891-y',
   },
   {
@@ -191,6 +205,7 @@ export const originalArticles = [
     year: 2023,
     title: 'Multiplexed single-cell 3D spatial gene expression analysis in plant tissue using PHYTOMap',
     journal: 'Nature Plants',
+    firstPage: '',
     link: 'https://www.nature.com/articles/s41477-023-01439-4',
   },
   {
@@ -199,6 +214,7 @@ export const originalArticles = [
     year: 2022,
     title: 'Dissecting the co-transcriptome landscape of plants and microbiota',
     journal: 'EMBO Reports',
+    firstPage: '',
     link: 'https://www.embopress.org/doi/full/10.15252/embr.202255380',
   },
   {
@@ -207,6 +223,7 @@ export const originalArticles = [
     year: 2021,
     title: 'PhcQ mainly contributes to the regulation of quorum sensing-dependent genes, in which PhcR is partly involved, in Ralstonia pseudosolanacearum strain OE1-1',
     journal: 'Molecular Plant Pathology',
+    firstPage: '',
   },
   {
     id: 'o10',
@@ -214,6 +231,7 @@ export const originalArticles = [
     year: 2020,
     title: 'Multidimensional gene regulatory landscape of a bacterial pathogen in plants',
     journal: 'Nature Plants',
+    firstPage: '',
     link: 'https://www.nature.com/articles/s41477-020-0690-7',
   },
   {
@@ -222,6 +240,7 @@ export const originalArticles = [
     year: 2019,
     title: 'Site-specific cleavage of bacterial MucD by secreted proteases mediates antibacterial resistance in Arabidopsis',
     journal: 'Nature Communications',
+    firstPage: '',
   },
   {
     id: 'o12',
@@ -229,6 +248,7 @@ export const originalArticles = [
     year: 2019,
     title: 'Balancing trade-offs between biotic and abiotic stress responses through leaf age-dependent variation in stress hormone cross-talk',
     journal: 'PNAS',
+    firstPage: '',
   },
   {
     id: 'o13',
@@ -236,13 +256,15 @@ export const originalArticles = [
     year: 2018,
     title: 'In planta transcriptome analysis of Pseudomonas syringae',
     journal: 'Bio-protocol',
+    firstPage: '',
   },
   {
     id: 'o14',
-    authors: 'Nobori, T., Vel\u00e1squez, A.C., et al.',
+    authors: 'Nobori, T., Velásquez, A.C., et al.',
     year: 2018,
     title: 'Transcriptome Landscape of a Bacterial Pathogen under Plant Immunity',
     journal: 'PNAS',
+    firstPage: '',
     link: 'https://www.pnas.org/doi/abs/10.1073/pnas.1800529115',
   },
   {
@@ -251,6 +273,7 @@ export const originalArticles = [
     year: 2017,
     title: 'Pathogen exploitation of an abscisic acid- and jasmonate-inducible MAPK phosphatase and its interception by Arabidopsis immunity',
     journal: 'PNAS',
+    firstPage: '',
   },
   {
     id: 'o16',
@@ -258,6 +281,7 @@ export const originalArticles = [
     year: 2017,
     title: 'An incoherent feed-forward loop mediates robustness and tunability in a plant immune network',
     journal: 'EMBO Reports',
+    firstPage: '',
   },
   {
     id: 'o17',
@@ -265,6 +289,7 @@ export const originalArticles = [
     year: 2016,
     title: 'Alteration in caesium behavior in rice caused by the potassium, phosphorous, and nitrogen deficiency',
     journal: 'J Radioanalytical Nuclear Chemistry',
+    firstPage: '',
   },
   {
     id: 'o18',
@@ -272,6 +297,7 @@ export const originalArticles = [
     year: 2016,
     title: 'Tracer experiment using 42K+ and 137Cs+ revealed the different transport rates of potassium and caesium within rice roots',
     journal: 'Functional Plant Biology',
+    firstPage: '',
   },
   {
     id: 'o19',
@@ -279,6 +305,7 @@ export const originalArticles = [
     year: 2016,
     title: 'Investigation of radiocesium distribution in organs of wild boar grown in Iitate, Fukushima after the nuclear power plant accident',
     journal: 'J Radioanalytical Nuclear Chemistry',
+    firstPage: '',
   },
   {
     id: 'o20',
@@ -286,6 +313,7 @@ export const originalArticles = [
     year: 2015,
     title: 'Radioactive Caesium Concentration of Lowland Rice Grown in the Decontaminated Paddy Fields in Iitate-Village in Fukushima',
     journal: 'RADIOISOTOPES',
+    firstPage: '',
   },
   {
     id: 'o21',
@@ -293,6 +321,7 @@ export const originalArticles = [
     year: 2014,
     title: 'Effects of potassium in reducing the radiocesium translocation to grain in rice',
     journal: 'Soil Science and Plant Nutrition',
+    firstPage: '',
   },
 ]
 
@@ -303,14 +332,16 @@ export const reviews = [
     year: 2025,
     title: 'Immune cell states: critical building blocks of the plant immune system',
     journal: 'Cell Host & Microbe',
+    firstPage: '',
     link: 'https://www.cell.com/cell-host-microbe/fulltext/S1931-3128(25)00245-8',
   },
   {
     id: 'r2',
     authors: 'Nobori, T.',
     year: 2025,
-    title: 'Scientific mobility in microbiology \u2013 6',
+    title: 'Scientific mobility in microbiology – 6',
     journal: 'Trends in Microbiology',
+    firstPage: '',
     link: 'https://www.cell.com/trends/microbiology/fulltext/S0966-842X(25)00188-X',
   },
   {
@@ -320,6 +351,7 @@ export const reviews = [
     title: 'Exploring the untapped potential of single-cell and spatial omics in plant biology',
     journal: 'New Phytologist',
     journalNote: '(Tansley Review)',
+    firstPage: '',
     link: 'https://nph.onlinelibrary.wiley.com/doi/10.1111/nph.70220',
   },
   {
@@ -328,6 +360,7 @@ export const reviews = [
     year: 2023,
     title: 'Yet uninfected? Resolving cell states of plants under pathogen attack',
     journal: 'Cell Reports Methods',
+    firstPage: '',
   },
   {
     id: 'r5',
@@ -335,6 +368,7 @@ export const reviews = [
     year: 2022,
     title: 'From the archives: Calcium signaling and PIN polarity',
     journal: 'The Plant Cell',
+    firstPage: '',
   },
   {
     id: 'r6',
@@ -342,6 +376,7 @@ export const reviews = [
     year: 2022,
     title: 'A qWRKY regulator of ROS',
     journal: 'The Plant Cell',
+    firstPage: '',
   },
   {
     id: 'r7',
@@ -349,6 +384,7 @@ export const reviews = [
     year: 2022,
     title: 'Closing the gap: A plasma membrane H+-ATPase regulates stomatal closure',
     journal: 'The Plant Cell',
+    firstPage: '',
   },
   {
     id: 'r8',
@@ -356,6 +392,7 @@ export const reviews = [
     year: 2021,
     title: 'Know your appetite: Phosphate-sensing proteins regulate AM symbiosis',
     journal: 'The Plant Cell',
+    firstPage: '',
   },
   {
     id: 'r9',
@@ -363,6 +400,7 @@ export const reviews = [
     year: 2021,
     title: 'Plant single-cell solutions for energy and the environment',
     journal: 'Communications Biology',
+    firstPage: '',
   },
   {
     id: 'r10',
@@ -370,6 +408,7 @@ export const reviews = [
     year: 2021,
     title: 'Similar yet different fighting styles: Evolution of the gene expression landscape in plant immune responses',
     journal: 'The Plant Cell',
+    firstPage: '',
   },
   {
     id: 'r11',
@@ -377,6 +416,7 @@ export const reviews = [
     year: 2021,
     title: 'Single-cell genomics goes greener',
     journal: 'The Plant Cell',
+    firstPage: '',
   },
   {
     id: 'r12',
@@ -384,6 +424,7 @@ export const reviews = [
     year: 2019,
     title: 'The plant immune system in heterogeneous environments',
     journal: 'Curr Opin Plant Biol',
+    firstPage: '',
   },
   {
     id: 'r13',
@@ -391,5 +432,6 @@ export const reviews = [
     year: 2018,
     title: 'Molecular networks in plant-pathogen holobiont',
     journal: 'FEBS Letters',
+    firstPage: '',
   },
 ]

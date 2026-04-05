@@ -7,6 +7,7 @@ import {
   journalColors,
 } from '../data/publications'
 import TypewriterLabel from './TypewriterLabel'
+import PublicationFlipbook from './PublicationFlipbook'
 
 let twitterLoaded = false
 function loadTwitterWidgets() {
@@ -27,6 +28,7 @@ const tabs = [
   { key: 'selected', label: 'Selected' },
   { key: 'original', label: 'Original Articles' },
   { key: 'reviews', label: 'Reviews & Commentaries' },
+  { key: 'browse', label: 'Browse' },
 ]
 
 function LinkChip({ href, children }) {
@@ -428,6 +430,7 @@ function CompactRow({ pub, index }) {
 
 export default function Publications() {
   const [activeTab, setActiveTab] = useState('selected')
+  const [showFlipbook, setShowFlipbook] = useState(false)
 
   const dataMap = {
     selected,
@@ -454,7 +457,10 @@ export default function Publications() {
           {tabs.map((tab) => (
             <button
               key={tab.key}
-              onClick={() => setActiveTab(tab.key)}
+              onClick={() => {
+                if (tab.key === 'browse') { setShowFlipbook(true); return }
+                setActiveTab(tab.key)
+              }}
               className={`font-mono text-[14px] uppercase tracking-[0.12em] pb-1 transition-all whitespace-nowrap ${
                 activeTab === tab.key
                   ? 'text-navy border-b-2 border-navy'
@@ -490,6 +496,11 @@ export default function Publications() {
             )}
           </motion.div>
         </AnimatePresence>
+
+        {/* Flipbook overlay */}
+        {showFlipbook && (
+          <PublicationFlipbook onClose={() => setShowFlipbook(false)} />
+        )}
 
         {/* Bottom links */}
         <motion.div
