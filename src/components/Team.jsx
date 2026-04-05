@@ -789,9 +789,10 @@ export default function Team() {
           </ul>
         </motion.div>
 
-        {/* Alumni */}
+        {/* Alumni — hidden while game is active */}
         {alumni.length > 0 && (
           <motion.div
+            style={isPlaying ? { display: 'none' } : undefined}
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-30px' }}
