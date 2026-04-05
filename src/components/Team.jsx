@@ -840,6 +840,11 @@ export default function Team() {
 
       </div>
 
+      {/* Desktop-only hint for the attentive */}
+      {!isPlaying && (
+        <p className="team-secret-hint">psst… try double-clicking someone</p>
+      )}
+
       <style>{`
         @keyframes team-fade-in {
           from { opacity: 0; transform: translateY(-4px); }
@@ -858,6 +863,24 @@ export default function Team() {
           70%  { opacity: 1; }
           100% { opacity: 0; transform: translate(var(--tx), var(--ty)) rotate(var(--rot)) scale(0.5); }
         }
+        /* Secret hint — desktop only */
+        .team-secret-hint {
+          display: none;
+          text-align: center;
+          margin-top: 32px;
+          font-family: monospace;
+          font-size: 10px;
+          letter-spacing: 0.08em;
+          color: #9E8E7E;
+          opacity: 0.30;
+          transition: opacity 0.4s ease;
+          user-select: none;
+        }
+        @media (pointer: fine) {
+          .team-secret-hint { display: block; }
+        }
+        .team-secret-hint:hover { opacity: 0.60; }
+
         /* Tatsuya card — subtle hover hint (desktop) */
         .tatsuya-hint { cursor: default; }
         .tatsuya-hint:hover {
