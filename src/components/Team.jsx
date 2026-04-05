@@ -85,6 +85,12 @@ function MemberCard({ member, base }) {
 }
 
 // ─── Main component ───────────────────────────────────────────────────────────
+function trackGame(eventName, extra = {}) {
+  if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+    window.gtag('event', eventName, { event_category: 'team_game', ...extra })
+  }
+}
+
 export default function Team() {
   const reduced = useReducedMotion()
 
@@ -185,6 +191,7 @@ export default function Team() {
     setGameCfg({ r, diam, mobile: isMobile })
     setMatched(new Set())
     setGameState('playing')
+    trackGame('game_start')
   }
 
   // Double-tap handler for mobile activation
@@ -228,6 +235,7 @@ export default function Team() {
   useEffect(() => {
     if (matched.size === teamMembers.length && gameState === 'playing') {
       setGameState('complete')
+      trackGame('game_complete')
       setTimeout(() => deactivate(), 3200)
     }
   }, [matched, gameState]) // eslint-disable-line react-hooks/exhaustive-deps
@@ -420,6 +428,8 @@ export default function Team() {
     }
 
     const memberId = hs.memberId
+    const memberName = teamMembers.find(m => m.id === memberId)?.name
+    trackGame('correct_match', { event_label: memberName })
     setTimeout(() => {
       setMatched(prev => { const n = new Set(prev); n.add(memberId); return n })
     }, 400)
@@ -440,6 +450,7 @@ export default function Team() {
 
   // ── Give up ───────────────────────────────────────────────────────────────
   function giveUp() {
+    trackGame('game_give_up')
     setGaveUp(true)
     activeRef.current = false
 
@@ -470,6 +481,7 @@ export default function Team() {
 
   // ── Deactivate ────────────────────────────────────────────────────────────
   function deactivate() {
+    trackGame('game_reset')
     activeRef.current = false
     cancelAnimationFrame(rafRef.current)
     setGameState('idle')
