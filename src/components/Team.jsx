@@ -842,7 +842,7 @@ export default function Team() {
 
       {/* Desktop-only hint for the attentive */}
       {!isPlaying && (
-        <p className="team-secret-hint">psst… try double-clicking someone</p>
+        <p className="team-secret-hint">{'psst... try double-clicking someone'}</p>
       )}
 
       <style>{`
