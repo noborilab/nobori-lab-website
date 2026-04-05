@@ -674,7 +674,7 @@ export default function Team() {
                     border: '2px solid rgba(255,255,255,0.7)',
                     cursor: 'grab',
                     userSelect: 'none',
-                    touchAction: 'none',
+                    touchAction: 'manipulation',
                     willChange: 'transform',
                     zIndex: 10,
                   }}
@@ -758,7 +758,7 @@ export default function Team() {
                     className={isDesktop ? 'tatsuya-hint' : 'tatsuya-hint-mobile'}
                     onDoubleClick={isDesktop ? activate : undefined}
                     onTouchEnd={!isDesktop ? handleTap : undefined}
-                    style={{ userSelect: 'none' }}
+                    style={{ userSelect: 'none', touchAction: 'manipulation' }}
                   >
                     <div className="tatsuya-photo w-[72px] h-[72px] rounded-full mx-auto bg-border/30 flex items-center justify-center overflow-hidden">
                       {member.image ? (
