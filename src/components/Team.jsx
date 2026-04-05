@@ -92,6 +92,7 @@ export default function Team() {
   const [matched,   setMatched]   = useState(new Set())
   const [isDesktop, setIsDesktop] = useState(false)
   const [gaveUp,    setGaveUp]    = useState(false)
+  const [gameCfg,   setGameCfg]   = useState({ r: HS_RADIUS, diam: HS_DIAM, mobile: false })
 
   const base = import.meta.env.BASE_URL
 
@@ -106,6 +107,7 @@ export default function Team() {
   const slotNodeRefs    = useRef([])   // DOM refs for slot divs
   const idleNodeRefs    = useRef([])   // DOM refs for normal grid cards
   const lastFrameTime   = useRef(null) // for delta-time framerate-independent physics
+  const lastTapRef      = useRef(0)    // for double-tap detection on mobile
 
   const isPlaying = gameState === 'playing' || gameState === 'complete'
 
@@ -122,14 +124,21 @@ export default function Team() {
 
   // ── Activate ────────────────────────────────────────────────────────────────
   function activate() {
-    if (gameState !== 'idle' || reduced || !isDesktop) return
+    if (gameState !== 'idle' || reduced) return
     const container = containerRef.current
     if (!container) return
+
+    const isMobile = !window.matchMedia('(pointer: fine)').matches
+    const r    = isMobile ? 30 : HS_RADIUS
+    const diam = r * 2
 
     const cRect = container.getBoundingClientRect()
     const cW = cRect.width
     const cH = cRect.height
-    containerSize.current = { w: cW, h: Math.max(cH + 150, 500) }
+    const containerH = isMobile
+      ? Math.max(window.innerHeight - 150, 400)
+      : Math.max(cH + 150, 500)
+    containerSize.current = { w: cW, h: containerH }
 
     const slots = []
     const headshots = []
@@ -137,14 +146,14 @@ export default function Team() {
     teamMembers.forEach((member, i) => {
       const node = idleNodeRefs.current[i]
       if (!node) return
-      const r  = node.getBoundingClientRect()
-      const sx = r.left - cRect.left
-      const sy = r.top  - cRect.top
-      const sw = r.width
-      const sh = r.height
+      const nr = node.getBoundingClientRect()
+      const sx = nr.left - cRect.left
+      const sy = nr.top  - cRect.top
+      const sw = nr.width
+      const sh = nr.height
 
       const circleCx = sx + sw / 2
-      const circleCy = sy + HS_RADIUS
+      const circleCy = sy + r
 
       slots.push({ memberId: member.id, x: sx, y: sy, w: sw, h: sh, circleCx, circleCy, matched: false })
 
@@ -160,7 +169,7 @@ export default function Team() {
         x: circleCx,
         y: circleCy,
         vx, vy, rot: 0, rotV,
-        r: HS_RADIUS,
+        r,
         placed: false,
         dragging: false,
       })
@@ -169,9 +178,27 @@ export default function Team() {
     slotsRef.current     = slots
     headshotsRef.current = headshots
     activeRef.current    = true
+    setGameCfg({ r, diam, mobile: isMobile })
     setMatched(new Set())
     setGameState('playing')
   }
+
+  // Double-tap handler for mobile activation
+  function handleTap() {
+    const now = Date.now()
+    if (now - lastTapRef.current < 320) activate()
+    lastTapRef.current = now
+  }
+
+  // ── Prevent page scroll during mobile game ────────────────────────────────
+  useEffect(() => {
+    if (!isPlaying || isDesktop) return
+    const container = containerRef.current
+    if (!container) return
+    const prevent = e => e.preventDefault()
+    container.addEventListener('touchmove', prevent, { passive: false })
+    return () => container.removeEventListener('touchmove', prevent)
+  }, [isPlaying, isDesktop]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // ── Start physics loop + billiard-break sequence when gameState → 'playing' ─
   useEffect(() => {
@@ -276,8 +303,8 @@ export default function Team() {
     for (let i = 0; i < hs.length; i++) {
       const node = hsNodeRefs.current[i]
       if (!node) continue
-      const { x, y, rot } = hs[i]
-      node.style.transform = `translate(${x - HS_RADIUS}px, ${y - HS_RADIUS}px) rotate(${rot}deg)`
+      const { x, y, rot, r: hr } = hs[i]
+      node.style.transform = `translate(${x - hr}px, ${y - hr}px) rotate(${rot}deg)`
     }
   }
 
@@ -292,7 +319,7 @@ export default function Team() {
   }
 
   // ── Drag ──────────────────────────────────────────────────────────────────
-  function startDrag(idx, clientX, clientY) {
+  function startDrag(idx, clientX, clientY, isTouch = false) {
     const hs = headshotsRef.current[idx]
     if (!hs || hs.placed) return
     hs.dragging = true
@@ -303,14 +330,17 @@ export default function Team() {
 
     let cx = clientX, cy = clientY
     const hist = [{ x: clientX, y: clientY, t: performance.now() }]
+    const hr = hs.r
 
     function onMove(e) {
-      const nx = e.clientX, ny = e.clientY
+      if (isTouch) e.preventDefault()
+      const pt = isTouch ? e.touches[0] : e
+      const nx = pt.clientX, ny = pt.clientY
       hs.x += nx - cx;  hs.y += ny - cy
       cx = nx;  cy = ny
       hist.push({ x: nx, y: ny, t: performance.now() })
       if (hist.length > 8) hist.shift()
-      if (node) node.style.transform = `translate(${hs.x - HS_RADIUS}px, ${hs.y - HS_RADIUS}px) rotate(${hs.rot}deg)`
+      if (node) node.style.transform = `translate(${hs.x - hr}px, ${hs.y - hr}px) rotate(${hs.rot}deg)`
     }
 
     function onUp() {
@@ -347,12 +377,22 @@ export default function Team() {
         }
       }
 
-      window.removeEventListener('mousemove', onMove)
-      window.removeEventListener('mouseup',   onUp)
+      if (isTouch) {
+        window.removeEventListener('touchmove', onMove)
+        window.removeEventListener('touchend',  onUp)
+      } else {
+        window.removeEventListener('mousemove', onMove)
+        window.removeEventListener('mouseup',   onUp)
+      }
     }
 
-    window.addEventListener('mousemove', onMove)
-    window.addEventListener('mouseup',   onUp)
+    if (isTouch) {
+      window.addEventListener('touchmove', onMove, { passive: false })
+      window.addEventListener('touchend',  onUp)
+    } else {
+      window.addEventListener('mousemove', onMove)
+      window.addEventListener('mouseup',   onUp)
+    }
   }
 
   // ── Correct match ─────────────────────────────────────────────────────────
@@ -368,8 +408,8 @@ export default function Team() {
 
     const node = hsNodeRefs.current[hsIdx]
     if (node) {
-      const cx = slot.circleCx - HS_RADIUS
-      const cy = slot.circleCy - HS_RADIUS
+      const cx = slot.circleCx - hs.r
+      const cy = slot.circleCy - hs.r
       node.style.transition = 'transform 0.28s cubic-bezier(0.34,1.56,0.64,1)'
       node.style.transform  = `translate(${cx}px, ${cy}px) scale(1.25)`
       setTimeout(() => {
@@ -416,8 +456,8 @@ export default function Team() {
 
       const node = hsNodeRefs.current[hsIdx]
       if (node) {
-        const cx = slot.circleCx - HS_RADIUS
-        const cy = slot.circleCy - HS_RADIUS
+        const cx = slot.circleCx - h.r
+        const cy = slot.circleCy - h.r
         node.style.transition = 'transform 0.6s ease-out'
         node.style.transform  = `translate(${cx}px, ${cy}px) rotate(0deg)`
       }
@@ -467,7 +507,19 @@ export default function Team() {
 
         {/* Game controls bar */}
         {isPlaying && (
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20, animation: 'team-fade-in 0.3s ease' }}>
+          <div style={{
+            display: 'flex', alignItems: 'center', gap: 12,
+            animation: 'team-fade-in 0.3s ease',
+            ...(gameCfg.mobile ? {
+              position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 200,
+              background: 'rgba(250,250,246,0.97)',
+              backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)',
+              padding: '12px 20px',
+              borderTop: '1px solid rgba(46,58,92,0.08)',
+            } : {
+              marginBottom: 20,
+            }),
+          }}>
             <span style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontSize: 15, color: 'rgba(46,58,92,0.45)', flexGrow: 1 }}>
               Drag each face to its matching name
             </span>
@@ -526,7 +578,7 @@ export default function Team() {
                     <div
                       data-slot-circle
                       style={{
-                        width: HS_DIAM, height: HS_DIAM,
+                        width: gameCfg.diam, height: gameCfg.diam,
                         borderRadius: '50%',
                         border: `2px dashed ${isMatched ? '#6B8F6B' : 'rgba(46,58,92,0.22)'}`,
                         transition: 'border-color 0.3s ease',
@@ -550,7 +602,7 @@ export default function Team() {
                         position: 'absolute',
                         top: 0,
                         left: '50%',
-                        transform: 'translateX(calc(-50% + 28px))',
+                        '--badge-offset': `${gameCfg.r - 12}px`,
                         width: 20, height: 20,
                         borderRadius: '50%',
                         background: '#6B8F6B',
@@ -588,10 +640,10 @@ export default function Team() {
                   style={{
                     position: 'absolute',
                     left: 0, top: 0,
-                    width: HS_DIAM, height: HS_DIAM,
+                    width: gameCfg.diam, height: gameCfg.diam,
                     borderRadius: '50%',
                     overflow: 'hidden',
-                    transform: `translate(${hs.x - HS_RADIUS}px, ${hs.y - HS_RADIUS}px)`,
+                    transform: `translate(${hs.x - gameCfg.r}px, ${hs.y - gameCfg.r}px)`,
                     boxShadow: '0 4px 16px rgba(0,0,0,0.18)',
                     border: '2px solid rgba(255,255,255,0.7)',
                     cursor: 'grab',
@@ -601,6 +653,7 @@ export default function Team() {
                     zIndex: 10,
                   }}
                   onMouseDown={e => { e.preventDefault(); startDrag(i, e.clientX, e.clientY) }}
+                  onTouchStart={e => { e.preventDefault(); startDrag(i, e.touches[0].clientX, e.touches[0].clientY, true) }}
                 >
                   {member?.image ? (
                     <img
@@ -672,11 +725,12 @@ export default function Team() {
                 transition={{ duration: 0.4, delay: i * 0.07 }}
                 className="text-center"
               >
-                {member.id === 1 && isDesktop ? (
-                  /* Tatsuya — subtle hover hint + double-click to activate (desktop only) */
+                {member.id === 1 ? (
+                  /* Tatsuya — hover hint (desktop) or pulse hint (mobile) + activate */
                   <div
-                    className="tatsuya-hint"
-                    onDoubleClick={activate}
+                    className={isDesktop ? 'tatsuya-hint' : 'tatsuya-hint-mobile'}
+                    onDoubleClick={isDesktop ? activate : undefined}
+                    onTouchEnd={!isDesktop ? handleTap : undefined}
                     style={{ userSelect: 'none' }}
                   >
                     <div className="tatsuya-photo w-[72px] h-[72px] rounded-full mx-auto bg-border/30 flex items-center justify-center overflow-hidden">
@@ -767,15 +821,15 @@ export default function Team() {
           100% { transform: scale(1); }
         }
         @keyframes slot-check-in {
-          0%   { transform: translateX(calc(-50% + 28px)) scale(0); opacity: 0; }
-          100% { transform: translateX(calc(-50% + 28px)) scale(1); opacity: 1; }
+          0%   { transform: translateX(calc(-50% + var(--badge-offset, 28px))) scale(0); opacity: 0; }
+          100% { transform: translateX(calc(-50% + var(--badge-offset, 28px))) scale(1); opacity: 1; }
         }
         @keyframes confetti-fly {
           0%   { opacity: 1; transform: translate(0, 0) rotate(0deg) scale(1); }
           70%  { opacity: 1; }
           100% { opacity: 0; transform: translate(var(--tx), var(--ty)) rotate(var(--rot)) scale(0.5); }
         }
-        /* Tatsuya card — subtle hover hint */
+        /* Tatsuya card — subtle hover hint (desktop) */
         .tatsuya-hint { cursor: default; }
         .tatsuya-hint:hover {
           animation: tatsuya-wiggle 2s ease-in-out infinite;
@@ -788,6 +842,15 @@ export default function Team() {
           0%, 100% { transform: rotate(0deg); }
           25%  { transform: rotate(-1.5deg); }
           75%  { transform: rotate(1.5deg); }
+        }
+        /* Tatsuya card — subtle pulse hint (mobile, no hover) */
+        .tatsuya-hint-mobile { cursor: default; }
+        .tatsuya-hint-mobile .tatsuya-photo {
+          animation: tatsuya-pulse 2.8s ease-in-out infinite;
+        }
+        @keyframes tatsuya-pulse {
+          0%, 100% { box-shadow: 0 0 0 0px rgba(107,143,107,0); }
+          50%       { box-shadow: 0 0 0 4px rgba(107,143,107,0.3), 0 0 14px rgba(107,143,107,0.18); }
         }
         /* Power-up glow on Tatsuya's floating headshot */
         @keyframes hs-powerup {
