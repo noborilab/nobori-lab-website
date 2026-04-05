@@ -3,6 +3,16 @@ import { motion } from 'framer-motion'
 export default function Mission() {
   return (
     <section className="bg-bg py-20 px-6">
+      <motion.h2
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-60px' }}
+        transition={{ duration: 0.7 }}
+        className="font-display text-navy text-center mb-6"
+        style={{ fontSize: '2em' }}
+      >
+        Our Mission
+      </motion.h2>
       <motion.p
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
