@@ -439,17 +439,16 @@ export default function Publications() {
     setShowTooltip(false)
   }
 
-  // Show once per session when Publications scrolls into view
+  // Show every time Publications scrolls into view
   useEffect(() => {
-    if (sessionStorage.getItem('browse_tooltip_shown')) return
     const section = document.getElementById('publications')
     if (!section) return
     const observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting) {
-        sessionStorage.setItem('browse_tooltip_shown', '1')
         setShowTooltip(true)
         tooltipTimerRef.current = setTimeout(dismissTooltip, 5000)
-        observer.disconnect()
+      } else {
+        dismissTooltip()
       }
     }, { threshold: 0.3 })
     observer.observe(section)
