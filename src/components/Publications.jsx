@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback, useEffect } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   selected,
@@ -429,31 +429,20 @@ function CompactRow({ pub, index }) {
 }
 
 export default function Publications() {
-  const [activeTab,   setActiveTab]   = useState('selected')
+  const [activeTab,    setActiveTab]    = useState('selected')
   const [showFlipbook, setShowFlipbook] = useState(false)
-  const [showTooltip,  setShowTooltip] = useState(false)
-  const tooltipTimerRef = useRef(null)
+  const [pulseBrowse,  setPulseBrowse]  = useState(false)
 
-  function dismissTooltip() {
-    clearTimeout(tooltipTimerRef.current)
-    setShowTooltip(false)
-  }
-
-  // Show every time Publications scrolls into view
+  // Pulse Browse tab each time Publications enters view
   useEffect(() => {
     const section = document.getElementById('publications')
     if (!section) return
     const observer = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) {
-        setShowTooltip(true)
-        tooltipTimerRef.current = setTimeout(dismissTooltip, 5000)
-      } else {
-        dismissTooltip()
-      }
+      setPulseBrowse(entries[0].isIntersecting)
     }, { threshold: 0.05 })
     observer.observe(section)
-    return () => { observer.disconnect(); clearTimeout(tooltipTimerRef.current) }
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+    return () => observer.disconnect()
+  }, [])
 
   const dataMap = {
     selected,
@@ -478,17 +467,29 @@ export default function Publications() {
           className="flex flex-wrap gap-x-5 gap-y-2 mb-10"
         >
           {tabs.map((tab) => {
-            const btn = (
-              <button
-                onClick={() => {
-                  if (tab.key === 'browse') {
-                    dismissTooltip()
+            if (tab.key === 'browse') {
+              return (
+                <button
+                  key={tab.key}
+                  onClick={() => {
                     setShowFlipbook(true)
                     if (typeof window.gtag === 'function') window.gtag('event', 'flipbook_open', { event_category: 'publications' })
-                    return
-                  }
-                  setActiveTab(tab.key)
-                }}
+                  }}
+                  className="pub-browse-btn font-mono text-[14px] uppercase tracking-[0.12em] whitespace-nowrap"
+                  style={pulseBrowse ? { animation: 'browse-pulse 2s ease 2' } : {}}
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'inline', verticalAlign: 'middle', marginRight: 5, marginBottom: 1 }}>
+                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+                  </svg>
+                  {tab.label}
+                </button>
+              )
+            }
+            return (
+              <button
+                key={tab.key}
+                onClick={() => setActiveTab(tab.key)}
                 className={`font-mono text-[14px] uppercase tracking-[0.12em] pb-1 transition-all whitespace-nowrap ${
                   activeTab === tab.key
                     ? 'text-navy border-b-2 border-navy'
@@ -497,54 +498,6 @@ export default function Publications() {
               >
                 {tab.label}
               </button>
-            )
-
-            if (tab.key !== 'browse') return <span key={tab.key}>{btn}</span>
-
-            return (
-              <span key={tab.key} style={{ position: 'relative', display: 'inline-block' }}>
-                {btn}
-                <AnimatePresence>
-                  {showTooltip && (
-                    <motion.div
-                      initial={{ opacity: 0, y: -4 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -4 }}
-                      transition={{ duration: 0.3, ease: 'easeOut' }}
-                      onClick={dismissTooltip}
-                      style={{
-                        position: 'absolute',
-                        top: 'calc(100% + 8px)',
-                        left: '50%',
-                        transform: 'translateX(-50%)',
-                        whiteSpace: 'nowrap',
-                        background: '#fff',
-                        color: '#2E3A5C',
-                        fontFamily: "'Karla', sans-serif",
-                        fontSize: 12,
-                        padding: '8px 16px',
-                        borderRadius: 8,
-                        boxShadow: '0 2px 12px rgba(0,0,0,0.10)',
-                        cursor: 'pointer',
-                        zIndex: 50,
-                        userSelect: 'none',
-                      }}
-                    >
-                      {'Try book view \u2192'}
-                      {/* Caret pointing up toward the Browse tab */}
-                      <span style={{
-                        position: 'absolute',
-                        top: -5, left: '50%',
-                        transform: 'translateX(-50%)',
-                        width: 0, height: 0,
-                        borderLeft: '5px solid transparent',
-                        borderRight: '5px solid transparent',
-                        borderBottom: '5px solid #fff',
-                      }} />
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </span>
             )
           })}
         </motion.div>
@@ -613,6 +566,28 @@ export default function Publications() {
           </a>
         </motion.div>
       </div>
+
+      <style>{`
+        .pub-browse-btn {
+          display: inline-flex;
+          align-items: center;
+          padding: 6px 14px;
+          border-radius: 20px;
+          background: rgba(107,143,107,0.15);
+          color: #2E3A5C;
+          border: none;
+          cursor: pointer;
+          transition: background 0.2s ease;
+        }
+        .pub-browse-btn:hover {
+          background: rgba(107,143,107,0.25);
+          animation: none;
+        }
+        @keyframes browse-pulse {
+          0%, 100% { background: rgba(107,143,107,0.15); }
+          50%       { background: rgba(107,143,107,0.30); }
+        }
+      `}</style>
     </section>
   )
 }
