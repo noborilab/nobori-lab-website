@@ -450,7 +450,7 @@ export default function Publications() {
       } else {
         dismissTooltip()
       }
-    }, { threshold: 0.3 })
+    }, { threshold: 0.05 })
     observer.observe(section)
     return () => { observer.disconnect(); clearTimeout(tooltipTimerRef.current) }
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
