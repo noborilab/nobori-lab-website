@@ -7,7 +7,15 @@ import { useReducedMotion } from '../hooks/useReducedMotion'
 function buildPubs() {
   const seen = new Set()
   const result = []
-  for (const pub of [...selected, ...originalArticles, ...reviews]) {
+  // Selected first (deduped)
+  for (const pub of selected) {
+    if (!seen.has(pub.title)) { seen.add(pub.title); result.push(pub) }
+  }
+  // Remaining originals + reviews merged, sorted newest-first
+  const rest = [...originalArticles, ...reviews]
+    .filter(pub => !seen.has(pub.title))
+    .sort((a, b) => b.year - a.year)
+  for (const pub of rest) {
     if (!seen.has(pub.title)) { seen.add(pub.title); result.push(pub) }
   }
   return result

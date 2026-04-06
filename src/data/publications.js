@@ -160,7 +160,7 @@ export const originalArticles = [
     year: 2025,
     title: 'Drought recovery in plants triggers a cell-state-specific immune activation',
     journal: 'Nature Communications',
-    firstPage: '',
+    firstPage: '/images/publications/first-pages/illouz-eliaz-2025-nature-communications.jpg',
     link: 'https://www.nature.com/articles/s41467-025-63467-2',
   },
   {
@@ -187,7 +187,7 @@ export const originalArticles = [
     year: 2024,
     title: 'Streamlined spatial and environmental expression signatures characterize the minimalist duckweed Wolffia australiana',
     journal: 'Genome Research',
-    firstPage: '',
+    firstPage: '/images/publications/first-pages/denyer-2024-genome-research.jpg',
     link: 'https://genome.cshlp.org/content/early/2024/06/28/gr.279091.124.abstract',
   },
   {
@@ -196,7 +196,7 @@ export const originalArticles = [
     year: 2024,
     title: 'Spatial IMA1 regulation restricts root iron acquisition on MAMP perception',
     journal: 'Nature',
-    firstPage: '',
+    firstPage: '/images/publications/first-pages/cao-2024-nature.jpg',
     link: 'https://www.nature.com/articles/s41586-023-06891-y',
   },
   {
@@ -223,7 +223,7 @@ export const originalArticles = [
     year: 2021,
     title: 'PhcQ mainly contributes to the regulation of quorum sensing-dependent genes, in which PhcR is partly involved, in Ralstonia pseudosolanacearum strain OE1-1',
     journal: 'Molecular Plant Pathology',
-    firstPage: '',
+    firstPage: '/images/publications/first-pages/takemura-2021-molecular-plant-pathology.jpg',
   },
   {
     id: 'o10',
@@ -240,7 +240,7 @@ export const originalArticles = [
     year: 2019,
     title: 'Site-specific cleavage of bacterial MucD by secreted proteases mediates antibacterial resistance in Arabidopsis',
     journal: 'Nature Communications',
-    firstPage: '',
+    firstPage: '/images/publications/first-pages/wang-2019-nature-communications.jpg',
   },
   {
     id: 'o12',
@@ -248,7 +248,7 @@ export const originalArticles = [
     year: 2019,
     title: 'Balancing trade-offs between biotic and abiotic stress responses through leaf age-dependent variation in stress hormone cross-talk',
     journal: 'PNAS',
-    firstPage: '',
+    firstPage: '/images/publications/first-pages/berens-2019-pnas.jpg',
   },
   {
     id: 'o13',
@@ -273,7 +273,7 @@ export const originalArticles = [
     year: 2017,
     title: 'Pathogen exploitation of an abscisic acid- and jasmonate-inducible MAPK phosphatase and its interception by Arabidopsis immunity',
     journal: 'PNAS',
-    firstPage: '',
+    firstPage: '/images/publications/first-pages/mine-2017-pnas.jpg',
   },
   {
     id: 'o16',
@@ -281,7 +281,7 @@ export const originalArticles = [
     year: 2017,
     title: 'An incoherent feed-forward loop mediates robustness and tunability in a plant immune network',
     journal: 'EMBO Reports',
-    firstPage: '',
+    firstPage: '/images/publications/first-pages/mine-2017-embo-reports.jpg',
   },
   {
     id: 'o17',
@@ -321,7 +321,7 @@ export const originalArticles = [
     year: 2014,
     title: 'Effects of potassium in reducing the radiocesium translocation to grain in rice',
     journal: 'Soil Science and Plant Nutrition',
-    firstPage: '',
+    firstPage: '/images/publications/first-pages/nobori-2014-soil-science-and-plant-nutrition.jpg',
   },
 ]
 
@@ -341,7 +341,7 @@ export const reviews = [
     year: 2025,
     title: 'Scientific mobility in microbiology – 6',
     journal: 'Trends in Microbiology',
-    firstPage: '',
+    firstPage: '/images/publications/first-pages/nobori-2025-trends-in-microbiology.jpg',
     link: 'https://www.cell.com/trends/microbiology/fulltext/S0966-842X(25)00188-X',
   },
   {
@@ -360,7 +360,7 @@ export const reviews = [
     year: 2023,
     title: 'Yet uninfected? Resolving cell states of plants under pathogen attack',
     journal: 'Cell Reports Methods',
-    firstPage: '',
+    firstPage: '/images/publications/first-pages/nobori-2023-cell-reports-methods.jpg',
   },
   {
     id: 'r5',
@@ -368,7 +368,7 @@ export const reviews = [
     year: 2022,
     title: 'From the archives: Calcium signaling and PIN polarity',
     journal: 'The Plant Cell',
-    firstPage: '',
+    firstPage: '/images/publications/first-pages/nobori-2022-the-plant-cell.jpg',
   },
   {
     id: 'r6',
@@ -376,7 +376,7 @@ export const reviews = [
     year: 2022,
     title: 'A qWRKY regulator of ROS',
     journal: 'The Plant Cell',
-    firstPage: '',
+    firstPage: '/images/publications/first-pages/nobori-2022-the-plant-cell.jpg',
   },
   {
     id: 'r7',
@@ -384,7 +384,7 @@ export const reviews = [
     year: 2022,
     title: 'Closing the gap: A plasma membrane H+-ATPase regulates stomatal closure',
     journal: 'The Plant Cell',
-    firstPage: '',
+    firstPage: '/images/publications/first-pages/nobori-2022-the-plant-cell.jpg',
   },
   {
     id: 'r8',
@@ -392,7 +392,7 @@ export const reviews = [
     year: 2021,
     title: 'Know your appetite: Phosphate-sensing proteins regulate AM symbiosis',
     journal: 'The Plant Cell',
-    firstPage: '',
+    firstPage: '/images/publications/first-pages/nobori-2021-the-plant-cell.jpg',
   },
   {
     id: 'r9',
@@ -400,7 +400,7 @@ export const reviews = [
     year: 2021,
     title: 'Plant single-cell solutions for energy and the environment',
     journal: 'Communications Biology',
-    firstPage: '',
+    firstPage: '/images/publications/first-pages/cole-2021-communications-biology.jpg',
   },
   {
     id: 'r10',
@@ -408,7 +408,7 @@ export const reviews = [
     year: 2021,
     title: 'Similar yet different fighting styles: Evolution of the gene expression landscape in plant immune responses',
     journal: 'The Plant Cell',
-    firstPage: '',
+    firstPage: '/images/publications/first-pages/nobori-2021-the-plant-cell.jpg',
   },
   {
     id: 'r11',
@@ -416,7 +416,7 @@ export const reviews = [
     year: 2021,
     title: 'Single-cell genomics goes greener',
     journal: 'The Plant Cell',
-    firstPage: '',
+    firstPage: '/images/publications/first-pages/nobori-2021-the-plant-cell.jpg',
   },
   {
     id: 'r12',
@@ -424,7 +424,7 @@ export const reviews = [
     year: 2019,
     title: 'The plant immune system in heterogeneous environments',
     journal: 'Curr Opin Plant Biol',
-    firstPage: '',
+    firstPage: '/images/publications/first-pages/nobori-2019-curr-opin-plant-biol.jpg',
   },
   {
     id: 'r13',

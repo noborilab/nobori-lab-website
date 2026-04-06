@@ -217,7 +217,7 @@ for (const file of files) {
   const jpgPath = join(FOLDER, jpgFile)
   let jpgOk = false
   try {
-    await execAsync(`/usr/bin/sips -s format jpeg -s formatOptions 90 --resampleWidth 800 "${finalPath}" --out "${jpgPath}"`)
+    await execAsync(`/usr/bin/sips -s format jpeg -s formatOptions 90 --resampleWidth 1400 "${finalPath}" --out "${jpgPath}"`)
     jpgOk = true
     console.log(`      → converted to ${jpgFile}`)
     converted++
