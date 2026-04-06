@@ -429,8 +429,32 @@ function CompactRow({ pub, index }) {
 }
 
 export default function Publications() {
-  const [activeTab, setActiveTab] = useState('selected')
+  const [activeTab,   setActiveTab]   = useState('selected')
   const [showFlipbook, setShowFlipbook] = useState(false)
+  const [showTooltip,  setShowTooltip] = useState(false)
+  const tooltipTimerRef = useRef(null)
+
+  function dismissTooltip() {
+    clearTimeout(tooltipTimerRef.current)
+    setShowTooltip(false)
+  }
+
+  // Show once per session when Publications scrolls into view
+  useEffect(() => {
+    if (sessionStorage.getItem('browse_tooltip_shown')) return
+    const section = document.getElementById('publications')
+    if (!section) return
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        sessionStorage.setItem('browse_tooltip_shown', '1')
+        setShowTooltip(true)
+        tooltipTimerRef.current = setTimeout(dismissTooltip, 5000)
+        observer.disconnect()
+      }
+    }, { threshold: 0.3 })
+    observer.observe(section)
+    return () => { observer.disconnect(); clearTimeout(tooltipTimerRef.current) }
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const dataMap = {
     selected,
@@ -454,22 +478,76 @@ export default function Publications() {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="flex flex-wrap gap-x-5 gap-y-2 mb-10"
         >
-          {tabs.map((tab) => (
-            <button
-              key={tab.key}
-              onClick={() => {
-                if (tab.key === 'browse') { setShowFlipbook(true); if (typeof window.gtag === 'function') window.gtag('event', 'flipbook_open', { event_category: 'publications' }); return }
-                setActiveTab(tab.key)
-              }}
-              className={`font-mono text-[14px] uppercase tracking-[0.12em] pb-1 transition-all whitespace-nowrap ${
-                activeTab === tab.key
-                  ? 'text-navy border-b-2 border-navy'
-                  : 'text-text/30 hover:text-text/55'
-              }`}
-            >
-              {tab.label}
-            </button>
-          ))}
+          {tabs.map((tab) => {
+            const btn = (
+              <button
+                onClick={() => {
+                  if (tab.key === 'browse') {
+                    dismissTooltip()
+                    setShowFlipbook(true)
+                    if (typeof window.gtag === 'function') window.gtag('event', 'flipbook_open', { event_category: 'publications' })
+                    return
+                  }
+                  setActiveTab(tab.key)
+                }}
+                className={`font-mono text-[14px] uppercase tracking-[0.12em] pb-1 transition-all whitespace-nowrap ${
+                  activeTab === tab.key
+                    ? 'text-navy border-b-2 border-navy'
+                    : 'text-text/30 hover:text-text/55'
+                }`}
+              >
+                {tab.label}
+              </button>
+            )
+
+            if (tab.key !== 'browse') return <span key={tab.key}>{btn}</span>
+
+            return (
+              <span key={tab.key} style={{ position: 'relative', display: 'inline-block' }}>
+                {btn}
+                <AnimatePresence>
+                  {showTooltip && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -2 }}
+                      transition={{ duration: 0.4, ease: 'easeOut' }}
+                      onClick={dismissTooltip}
+                      style={{
+                        position: 'absolute',
+                        bottom: 'calc(100% + 12px)',
+                        left: '50%',
+                        transform: 'translateX(-50%)',
+                        whiteSpace: 'nowrap',
+                        background: '#FAFAF6',
+                        color: '#2E3A5C',
+                        fontFamily: "'Karla', sans-serif",
+                        fontSize: 12,
+                        padding: '6px 14px',
+                        borderRadius: 999,
+                        boxShadow: '0 4px 16px rgba(46,58,92,0.13), 0 1px 4px rgba(46,58,92,0.07)',
+                        cursor: 'pointer',
+                        zIndex: 50,
+                        userSelect: 'none',
+                      }}
+                    >
+                      {'Try book view \u2192'}
+                      {/* Caret pointing down to tab */}
+                      <span style={{
+                        position: 'absolute',
+                        bottom: -5, left: '50%',
+                        transform: 'translateX(-50%)',
+                        width: 0, height: 0,
+                        borderLeft: '5px solid transparent',
+                        borderRight: '5px solid transparent',
+                        borderTop: '5px solid #FAFAF6',
+                      }} />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </span>
+            )
+          })}
         </motion.div>
 
         {/* Content */}
