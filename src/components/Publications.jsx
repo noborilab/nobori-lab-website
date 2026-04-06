@@ -464,7 +464,7 @@ export default function Publications() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="flex flex-wrap gap-x-5 gap-y-2 mb-10"
+          className="flex flex-wrap items-center gap-x-5 gap-y-2 mb-10"
         >
           {tabs.map((tab) => {
             if (tab.key === 'browse') {
