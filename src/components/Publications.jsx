@@ -507,39 +507,39 @@ export default function Publications() {
                 <AnimatePresence>
                   {showTooltip && (
                     <motion.div
-                      initial={{ opacity: 0, y: 4 }}
+                      initial={{ opacity: 0, y: -4 }}
                       animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -2 }}
-                      transition={{ duration: 0.4, ease: 'easeOut' }}
+                      exit={{ opacity: 0, y: -4 }}
+                      transition={{ duration: 0.3, ease: 'easeOut' }}
                       onClick={dismissTooltip}
                       style={{
                         position: 'absolute',
-                        bottom: 'calc(100% + 12px)',
+                        top: 'calc(100% + 8px)',
                         left: '50%',
                         transform: 'translateX(-50%)',
                         whiteSpace: 'nowrap',
-                        background: '#FAFAF6',
+                        background: '#fff',
                         color: '#2E3A5C',
                         fontFamily: "'Karla', sans-serif",
                         fontSize: 12,
-                        padding: '6px 14px',
-                        borderRadius: 999,
-                        boxShadow: '0 4px 16px rgba(46,58,92,0.13), 0 1px 4px rgba(46,58,92,0.07)',
+                        padding: '8px 16px',
+                        borderRadius: 8,
+                        boxShadow: '0 2px 12px rgba(0,0,0,0.10)',
                         cursor: 'pointer',
                         zIndex: 50,
                         userSelect: 'none',
                       }}
                     >
                       {'Try book view \u2192'}
-                      {/* Caret pointing down to tab */}
+                      {/* Caret pointing up toward the Browse tab */}
                       <span style={{
                         position: 'absolute',
-                        bottom: -5, left: '50%',
+                        top: -5, left: '50%',
                         transform: 'translateX(-50%)',
                         width: 0, height: 0,
                         borderLeft: '5px solid transparent',
                         borderRight: '5px solid transparent',
-                        borderTop: '5px solid #FAFAF6',
+                        borderBottom: '5px solid #fff',
                       }} />
                     </motion.div>
                   )}
