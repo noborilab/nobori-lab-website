@@ -184,18 +184,6 @@ export default function CV() {
               </div>
             </CollapsibleSection>
 
-            {/* Editorial Activities */}
-            <CollapsibleSection title="Editorial Activities">
-              <ul className="space-y-2">
-                {editorial.map((item, i) => (
-                  <li key={i} className="text-[18px] text-text/60 flex gap-2">
-                    <span className="text-sage mt-0.5 shrink-0">&#9656;</span>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </CollapsibleSection>
-
             {/* Awards & Honors */}
             <CollapsibleSection title="Awards & Honors">
               <ul className="space-y-2">
@@ -215,6 +203,18 @@ export default function CV() {
                     ) : (
                       item.text
                     )}
+                  </li>
+                ))}
+              </ul>
+            </CollapsibleSection>
+
+            {/* Editorial Activities */}
+            <CollapsibleSection title="Editorial Activities">
+              <ul className="space-y-2">
+                {editorial.map((item, i) => (
+                  <li key={i} className="text-[18px] text-text/60 flex gap-2">
+                    <span className="text-sage mt-0.5 shrink-0">&#9656;</span>
+                    {item}
                   </li>
                 ))}
               </ul>
