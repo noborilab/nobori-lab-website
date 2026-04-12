@@ -17,8 +17,8 @@ export const experience = [
     period: 'Apr 2015\u2013Apr 2019',
     institution: 'Max-Planck Institute for Plant Breeding Research',
     location: 'Cologne, Germany',
-    role: 'Ph.D. summa cum laude',
-    detail: 'Supervisor: Dr. Kenichi Tsuda',
+    role: 'Ph.D.',
+    detail: 'Summa cum laude · Supervisor: Dr. Kenichi Tsuda',
   },
   {
     period: 'Apr 2012\u2013Mar 2015',
