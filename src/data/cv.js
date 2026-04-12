@@ -62,7 +62,7 @@ export const awards = [
   },
   { text: 'Best Trainee Talk, Salk Science at the Seaside 2023' },
   { text: 'Poster Prize, Gordon Research Conference Plant Molecular Biology 2022' },
-  { text: 'HFSP Long-Term Fellow, 2020\u2013present' },
+  { text: 'HFSP Long-Term Fellow, 2020\u20132023' },
   { text: 'PhD summa cum laude, MPI / University of Cologne, 2019' },
   { text: 'Best Paper Award for Young Researchers, Japan Radioisotope Association, 2016' },
   { text: 'Nakajima Foundation Scholarship, 2015\u20132019' },
