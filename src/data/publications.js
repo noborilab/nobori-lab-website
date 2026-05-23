@@ -146,6 +146,16 @@ export const selected = [
 
 export const originalArticles = [
   {
+    id: 'o1new',
+    authors: 'Lee, T.A., ..., Nobori, T., ..., Ecker, J.R.',
+    year: 2026,
+    title: 'Transient cell states encode positional information to direct asymmetric growth',
+    journal: 'bioRxiv',
+    firstPage: '/images/publications/first-pages/lee-2026-biorxiv.jpg',
+    link: 'https://www.biorxiv.org/content/10.64898/2026.05.21.726925v1',
+    threadUrl: '',
+  },
+  {
     id: 'o1',
     authors: 'Creff, A., et al. incl. Nobori, T.',
     year: 2025,
