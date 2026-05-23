@@ -1,5 +1,14 @@
 export const newsItems = [
   {
+    id: 13,
+    date: 'May 2026',
+    title: 'Welcome Ketil Krabbe',
+    description: 'Ketil joins as a new pre-doc. He completed his master\'s with Sarah O\'Connor at MPI Jena (single-cell metabolomics) and a science policy internship at the OPCW before joining us.',
+    tag: 'Lab',
+    color: 'sage',
+    link: '',
+  },
+  {
     id: 5,
     date: 'Feb 2026',
     title: 'Welcome Nanne Taks',
