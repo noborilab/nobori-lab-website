@@ -59,9 +59,11 @@ When I say "process inbox", check each inbox item and handle as follows:
 2. Clear processed entries from `inbox/updates.md`
 
 **Gallery — `inbox/gallery/`:**
-1. Move photos to `public/images/gallery/`
-2. Add entries to `src/data/gallery.js` (use any captions noted in `inbox/updates.md`)
+1. Convert any `.HEIC`/`.heic` files to JPG first: `sips -s format jpeg <file> --out <same-path-with-.jpg>`
+2. Move photos (JPG/PNG) to `public/images/lab/<year>/`
 3. Clear processed gallery entries from `inbox/updates.md`
+
+Note: HEIC conversion also applies to `inbox/members/` headshots and any HEIC files found directly in `public/images/lab/` subfolders. Always convert before committing — browsers cannot display HEIC.
 
 After processing everything: run `npm run build` to verify, then remind me to commit and push.
 
