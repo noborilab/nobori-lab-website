@@ -31,3 +31,11 @@ dist-ssr
 public/images/projects/phytomap.m4v
 *.heic
 *.HEIC
+
+# Inbox binaries (processed and moved by Claude; .md files are tracked)
+inbox/papers/*
+inbox/members/*
+inbox/gallery/*
+!inbox/papers/.gitkeep
+!inbox/members/.gitkeep
+!inbox/gallery/.gitkeep
