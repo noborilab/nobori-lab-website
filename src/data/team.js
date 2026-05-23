@@ -11,6 +11,7 @@ export const teamMembers = [
   { id: 10, name: 'Tokuji Tsuchiya', initials: 'TT', role: 'Postdoc', image: '/images/team/Tokuji.JPG' },
   { id: 11, name: 'Karen Uchida', initials: 'KU', role: 'Predoc', image: '/images/team/Karen-Uchida_M8A3233.jpg' },
   { id: 12, name: 'Ru Zhang', initials: 'RZ', role: 'Visiting Scientist', image: '/images/team/Ru-Zhang_M8A3228.jpg' },
+  { id: 13, name: 'Ketil Krabbe', initials: 'KK', role: 'Predoctoral Intern', image: '' },
 ]
 
 export const alumni = [
