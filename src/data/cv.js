@@ -133,7 +133,7 @@ export const invitedTalksByYear = {
 }
 
 export const reviewerGrants = [
-  'ERC Advanced', 'ERC Consolidator', 'BBSRC', 'ANR', 'SPS', 'NSF',
+  'ERC Advanced', 'ERC Consolidator', 'BBSRC', 'ANR', 'SPS', 'NSF', 'Swiss National Science Foundation',
 ]
 
 export const reviewerJournals = [
