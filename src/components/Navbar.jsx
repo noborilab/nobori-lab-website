@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useReducedMotion } from '../hooks/useReducedMotion'
 
 const navLinks = [
   { label: 'Home', href: '#hero' },
@@ -17,11 +18,36 @@ const navLinks = [
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [activeSection, setActiveSection] = useState('hero')
+  const reducedMotion = useReducedMotion()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50)
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  // Scrollspy: track the section[id] with the highest intersection ratio
+  useEffect(() => {
+    const sections = document.querySelectorAll('section[id]')
+    if (!sections.length) return
+
+    const ratios = {}
+    const thresholds = Array.from({ length: 21 }, (_, i) => i * 0.05)
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        ratios[entry.target.id] = entry.intersectionRatio
+      })
+      const best = Object.entries(ratios).reduce(
+        (acc, [id, ratio]) => (ratio > acc[1] ? [id, ratio] : acc),
+        ['', -1]
+      )
+      if (best[0]) setActiveSection(best[0])
+    }, { threshold: thresholds })
+
+    sections.forEach((s) => observer.observe(s))
+    return () => observer.disconnect()
   }, [])
 
   return (
@@ -45,15 +71,30 @@ export default function Navbar() {
 
         {/* Desktop */}
         <div className="hidden lg:flex items-center gap-5">
-          {navLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="font-mono text-[14px] uppercase tracking-[0.1em] text-text/60 hover:text-navy transition-colors whitespace-nowrap"
-            >
-              {link.label}
-            </a>
-          ))}
+          {navLinks.map((link) => {
+            const sectionId = link.href.replace('#', '')
+            const isActive = activeSection === sectionId
+            return (
+              <a
+                key={link.href}
+                href={link.href}
+                className={`relative font-mono text-[14px] uppercase tracking-[0.1em] transition-colors duration-200 whitespace-nowrap pb-1 ${
+                  isActive ? 'text-navy' : 'text-text/60 hover:text-navy'
+                }`}
+              >
+                {link.label}
+                {isActive && (
+                  reducedMotion
+                    ? <span className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full bg-gradient-to-r from-sage to-navy" />
+                    : <motion.span
+                        layoutId="navUnderline"
+                        className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full bg-gradient-to-r from-sage to-navy"
+                        transition={{ duration: 0.25, ease: 'easeOut' }}
+                      />
+                )}
+              </a>
+            )
+          })}
         </div>
 
         {/* Mobile toggle */}
@@ -90,26 +131,33 @@ export default function Navbar() {
             className="lg:hidden bg-bg/95 backdrop-blur-md border-b border-border overflow-hidden"
           >
             <div className="px-6 py-4 flex flex-col gap-4">
-              {navLinks.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => {
-                    setMobileOpen(false)
-                    const sectionId = link.href.replace('#', '')
-                    setTimeout(() => {
-                      const el = document.getElementById(sectionId)
-                      if (el) {
-                        el.scrollIntoView({ behavior: 'smooth', block: 'start' })
-                      }
-                      window.location.hash = sectionId
-                    }, 300)
-                  }}
-                  className="font-mono text-base uppercase tracking-widest text-text/70 hover:text-navy transition-colors"
-                >
-                  {link.label}
-                </a>
-              ))}
+              {navLinks.map((link) => {
+                const sectionId = link.href.replace('#', '')
+                const isActive = activeSection === sectionId
+                return (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => {
+                      setMobileOpen(false)
+                      setTimeout(() => {
+                        const el = document.getElementById(sectionId)
+                        if (el) {
+                          el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                        }
+                        window.location.hash = sectionId
+                      }, 300)
+                    }}
+                    className={`font-mono text-base uppercase tracking-widest transition-colors ${
+                      isActive
+                        ? 'text-navy font-medium'
+                        : 'text-text/70 hover:text-navy'
+                    }`}
+                  >
+                    {link.label}
+                  </a>
+                )
+              })}
             </div>
           </motion.div>
         )}
