@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { useReducedMotion } from '../hooks/useReducedMotion'
 import labLogo from '/images/lab-logo.gif'
+import HeroField from './HeroField'
 
 export default function Hero() {
   const sectionRef = useRef(null)
@@ -40,9 +41,11 @@ export default function Hero() {
       id="hero"
       className="relative min-h-screen flex flex-col items-center justify-center bg-bg px-6"
     >
+      <HeroField />
+
       {/* Logo — hidden until loading screen logo arrives */}
       <div
-        className="mb-10"
+        className="relative z-10 mb-10"
         style={{
           opacity: logoReady ? 1 : 0,
           transition: 'opacity 250ms ease-out',
@@ -75,7 +78,7 @@ export default function Hero() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.4 }}
         style={parallax ? { y: taglineY, opacity: contentOpacity, willChange: 'transform, opacity' } : undefined}
-        className="font-display text-[clamp(1.1rem,3vw,1.5rem)] text-text/70 text-center max-w-2xl leading-relaxed italic"
+        className="relative z-10 font-display text-[clamp(1.1rem,3vw,1.5rem)] text-text/70 text-center max-w-2xl leading-relaxed italic"
       >
         Decoding the molecular and cellular basis of plant-microbe interactions
       </motion.p>
@@ -86,7 +89,7 @@ export default function Hero() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.6 }}
         style={parallax ? { opacity: contentOpacity, willChange: 'opacity' } : undefined}
-        className="mt-3 font-mono text-sm uppercase tracking-[0.1em] sm:tracking-[0.2em] text-text/40 text-center"
+        className="relative z-10 mt-3 font-mono text-sm uppercase tracking-[0.1em] sm:tracking-[0.2em] text-text/40 text-center"
       >
         <span className="sm:hidden">The Sainsbury Laboratory<br />Norwich, UK</span>
         <span className="hidden sm:inline">The Sainsbury Laboratory &middot; Norwich, UK</span>
@@ -99,7 +102,7 @@ export default function Hero() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.8 }}
         style={parallax ? { opacity: contentOpacity, willChange: 'opacity' } : undefined}
-        className="group/pi mt-10 inline-flex items-center gap-1.5 font-display text-[18px] italic text-navy no-underline transition-colors relative"
+        className="group/pi relative z-10 mt-10 inline-flex items-center gap-1.5 font-display text-[18px] italic text-navy no-underline transition-colors"
       >
         <span className="relative">
           Tatsuya Nobori, Group Leader
@@ -116,7 +119,7 @@ export default function Hero() {
         animate={{ opacity: 1 }}
         transition={{ delay: 1.4 }}
         style={parallax ? { opacity: contentOpacity, willChange: 'opacity' } : undefined}
-        className="absolute bottom-10 hidden md:block"
+        className="absolute bottom-10 hidden md:block z-10"
       >
         <motion.div
           animate={{ y: [0, 8, 0] }}
