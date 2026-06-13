@@ -104,7 +104,7 @@ export default function News() {
           {/* Search box */}
           <div className="relative ml-auto">
             <svg
-              className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text/25"
+              className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text/40"
               fill="none"
               stroke="currentColor"
               strokeWidth="1.5"
@@ -124,7 +124,7 @@ export default function News() {
 
         {/* Result count when filtered */}
         {isFiltered && (
-          <p className="font-mono text-[13px] text-text/30 mb-6">
+          <p className="font-mono text-[13px] text-text/40 mb-6">
             {filtered.length} {filtered.length === 1 ? 'item' : 'items'}
           </p>
         )}
@@ -136,7 +136,7 @@ export default function News() {
             animate={{ opacity: 1 }}
             className="py-16 text-center"
           >
-            <p className="font-display text-[22px] italic text-text/30">
+            <p className="font-display text-[22px] italic text-text/40">
               No matching news
             </p>
           </motion.div>
@@ -241,7 +241,7 @@ function NewsCard({ item, className = '' }) {
       <h3 className="font-display text-[24px] font-semibold text-navy leading-snug group-hover:text-navy/80 transition-colors">
         {item.title}
       </h3>
-      <p className="mt-2 text-[17px] text-text/55 leading-relaxed">
+      <p className="mt-2 text-[17px] text-text/70 leading-relaxed">
         {item.description}
       </p>
       {item.link && (

@@ -34,7 +34,7 @@ const tabs = [
 function LinkChip({ href, children }) {
   if (!href) {
     return (
-      <span className="font-mono text-[13px] uppercase tracking-[0.1em] px-3 py-1 rounded-full border border-border text-text/25">
+      <span className="font-mono text-[13px] uppercase tracking-[0.1em] px-3 py-1 rounded-full border border-border text-text/40">
         {children}
       </span>
     )
@@ -61,7 +61,7 @@ function JournalName({ journal, journalNote }) {
         {journal}
       </span>
       {journalNote && (
-        <span className="text-[15px] text-text/35 ml-1">{journalNote}</span>
+        <span className="text-[15px] text-text/40 ml-1">{journalNote}</span>
       )}
     </span>
   )
@@ -115,14 +115,14 @@ function TweetEmbed({ url }) {
             className="w-5 h-5 border-2 border-text/15 border-t-navy/50 rounded-full"
             style={{ animation: 'spin 0.8s linear infinite' }}
           />
-          <span className="text-[14px] text-text/30">Loading tweet...</span>
+          <span className="text-[14px] text-text/40">Loading tweet...</span>
           <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
         </div>
       )}
       <div ref={containerRef} style={{ display: status === 'loaded' ? 'block' : 'none' }} />
       {status === 'failed' && (
         <div className="py-4">
-          <p className="text-[14px] text-text/35">
+          <p className="text-[14px] text-text/40">
             Could not load tweet.{' '}
             <a
               href={url}
@@ -274,14 +274,14 @@ function SelectedCard({ pub, index }) {
         <div className="p-5 flex-1" style={{ minWidth: 0 }}>
           <div className="flex items-center gap-2 mb-2">
             <JournalName journal={pub.journal} journalNote={pub.journalNote} />
-            <span className="font-mono text-[14px] text-text/30">{pub.year}</span>
+            <span className="font-mono text-[14px] text-text/40">{pub.year}</span>
           </div>
 
           <h3 className="font-display text-[24px] font-semibold text-navy leading-snug">
             {pub.title}
           </h3>
 
-          <p className="mt-1.5 text-[16px] text-text/45">{pub.authors}</p>
+          <p className="mt-1.5 text-[16px] text-text/55">{pub.authors}</p>
 
           {/* Link chips */}
           <div className="mt-3 flex flex-wrap items-center gap-2">
@@ -342,7 +342,7 @@ function SelectedCard({ pub, index }) {
       {/* Highlights / media — full width below image+info row */}
       {pub.highlights && pub.highlights.length > 0 && (
         <div className="border-t border-border mx-5 mb-4 pt-3 pl-3 border-l-2 border-l-border space-y-1">
-          <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-text/30">Highlighted in</span>
+          <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-text/40">Highlighted in</span>
           {pub.highlights.map((h, i) =>
             h.href ? (
               <a
@@ -350,12 +350,12 @@ function SelectedCard({ pub, index }) {
                 href={h.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block text-[15px] text-text/40 hover:text-navy transition-colors"
+                className="block text-[15px] text-text/55 hover:text-navy transition-colors"
               >
                 {h.text}
               </a>
             ) : (
-              <p key={i} className="text-[15px] text-text/40">
+              <p key={i} className="text-[15px] text-text/55">
                 {h.text}
               </p>
             ),
@@ -400,7 +400,7 @@ function CompactRow({ pub, index }) {
       className="py-3.5 border-t border-border first:border-t-0"
     >
       <div className="flex flex-col md:flex-row md:items-baseline gap-1 md:gap-4">
-        <span className="font-mono text-[15px] text-text/28 shrink-0 w-9">
+        <span className="font-mono text-[15px] text-text/40 shrink-0 w-9">
           {pub.year}
         </span>
         <div className="flex-1 min-w-0">
@@ -411,7 +411,7 @@ function CompactRow({ pub, index }) {
         <JournalName journal={pub.journal} journalNote={pub.journalNote} />
       </div>
       <div className="md:pl-[52px] mt-1 flex items-center gap-3">
-        <span className="text-[15px] text-text/35 truncate">{pub.authors}</span>
+        <span className="text-[15px] text-text/55 truncate">{pub.authors}</span>
         {pub.link && (
           <a
             href={pub.link}
@@ -493,7 +493,7 @@ export default function Publications() {
                 className={`font-mono text-[14px] uppercase tracking-[0.12em] pb-1 transition-all whitespace-nowrap ${
                   activeTab === tab.key
                     ? 'text-navy border-b-2 border-navy'
-                    : 'text-text/30 hover:text-text/55'
+                    : 'text-text/40 hover:text-text/55'
                 }`}
               >
                 {tab.label}

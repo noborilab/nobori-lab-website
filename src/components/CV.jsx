@@ -22,7 +22,7 @@ function CollapsibleSection({ title, defaultOpen = true, children }) {
         <h3 className="font-display text-2xl font-semibold text-navy">
           {title}
         </h3>
-        <span className="text-text/30 group-hover:text-navy transition-colors text-xl">
+        <span className="text-text/40 group-hover:text-navy transition-colors text-xl">
           {open ? '\u2212' : '+'}
         </span>
       </button>
@@ -54,7 +54,7 @@ function YearToggle({ year, talks, defaultOpen = false }) {
         <span className="font-display text-[19px] italic text-sage">
           {year}
         </span>
-        <span className="text-text/25 group-hover:text-navy transition-colors text-base">
+        <span className="text-text/40 group-hover:text-navy transition-colors text-base">
           {open ? '\u2212' : '+'}
         </span>
       </button>
@@ -69,7 +69,7 @@ function YearToggle({ year, talks, defaultOpen = false }) {
           >
             <ul className="pt-2 pb-1 pl-4 space-y-1.5">
               {talks.map((talk, i) => (
-                <li key={i} className="text-[17px] text-text/55 flex gap-2">
+                <li key={i} className="text-[17px] text-text/70 flex gap-2">
                   <span className="text-navy/40 mt-0.5 shrink-0">&#9656;</span>
                   {talk}
                 </li>
@@ -121,7 +121,7 @@ export default function CV() {
               <div className="mt-4 space-y-1.5">
                 <a
                   href="mailto:Tatsuya.Nobori@tsl.ac.uk"
-                  className="block font-mono text-[14px] text-text/45 hover:text-navy transition-colors"
+                  className="block font-mono text-[14px] text-text/55 hover:text-navy transition-colors"
                 >
                   Tatsuya.Nobori@tsl.ac.uk
                 </a>
@@ -129,7 +129,7 @@ export default function CV() {
                   href="https://twitter.com/nobolly"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block font-mono text-[14px] text-text/45 hover:text-navy transition-colors"
+                  className="block font-mono text-[14px] text-text/55 hover:text-navy transition-colors"
                 >
                   Twitter @nobolly
                 </a>
@@ -137,7 +137,7 @@ export default function CV() {
                   href="https://bsky.app/profile/tatsuyanobori.bsky.social"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block font-mono text-[14px] text-text/45 hover:text-navy transition-colors"
+                  className="block font-mono text-[14px] text-text/55 hover:text-navy transition-colors"
                 >
                   Bluesky @tatsuyanobori
                 </a>
@@ -173,7 +173,7 @@ export default function CV() {
                         <p className="text-[15px] text-text/40 mt-0.5">
                           {item.location}
                           {item.location && item.detail && (
-                            <span className="mx-1.5 text-text/25">&middot;</span>
+                            <span className="mx-1.5 text-text/40">&middot;</span>
                           )}
                           {item.detail}
                         </p>
@@ -188,7 +188,7 @@ export default function CV() {
             <CollapsibleSection title="Awards & Honors">
               <ul className="space-y-2">
                 {awards.map((item, i) => (
-                  <li key={i} className="text-[18px] text-text/60 flex gap-2">
+                  <li key={i} className="text-[18px] text-text/70 flex gap-2">
                     <span className="text-coral mt-0.5 shrink-0">&#9656;</span>
                     {item.href ? (
                       <a
@@ -212,7 +212,7 @@ export default function CV() {
             <CollapsibleSection title="Editorial Activities">
               <ul className="space-y-2">
                 {editorial.map((item, i) => (
-                  <li key={i} className="text-[18px] text-text/60 flex gap-2">
+                  <li key={i} className="text-[18px] text-text/70 flex gap-2">
                     <span className="text-sage mt-0.5 shrink-0">&#9656;</span>
                     {item}
                   </li>
@@ -241,18 +241,18 @@ export default function CV() {
             <CollapsibleSection title="Ad Hoc Reviewer">
               <div className="space-y-3">
                 <div>
-                  <span className="font-mono text-[13px] uppercase tracking-[0.15em] text-text/35">
+                  <span className="font-mono text-[13px] uppercase tracking-[0.15em] text-text/40">
                     Grants
                   </span>
-                  <p className="mt-1 text-[17px] text-text/55 leading-relaxed">
+                  <p className="mt-1 text-[17px] text-text/70 leading-relaxed">
                     {reviewerGrants.join(', ')}
                   </p>
                 </div>
                 <div>
-                  <span className="font-mono text-[13px] uppercase tracking-[0.15em] text-text/35">
+                  <span className="font-mono text-[13px] uppercase tracking-[0.15em] text-text/40">
                     Journals
                   </span>
-                  <p className="mt-1 text-[17px] text-text/55 leading-relaxed">
+                  <p className="mt-1 text-[17px] text-text/70 leading-relaxed">
                     {reviewerJournals.join(', ')}
                   </p>
                 </div>

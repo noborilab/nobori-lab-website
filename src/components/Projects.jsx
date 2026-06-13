@@ -79,7 +79,7 @@ function ProjectCard({ project, index }) {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.2 }}
-                className="text-[17px] text-text/60 leading-relaxed"
+                className="text-[17px] text-text/70 leading-relaxed"
               >
                 {project.description}
               </motion.p>
@@ -90,7 +90,7 @@ function ProjectCard({ project, index }) {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.2 }}
-                className="text-[17px] text-text/60 leading-relaxed"
+                className="text-[17px] text-text/70 leading-relaxed"
               >
                 {project.description.split('. ').slice(0, 2).join('. ')}.
                 {project.description.split('. ').length > 2 && (
@@ -123,7 +123,7 @@ function ProjectCard({ project, index }) {
                 href={pub.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block text-[15px] text-text/45 hover:text-navy transition-colors"
+                className="block text-[15px] text-text/55 hover:text-navy transition-colors"
               >
                 {pub.text}
               </a>
@@ -164,7 +164,7 @@ export default function Projects() {
           <p className="font-display text-[1.3em] italic text-navy leading-relaxed mb-4">
             {projectsIntro.split('. ')[0]}.
           </p>
-          <p className="text-[17px] text-text/55 leading-relaxed">
+          <p className="text-[17px] text-text/70 leading-relaxed">
             {projectsIntro.split('. ').slice(1).join('. ')}
           </p>
           <div className="mt-8 mx-auto w-16 h-px bg-border" />

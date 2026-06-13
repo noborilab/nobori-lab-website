@@ -24,9 +24,9 @@ export default function Contact() {
             viewport={{ once: true, margin: '-50px' }}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
-            <div className="space-y-5 text-[18px] text-text/60">
+            <div className="space-y-5 text-[18px] text-text/70">
               <div>
-                <span className="font-mono text-[13px] uppercase tracking-[0.2em] text-text/35 block mb-1">
+                <span className="font-mono text-[13px] uppercase tracking-[0.2em] text-text/40 block mb-1">
                   Email
                 </span>
                 <a
@@ -37,7 +37,7 @@ export default function Contact() {
                 </a>
               </div>
               <div>
-                <span className="font-mono text-[13px] uppercase tracking-[0.2em] text-text/35 block mb-1">
+                <span className="font-mono text-[13px] uppercase tracking-[0.2em] text-text/40 block mb-1">
                   Address
                 </span>
                 <p>
@@ -47,7 +47,7 @@ export default function Contact() {
                 </p>
               </div>
               <div>
-                <span className="font-mono text-[13px] uppercase tracking-[0.2em] text-text/35 block mb-1">
+                <span className="font-mono text-[13px] uppercase tracking-[0.2em] text-text/40 block mb-1">
                   Phone
                 </span>
                 <p>(+44) 01603 450504</p>
@@ -75,7 +75,7 @@ export default function Contact() {
                   <span className="text-[19px] text-text/70 group-hover:text-navy transition-colors">
                     {link.label}
                   </span>
-                  <span className="text-text/25 group-hover:text-navy transition-colors">
+                  <span className="text-text/40 group-hover:text-navy transition-colors">
                     &rarr;
                   </span>
                 </a>
