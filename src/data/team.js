@@ -16,6 +16,8 @@ export const teamMembers = [
 
 export const alumni = [
   { name: 'Hazel Surtees', period: 'Rotation, 2025', current: 'PhD student, John Innes Centre' },
+  { name: 'Revocatus Byanyuma-Bahitwa', period: 'Rotation, 2026', current: 'PhD student, John Innes Centre' },
+  { name: 'Amritha Raghavan', period: 'Rotation, 2026', current: 'PhD student, John Innes Centre' },
   { name: 'Shania Keh', period: 'Predoc, 2024\u20132026', current: '' },
   { name: 'Vidyashree Shivakumaraswamy', period: 'Predoc, 2024\u20132025', current: '' },
 ]
