@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 import { teamMembers, alumni } from '../data/team'
 import TypewriterLabel from './TypewriterLabel'
 import { useReducedMotion } from '../hooks/useReducedMotion'
-import LabProfile from './LabProfile'
+import CollaborationGarden from './CollaborationGarden'
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 const HS_RADIUS   = 40
@@ -782,8 +782,8 @@ export default function Team() {
           </div>
         )}
 
-        {/* Lab research profile — compact, below grid, hidden during game */}
-        {!isPlaying && <LabProfile />}
+        {/* Collaboration garden — compact, below grid, hidden during game */}
+        {!isPlaying && <CollaborationGarden />}
 
         {/* Join Us card — hidden while game is active */}
         <motion.div

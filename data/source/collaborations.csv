@@ -1,0 +1,20 @@
+# Undirected edge list — list each pair once; symmetric is implied.
+# The PI (Member A, order=1) and support roles (Member C / Member L, horticulture)
+# are naturally hubs. Add/remove rows freely; duplicates are silently deduplicated.
+# Names must exactly match the 'name' column in scores.csv.
+person_a,person_b
+Member A,Member B
+Member A,Member D
+Member A,Member E
+Member A,Member F
+Member A,Member I
+Member A,Member J
+Member B,Member H
+Member C,Member L
+Member D,Member I
+Member E,Member J
+Member E,Member K
+Member F,Member G
+Member F,Member K
+Member G,Member I
+Member H,Member J
