@@ -14,23 +14,25 @@ const COLORS = [
 ]
 
 // Rose geometry (SVG units)
-const DR       = 36    // backing disc radius
+const DR        = 36    // drag-hit radius and spacing reference (≈ max petal reach)
 const SPOKE_MIN = 10
-const SPOKE_MAX = 28   // extra length at score=10 → max spoke = 38
+const SPOKE_MAX = 28    // extra length at score=10 → max spoke tip at 38 from center
 const SPOKE_W   = 5
 const DOT_R     = 2.4
-const LABEL_DY  = DR + 17  // label baseline below node center
+const LABEL_DY  = DR + 16   // label baseline below node center (52 SVG units)
+const LABEL_W   = 80         // estimated px width for "Member X" at fontSize 12
+const LABEL_H   = 16         // label bg rect height
 
-// Fixed working canvas — force layout is tuned to spread 12 nodes across this
+// Fixed working canvas
 const VB_W = 720
-const VB_H = 480
-const CX   = VB_W / 2   // 360
-const CY   = VB_H / 2   // 240
+const VB_H = 460             // tighter than before to reduce empty space
+const CX   = VB_W / 2       // 360
+const CY   = VB_H / 2       // 230
 
-// Clamp padding so no node (disc + label) bleeds outside the canvas
-const PAD_LR  = DR + 14
-const PAD_TOP = DR + 14
-const PAD_BOT = DR + LABEL_DY + 6   // 36+17+6 = 59
+// Clamp padding: roses stay fully inside canvas
+const PAD_LR  = DR + 14     // 50
+const PAD_TOP = DR + 14     // 50
+const PAD_BOT = DR + LABEL_DY + 10  // 36+52+10 = 98
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -82,12 +84,12 @@ function ForceGarden({ members, areas, edges: rawEdges, reduced }) {
     const links = rawEdges.map(([i, j]) => ({ source: i, target: j }))
 
     const sim = forceSimulation(nodes)
-      .force('charge',  forceManyBody().strength(-580))
-      .force('link',    forceLink(links).distance(120).strength(0.5))
+      .force('charge',  forceManyBody().strength(-650))
+      .force('link',    forceLink(links).distance(150).strength(0.5))
       .force('center',  forceCenter(CX, CY))
-      .force('x',       forceX(CX).strength(0.05))
-      .force('y',       forceY(CY).strength(0.07))
-      .force('collide', forceCollide(DR + 10))
+      .force('x',       forceX(CX).strength(0.08))
+      .force('y',       forceY(CY).strength(0.10))
+      .force('collide', forceCollide(46))
       // Custom bounds force: keep nodes inside canvas with soft walls
       .force('bounds',  () => {
         for (const n of nodes) {
@@ -230,7 +232,7 @@ function ForceGarden({ members, areas, edges: rawEdges, reduced }) {
               }}
               onDoubleClick={e => onNodeDoubleClick(e, ni)}
             >
-              {/* Spokes drawn first so the disc hides their inner stubs */}
+              {/* Spokes — vivid area colors, opacity 0.6–1.0 */}
               {m.scores.map((score, ai) => {
                 if (score === 0) return null
                 const angle = (ai * 36 - 90) * (Math.PI / 180)
@@ -243,7 +245,7 @@ function ForceGarden({ members, areas, edges: rawEdges, reduced }) {
                     stroke={COLORS[ai]}
                     strokeWidth={SPOKE_W}
                     strokeLinecap="round"
-                    strokeOpacity={0.5 + 0.5 * (score / 10)}
+                    strokeOpacity={0.6 + 0.4 * (score / 10)}
                     style={{ pointerEvents: 'stroke' }}
                     onPointerEnter={e => { e.stopPropagation(); setHoveredSpoke({ ni, ai }) }}
                     onPointerLeave={e => { e.stopPropagation(); setHoveredSpoke(null) }}
@@ -251,27 +253,36 @@ function ForceGarden({ members, areas, edges: rawEdges, reduced }) {
                 )
               })}
 
-              {/* Backing disc — masks spoke stubs, drag handle */}
+              {/* Transparent drag-hit circle — no fill, no visual impact */}
               <circle
                 r={DR}
-                fill="var(--color-bg, #FAFAF6)"
-                fillOpacity={0.90}
-                stroke="rgba(200,198,192,0.40)"
-                strokeWidth={0.6}
+                fill="transparent"
                 className="cg-disc"
                 onPointerDown={e => onDiscPointerDown(e, ni)}
                 onPointerMove={e => onDiscPointerMove(e, ni)}
                 onPointerUp={e => onDiscPointerUp(e, ni)}
               />
 
-              <circle r={DOT_R} fill="rgba(28,30,34,0.28)" style={{ pointerEvents: 'none' }} />
+              {/* Center dot on top */}
+              <circle r={DOT_R} fill="rgba(28,30,34,0.32)" style={{ pointerEvents: 'none' }} />
 
+              {/* Label — semi-opaque bg rect so text stays readable over edges */}
+              <rect
+                x={-LABEL_W / 2}
+                y={LABEL_DY - 13}
+                width={LABEL_W}
+                height={LABEL_H}
+                rx={3}
+                fill="var(--color-bg-soft, #F2F0EB)"
+                fillOpacity={0.82}
+                style={{ pointerEvents: 'none' }}
+              />
               <text
                 y={LABEL_DY}
                 textAnchor="middle"
                 fontSize={12}
                 fontFamily="'IBM Plex Mono', monospace"
-                fill="rgba(28,30,34,0.58)"
+                fill="rgba(28,30,34,0.62)"
                 style={{ pointerEvents: 'none', userSelect: 'none' }}
               >
                 {m.name}
@@ -381,7 +392,7 @@ export default function CollaborationGarden() {
 
         .cg-svg {
           width: 100%;
-          height: clamp(360px, 56vw, 520px);
+          height: clamp(360px, 54vw, 500px);
           display: block;
           border-radius: 8px;
           background: var(--color-bg-soft, #F2F0EB);
@@ -419,7 +430,7 @@ export default function CollaborationGarden() {
         }
 
         @media (max-width: 540px) {
-          .cg-svg { height: clamp(280px, 80vw, 360px); }
+          .cg-svg { height: clamp(260px, 80vw, 340px); }
           .cg-readout { font-size: 10px; }
         }
       `}</style>
