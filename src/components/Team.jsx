@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import { teamMembers, alumni } from '../data/team'
 import TypewriterLabel from './TypewriterLabel'
 import { useReducedMotion } from '../hooks/useReducedMotion'
+import LabProfile from './LabProfile'
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 const HS_RADIUS   = 40
@@ -526,6 +527,9 @@ export default function Team() {
             Visit our group page &rarr;
           </a>
         </motion.div>
+
+        {/* Lab research profile — hidden while game is active */}
+        {!isPlaying && <LabProfile />}
 
         {/* Game controls bar */}
         {isPlaying && (
