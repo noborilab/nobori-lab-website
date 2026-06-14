@@ -528,9 +528,6 @@ export default function Team() {
           </a>
         </motion.div>
 
-        {/* Lab research profile — hidden while game is active */}
-        {!isPlaying && <LabProfile />}
-
         {/* Game controls bar */}
         {isPlaying && (
           <div style={{
@@ -784,6 +781,9 @@ export default function Team() {
             ))}
           </div>
         )}
+
+        {/* Lab research profile — compact, below grid, hidden during game */}
+        {!isPlaying && <LabProfile />}
 
         {/* Join Us card — hidden while game is active */}
         <motion.div
