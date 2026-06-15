@@ -36,14 +36,6 @@ const PAD_BOT = DR + LABEL_DY + 10  // 36+52+10 = 98
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
-function scorePhrase(score) {
-  if (score >= 9) return 'central focus'
-  if (score >= 7) return 'core component'
-  if (score >= 5) return 'moderate involvement'
-  if (score >= 3) return 'a small component'
-  return 'a minor area'
-}
-
 function svgPoint(svg, clientX, clientY) {
   return new DOMPoint(clientX, clientY).matrixTransform(svg.getScreenCTM().inverse())
 }
@@ -171,8 +163,7 @@ function ForceGarden({ members, areas, edges: rawEdges, reduced }) {
   let readout = ' '
   if (hoveredSpoke) {
     const { ni, ai } = hoveredSpoke
-    const score = members[ni].scores[ai]
-    if (score > 0) readout = `${members[ni].name} · ${areas[ai]} — ${scorePhrase(score)}`
+    if (members[ni].scores[ai] > 0) readout = `${members[ni].name} · ${areas[ai]}`
   } else if (hoveredNode !== null) {
     const m      = members[hoveredNode]
     const mainAi = m.scores.indexOf(Math.max(...m.scores))
