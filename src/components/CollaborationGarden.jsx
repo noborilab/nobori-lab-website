@@ -163,17 +163,18 @@ function ForceGarden({ members, areas, edges: rawEdges, reduced }) {
   let readout = ' '
   if (hoveredSpoke) {
     const { ni, ai } = hoveredSpoke
-    if (members[ni].scores[ai] > 0) readout = `${members[ni].name} · ${areas[ai]}`
+    const m = members[ni]
+    if (m && m.scores[ai] > 0) readout = `${m.name} · ${areas[ai]}`
   } else if (hoveredNode !== null) {
-    const m      = members[hoveredNode]
-    const mainAi = m.scores.indexOf(Math.max(...m.scores))
-    const entries = [...adjacency[hoveredNode].entries()]
-    const regular    = entries.filter(([, lv]) => lv === 2).map(([idx]) => members[idx].name)
-    const occasional = entries.filter(([, lv]) => lv === 1).map(([idx]) => members[idx].name)
+    const m = members[hoveredNode]
+    const mainAi = m ? m.scores.indexOf(Math.max(...m.scores)) : 0
+    const entries = m ? [...(adjacency[hoveredNode]?.entries() ?? [])] : []
+    const regular    = entries.filter(([, lv]) => lv === 2).map(([idx]) => members[idx]?.name).filter(Boolean)
+    const occasional = entries.filter(([, lv]) => lv === 1).map(([idx]) => members[idx]?.name).filter(Boolean)
     const parts = []
     if (regular.length)    parts.push(`regular: ${regular.join(', ')}`)
     if (occasional.length) parts.push(`occasional: ${occasional.join(', ')}`)
-    readout = `${m.name} · ${areas[mainAi]}${parts.length ? `; ${parts.join('; ')}` : ''}`
+    if (m) readout = `${m.name} · ${areas[mainAi] ?? ''}${parts.length ? `; ${parts.join('; ')}` : ''}`
   }
 
   if (positions.length === 0) return <p className="cg-loading">Laying out…</p>
@@ -236,7 +237,19 @@ function ForceGarden({ members, areas, edges: rawEdges, reduced }) {
               }}
               onDoubleClick={e => onNodeDoubleClick(e, ni)}
             >
-              {/* Spokes — vivid area colors, opacity 0.6–1.0 */}
+              {/* Drag-hit disc FIRST (behind spokes) so spokes sit on top and
+                  receive hover events along their full length. The disc catches
+                  drag in the inter-spoke gaps and at the center. */}
+              <circle
+                r={DR}
+                fill="transparent"
+                className="cg-disc"
+                onPointerDown={e => onDiscPointerDown(e, ni)}
+                onPointerMove={e => onDiscPointerMove(e, ni)}
+                onPointerUp={e => onDiscPointerUp(e, ni)}
+              />
+
+              {/* Spokes AFTER disc (on top) — full length is the hover target */}
               {m.scores.map((score, ai) => {
                 if (score === 0) return null
                 const angle = (ai * 36 - 90) * (Math.PI / 180)
@@ -250,22 +263,11 @@ function ForceGarden({ members, areas, edges: rawEdges, reduced }) {
                     strokeWidth={SPOKE_W}
                     strokeLinecap="round"
                     strokeOpacity={0.6 + 0.4 * (score / 10)}
-                    style={{ pointerEvents: 'stroke' }}
                     onPointerEnter={e => { e.stopPropagation(); setHoveredSpoke({ ni, ai }) }}
                     onPointerLeave={e => { e.stopPropagation(); setHoveredSpoke(null) }}
                   />
                 )
               })}
-
-              {/* Transparent drag-hit circle — no fill, no visual impact */}
-              <circle
-                r={DR}
-                fill="transparent"
-                className="cg-disc"
-                onPointerDown={e => onDiscPointerDown(e, ni)}
-                onPointerMove={e => onDiscPointerMove(e, ni)}
-                onPointerUp={e => onDiscPointerUp(e, ni)}
-              />
 
               {/* Center dot on top */}
               <circle r={DOT_R} fill="rgba(28,30,34,0.32)" style={{ pointerEvents: 'none' }} />
