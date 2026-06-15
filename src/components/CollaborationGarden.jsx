@@ -14,7 +14,8 @@ const COLORS = [
 ]
 
 // Rose geometry (SVG units)
-const DR        = 36
+const DR        = 36    // petal reference radius
+const HIT_R     = 40    // hit-disc radius — slightly larger than max petal (38)
 const SPOKE_MIN = 10
 const SPOKE_MAX = 28    // max spoke tip at 38 from center
 const SPOKE_W   = 5
@@ -44,20 +45,20 @@ function svgPoint(svg, clientX, clientY) {
 function ForceGarden({ members, areas, edges: rawEdges, reduced }) {
   const [positions,   setPositions]   = useState([])
   const [hoveredNode, setHoveredNode] = useState(null)   // node index | null
-  const [tip,         setTip]         = useState(null)   // {ni,ai} | null — for spoke emphasis
+  const [tip,         setTip]         = useState(null)   // {ni,ai} | null — spoke emphasis
 
-  const svgRef      = useRef(null)
-  const simRef      = useRef(null)
-  const nodesRef    = useRef([])
-  const initPosRef  = useRef([])
-  const dragRef     = useRef(null)
+  const svgRef     = useRef(null)
+  const simRef     = useRef(null)
+  const nodesRef   = useRef([])
+  const initPosRef = useRef([])
+  // dragRef stores { ni, moved } — moved turns true on first pointermove after drag start
+  const dragRef    = useRef(null)
 
-  // Cursor tooltip — always in DOM, shown/hidden and positioned imperatively
-  const panelRef    = useRef(null)   // cg-garden-wrap (position:relative container)
-  const tipRef      = useRef(null)   // tooltip wrapper div
-  const tipDotRef   = useRef(null)   // colored dot span
-  const tipLabelRef = useRef(null)   // area name span
-  const tipTimerRef = useRef(null)   // touch hide-delay timer
+  const panelRef    = useRef(null)
+  const tipRef      = useRef(null)
+  const tipDotRef   = useRef(null)
+  const tipLabelRef = useRef(null)
+  const tipTimerRef = useRef(null)
 
   // adjacency[i] is a Map<j, level>
   const adjacency = useMemo(() => {
@@ -90,9 +91,9 @@ function ForceGarden({ members, areas, edges: rawEdges, reduced }) {
       .force('collide', forceCollide(46))
       .force('bounds',  () => {
         for (const n of nodes) {
-          if (n.x < PAD_LR)        { n.x = PAD_LR;        if (n.vx < 0) n.vx *= -0.3 }
-          if (n.x > VB_W - PAD_LR) { n.x = VB_W - PAD_LR; if (n.vx > 0) n.vx *= -0.3 }
-          if (n.y < PAD_TOP)        { n.y = PAD_TOP;        if (n.vy < 0) n.vy *= -0.3 }
+          if (n.x < PAD_LR)         { n.x = PAD_LR;         if (n.vx < 0) n.vx *= -0.3 }
+          if (n.x > VB_W - PAD_LR)  { n.x = VB_W - PAD_LR;  if (n.vx > 0) n.vx *= -0.3 }
+          if (n.y < PAD_TOP)         { n.y = PAD_TOP;         if (n.vy < 0) n.vy *= -0.3 }
           if (n.y > VB_H - PAD_BOT) { n.y = VB_H - PAD_BOT; if (n.vy > 0) n.vy *= -0.3 }
         }
       })
@@ -113,7 +114,6 @@ function ForceGarden({ members, areas, edges: rawEdges, reduced }) {
     return () => sim.stop()
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Clear touch timer on unmount
   useEffect(() => () => clearTimeout(tipTimerRef.current), [])
 
   // ── Cursor tooltip (imperative for smooth tracking) ───────────────────────
@@ -138,7 +138,7 @@ function ForceGarden({ members, areas, edges: rawEdges, reduced }) {
     const tipEl = tipRef.current
     if (!tipEl) return
     if (tipDotRef.current)   tipDotRef.current.style.background = COLORS[ai]
-    if (tipLabelRef.current) tipLabelRef.current.textContent = areas[ai]
+    if (tipLabelRef.current) tipLabelRef.current.textContent    = areas[ai]
     tipEl.style.display = 'flex'
     moveTip(e)
   }
@@ -148,13 +148,14 @@ function ForceGarden({ members, areas, edges: rawEdges, reduced }) {
     if (tipRef.current) tipRef.current.style.display = 'none'
   }
 
+  // SVG-level pointermove: reposition tooltip, skip during active drag movement
   function onSVGPointerMove(e) {
+    if (dragRef.current?.moved) return
     if (tipRef.current?.style.display === 'flex') moveTip(e)
   }
 
   function onSVGPointerLeave(e) {
     if (e.pointerType === 'touch') {
-      // keep tooltip visible briefly after finger lifts
       tipTimerRef.current = setTimeout(() => { hideTip(); setTip(null) }, 900)
     } else {
       hideTip()
@@ -162,19 +163,29 @@ function ForceGarden({ members, areas, edges: rawEdges, reduced }) {
     }
   }
 
-  // ── Drag ─────────────────────────────────────────────────────────────────
+  // ── Drag — attached to the whole node <g> so center, arms, and gaps all work
 
-  function onDiscPointerDown(e, ni) {
+  function onNodePointerDown(e, ni) {
     if (e.pointerType === 'mouse' && e.button !== 0) return
     e.stopPropagation()
     e.currentTarget.setPointerCapture(e.pointerId)
     const node = nodesRef.current[ni]
     node.fx = node.x; node.fy = node.y
-    dragRef.current = { ni }
+    // moved:false means tooltip is not yet suppressed — we only hide it on
+    // the first real movement so a simple tap still shows the tooltip
+    dragRef.current = { ni, moved: false }
+    if (!dragRef.current) setHoveredNode(ni) // keep hover while drag-ready
   }
 
-  function onDiscPointerMove(e, ni) {
-    if (!dragRef.current || dragRef.current.ni !== ni) return
+  function onNodePointerMove(e, ni) {
+    const d = dragRef.current
+    if (!d || d.ni !== ni) return
+    // First actual movement: hide tooltip so it doesn't flicker while dragging
+    if (!d.moved) {
+      d.moved = true
+      hideTip()
+      setTip(null)
+    }
     const { x, y } = svgPoint(svgRef.current, e.clientX, e.clientY)
     const node = nodesRef.current[ni]
     node.fx = x; node.fy = y
@@ -186,8 +197,9 @@ function ForceGarden({ members, areas, edges: rawEdges, reduced }) {
     }
   }
 
-  function onDiscPointerUp(e, ni) {
-    if (!dragRef.current || dragRef.current.ni !== ni) return
+  function onNodePointerUp(e, ni) {
+    const d = dragRef.current
+    if (!d || d.ni !== ni) return
     dragRef.current = null
     e.currentTarget.releasePointerCapture(e.pointerId)
     if (!reduced) simRef.current?.alphaTarget(0)
@@ -277,34 +289,31 @@ function ForceGarden({ members, areas, edges: rawEdges, reduced }) {
           return (
             <g
               key={ni}
+              className="cg-node"
               transform={`translate(${pos.x.toFixed(1)},${pos.y.toFixed(1)})`}
               style={{ opacity: isDimmed ? 0.22 : 1 }}
               onPointerEnter={() => { if (!dragRef.current) setHoveredNode(ni) }}
               onPointerLeave={() => {
                 if (!dragRef.current || dragRef.current.ni !== ni) {
-                  setHoveredNode(null)
-                  setTip(null)
-                  hideTip()
+                  setHoveredNode(null); setTip(null); hideTip()
                 }
               }}
+              onPointerDown={e => onNodePointerDown(e, ni)}
+              onPointerMove={e => onNodePointerMove(e, ni)}
+              onPointerUp={e => onNodePointerUp(e, ni)}
               onDoubleClick={e => onNodeDoubleClick(e, ni)}
             >
-              {/* Drag disc FIRST — behind spokes, transparent, catches gaps */}
-              <circle
-                r={DR}
-                fill="transparent"
-                className="cg-disc"
-                onPointerDown={e => onDiscPointerDown(e, ni)}
-                onPointerMove={e => onDiscPointerMove(e, ni)}
-                onPointerUp={e => onDiscPointerUp(e, ni)}
-              />
+              {/* Hit disc FIRST — transparent, r=HIT_R covers the full rose interior
+                  (center + inter-spoke gaps) so pointerdown anywhere on the rose
+                  reaches this <g> and starts the drag */}
+              <circle r={HIT_R} fill="transparent" style={{ pointerEvents: 'all' }} />
 
-              {/* Spokes AFTER disc — on top, full length is the hover target */}
+              {/* Spokes AFTER disc (on top) — full length is the tooltip target */}
               {m.scores.map((score, ai) => {
                 if (score === 0) return null
-                const angle      = (ai * 36 - 90) * (Math.PI / 180)
-                const len        = SPOKE_MIN + SPOKE_MAX * (score / 10)
-                const isActive   = tip?.ni === ni && tip?.ai === ai
+                const angle    = (ai * 36 - 90) * (Math.PI / 180)
+                const len      = SPOKE_MIN + SPOKE_MAX * (score / 10)
+                const isActive = tip?.ni === ni && tip?.ai === ai
                 return (
                   <line key={ai}
                     x1={0} y1={0}
@@ -316,17 +325,11 @@ function ForceGarden({ members, areas, edges: rawEdges, reduced }) {
                     strokeOpacity={isActive ? 1 : 0.6 + 0.4 * (score / 10)}
                     onPointerEnter={e => {
                       e.stopPropagation()
-                      showTip(e, ai)
-                      setTip({ ni, ai })
+                      if (!dragRef.current?.moved) { showTip(e, ai); setTip({ ni, ai }) }
                     }}
                     onPointerLeave={e => {
                       e.stopPropagation()
-                      hideTip()
-                      setTip(null)
-                    }}
-                    onPointerDown={e => {
-                      // touch: pointerenter fires briefly; reinforce here
-                      if (e.pointerType === 'touch') { showTip(e, ai); setTip({ ni, ai }) }
+                      hideTip(); setTip(null)
                     }}
                   />
                 )
@@ -336,14 +339,12 @@ function ForceGarden({ members, areas, edges: rawEdges, reduced }) {
 
               <rect
                 x={-LABEL_W / 2} y={LABEL_DY - 13}
-                width={LABEL_W} height={LABEL_H}
-                rx={3}
+                width={LABEL_W} height={LABEL_H} rx={3}
                 fill="var(--color-bg-soft, #F2F0EB)" fillOpacity={0.82}
                 style={{ pointerEvents: 'none' }}
               />
               <text
-                y={LABEL_DY}
-                textAnchor="middle" fontSize={12}
+                y={LABEL_DY} textAnchor="middle" fontSize={12}
                 fontFamily="'IBM Plex Mono', monospace"
                 fill="rgba(28,30,34,0.62)"
                 style={{ pointerEvents: 'none', userSelect: 'none' }}
@@ -355,7 +356,7 @@ function ForceGarden({ members, areas, edges: rawEdges, reduced }) {
         })}
       </svg>
 
-      {/* Cursor tooltip — always in DOM, positioned & shown imperatively */}
+      {/* Cursor tooltip — always in DOM, shown/hidden imperatively */}
       <div ref={tipRef} className="cg-tip" role="tooltip" aria-hidden="true">
         <span ref={tipDotRef}   className="cg-tip-dot" />
         <span ref={tipLabelRef} className="cg-tip-label" />
@@ -444,7 +445,7 @@ export default function CollaborationGarden() {
         .cg-chevron { display: inline-block; font-size: 8px; transition: transform 0.2s ease; }
         .cg-chevron-open { transform: rotate(90deg); }
 
-        /* ── Garden panel (position:relative so tooltip positions inside it) */
+        /* ── Garden panel ────────────────────────────────────────────── */
         .cg-garden-wrap { margin-top: 10px; position: relative; }
 
         .cg-readout-wrap { height: 20px; margin-bottom: 6px; }
@@ -460,32 +461,26 @@ export default function CollaborationGarden() {
           background: var(--color-bg-soft, #F2F0EB);
         }
 
-        .cg-disc { cursor: grab; }
-        .cg-disc:active { cursor: grabbing; }
+        /* Rose node group — drag cursor */
+        .cg-node { cursor: grab; }
+        .cg-node:active { cursor: grabbing; }
 
         /* ── Cursor tooltip ──────────────────────────────────────────── */
         .cg-tip {
-          position: absolute;
-          display: none;            /* shown imperatively */
-          align-items: center;
-          gap: 6px;
+          position: absolute; display: none;
+          align-items: center; gap: 6px;
           padding: 4px 9px 4px 7px;
           background: var(--color-bg, #FAFAF6);
           border: 0.5px solid rgba(200,198,192,0.75);
           box-shadow: 0 2px 8px rgba(0,0,0,0.10);
           border-radius: 5px;
           font-family: 'IBM Plex Mono', monospace;
-          font-size: 11px;
-          color: rgba(28,30,34,0.72);
-          white-space: nowrap;
-          pointer-events: none;
-          z-index: 20;
+          font-size: 11px; color: rgba(28,30,34,0.72);
+          white-space: nowrap; pointer-events: none; z-index: 20;
         }
         .cg-tip-dot {
-          display: inline-block;
-          width: 8px; height: 8px;
-          border-radius: 50%;
-          flex-shrink: 0;
+          display: inline-block; width: 8px; height: 8px;
+          border-radius: 50%; flex-shrink: 0;
         }
         .cg-tip-label { line-height: 1; }
 
