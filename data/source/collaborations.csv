@@ -1,20 +1,20 @@
-# Undirected edge list — list each pair once; symmetric is implied.
-# The PI (Member A, order=1) and support roles (Member C / Member L, horticulture)
-# are naturally hubs. Add/remove rows freely; duplicates are silently deduplicated.
+# Weighted undirected edge list — list each pair once; symmetric is implied.
+# level: 1 = occasional collaboration, 2 = regular / project-dependent.
+# Omit the row entirely for level 0 (no collaboration) — do NOT add level=0 rows.
 # Names must exactly match the 'name' column in scores.csv.
-person_a,person_b
-Member A,Member B
-Member A,Member D
-Member A,Member E
-Member A,Member F
-Member A,Member I
-Member A,Member J
-Member B,Member H
-Member C,Member L
-Member D,Member I
-Member E,Member J
-Member E,Member K
-Member F,Member G
-Member F,Member K
-Member G,Member I
-Member H,Member J
+person_a,person_b,level
+Member A,Member B,2
+Member A,Member D,2
+Member A,Member E,2
+Member A,Member F,2
+Member A,Member I,1
+Member A,Member J,2
+Member B,Member H,1
+Member C,Member L,2
+Member D,Member I,2
+Member E,Member J,2
+Member E,Member K,1
+Member F,Member G,2
+Member F,Member K,1
+Member G,Member I,1
+Member H,Member J,1

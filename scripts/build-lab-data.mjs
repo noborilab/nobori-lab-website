@@ -89,6 +89,7 @@ const members = currentRows
 console.log(`  ${members.length} current members`)
 
 // ── Build edges ───────────────────────────────────────────────────────────────
+// edges emit as [i, j, level] where level ∈ {1, 2}
 
 const nameToIdx = Object.fromEntries(members.map((m, i) => [m.name, i]))
 const edgeSet = new Set()
@@ -98,6 +99,16 @@ for (const row of collabRows) {
   const a = (row.person_a || '').trim()
   const b = (row.person_b || '').trim()
   if (!a || !b) continue
+
+  // Parse and validate level
+  const rawLevel = (row.level || '').trim()
+  if (rawLevel === '' || rawLevel === '0') continue   // omit level-0 rows
+  const level = parseInt(rawLevel, 10)
+  if (level !== 1 && level !== 2) {
+    console.warn(`  [skip] invalid level "${rawLevel}" for "${a}" — "${b}" (must be 1 or 2)`)
+    continue
+  }
+
   if (nameToIdx[a] === undefined) { console.warn(`  [skip] "${a}" not in current members`); continue }
   if (nameToIdx[b] === undefined) { console.warn(`  [skip] "${b}" not in current members`); continue }
   const i = nameToIdx[a], j = nameToIdx[b]
@@ -105,11 +116,12 @@ for (const row of collabRows) {
   const key = `${Math.min(i, j)}-${Math.max(i, j)}`
   if (edgeSet.has(key)) continue
   edgeSet.add(key)
-  edges.push([Math.min(i, j), Math.max(i, j)])
+  edges.push([Math.min(i, j), Math.max(i, j), level])
 }
 
 edges.sort(([a1, b1], [a2, b2]) => a1 - a2 || b1 - b2)
-console.log(`  ${edges.length} collaboration edges`)
+const nRegular = edges.filter(e => e[2] === 2).length
+console.log(`  ${edges.length} collaboration edges (${nRegular} regular, ${edges.length - nRegular} occasional)`)
 
 // ── Write output ──────────────────────────────────────────────────────────────
 

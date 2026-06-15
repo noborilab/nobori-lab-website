@@ -61,9 +61,10 @@ function ForceGarden({ members, areas, edges: rawEdges, reduced }) {
   const initPosRef = useRef([])
   const dragRef    = useRef(null)   // { ni } | null
 
+  // adjacency[i] is a Map<j, level> so we can check both connection and weight
   const adjacency = useMemo(() => {
-    const adj = members.map(() => new Set())
-    rawEdges.forEach(([i, j]) => { adj[i].add(j); adj[j].add(i) })
+    const adj = members.map(() => new Map())
+    rawEdges.forEach(([i, j, level]) => { adj[i].set(j, level); adj[j].set(i, level) })
     return adj
   }, [members, rawEdges])
 
@@ -175,8 +176,13 @@ function ForceGarden({ members, areas, edges: rawEdges, reduced }) {
   } else if (hoveredNode !== null) {
     const m      = members[hoveredNode]
     const mainAi = m.scores.indexOf(Math.max(...m.scores))
-    const collab = [...adjacency[hoveredNode]].map(i => members[i].name)
-    readout = `${m.name} · ${areas[mainAi]}; works with ${collab.length}: ${collab.join(', ')}`
+    const entries = [...adjacency[hoveredNode].entries()]
+    const regular    = entries.filter(([, lv]) => lv === 2).map(([idx]) => members[idx].name)
+    const occasional = entries.filter(([, lv]) => lv === 1).map(([idx]) => members[idx].name)
+    const parts = []
+    if (regular.length)    parts.push(`regular: ${regular.join(', ')}`)
+    if (occasional.length) parts.push(`occasional: ${occasional.join(', ')}`)
+    readout = `${m.name} · ${areas[mainAi]}${parts.length ? `; ${parts.join('; ')}` : ''}`
   }
 
   if (positions.length === 0) return <p className="cg-loading">Laying out…</p>
@@ -193,20 +199,27 @@ function ForceGarden({ members, areas, edges: rawEdges, reduced }) {
         style={{ touchAction: 'none' }}
         aria-label="Lab collaboration garden"
       >
-        {/* ── Edges ───────────────────────────────────────────────────── */}
+        {/* ── Edges (all behind nodes) ────────────────────────────────── */}
         <g>
-          {rawEdges.map(([i, j], ei) => {
+          {rawEdges.map(([i, j, level], ei) => {
             if (!positions[i] || !positions[j]) return null
-            const touches = hoveredNode !== null && (i === hoveredNode || j === hoveredNode)
-            const highlighted = touches && adjacency[hoveredNode].has(i === hoveredNode ? j : i)
+            const other = i === hoveredNode ? j : j === hoveredNode ? i : -1
+            const highlighted = hoveredNode !== null && other !== -1 && adjacency[hoveredNode].has(other)
             const dimmed = hoveredNode !== null && !highlighted
+            // Base appearance by level
+            const baseW  = level === 2 ? 2.6 : 1
+            const baseOp = level === 2 ? 0.4 : 0.13
+            // Highlighted appearance by level
+            const hlW    = level === 2 ? 3.2 : 1.6
+            const hlOp   = level === 2 ? 0.6 : 0.4
             return (
               <line key={ei}
                 x1={positions[i].x} y1={positions[i].y}
                 x2={positions[j].x} y2={positions[j].y}
-                stroke="#6B8F6B"
-                strokeWidth={highlighted ? 2.4 : 1}
-                strokeOpacity={dimmed ? 0.04 : highlighted ? 0.70 : 0.14}
+                stroke="#5E7C5E"
+                strokeWidth={highlighted ? hlW : baseW}
+                strokeOpacity={dimmed ? 0.03 : highlighted ? hlOp : baseOp}
+                strokeLinecap="round"
               />
             )
           })}
@@ -304,6 +317,7 @@ function ForceGarden({ members, areas, edges: rawEdges, reduced }) {
           </div>
         ))}
       </div>
+      <p className="cg-edge-hint">thin line = occasional &nbsp;·&nbsp; thick line = regular / dependent</p>
     </div>
   )
 }
@@ -427,6 +441,11 @@ export default function CollaborationGarden() {
         .cg-legend-name {
           font-family: 'IBM Plex Mono', monospace;
           font-size: 10px; color: rgba(28,30,34,0.48); white-space: nowrap;
+        }
+        .cg-edge-hint {
+          font-family: 'IBM Plex Mono', monospace;
+          font-size: 9px; color: rgba(28,30,34,0.28);
+          margin: 5px 0 0; line-height: 1;
         }
 
         @media (max-width: 540px) {

@@ -29,15 +29,24 @@ node scripts/build-lab-data.mjs
 
 ## collaborations.csv
 
-Undirected edge list.  Each row is one collaboration pair.
+Weighted undirected edge list.  Each row is one collaboration pair.
 
 | Column | Description |
 |---|---|
 | `person_a` | Name exactly as in `scores.csv` |
 | `person_b` | Name exactly as in `scores.csv` |
+| `level` | Collaboration intensity: **1** = occasional, **2** = regular / project-dependent |
 
+**Level scale:**
+- `0` — no collaboration. **Do not add a row** — simply omit the pair.
+- `1` — occasional: have worked together, cross-area input, ad-hoc help.
+- `2` — regular / dependent: active joint project, shared analysis pipeline, or day-to-day dependency.
+
+Other notes:
 - Lines starting with `#` are comments and are ignored by the build script.
-- List each pair **once**; the script deduplicates and drops self-edges.
+- List each pair **once**; the edges are undirected (A↔B = B↔A).
+- The script deduplicates, drops self-edges, skips blank or level=0 rows, and
+  warns on unrecognised names or invalid levels.
 - Edges referencing members not in `scores.csv` (or with `status ≠ current`)
   are silently dropped.
 - The PI and support roles will naturally appear as hubs; no special handling
