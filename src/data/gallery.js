@@ -1,5 +1,11 @@
 export const labMoments = [
   {
+    id: 'gp-202607',
+    date: 'July 2026',
+    caption: 'Group photo',
+    src: '/images/lab/group_photo/20260701_group_photo.jpg',
+  },
+  {
     id: 'gp-202602',
     date: 'February 2026',
     caption: 'Group photo',
