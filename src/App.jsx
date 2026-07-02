@@ -3,6 +3,7 @@ import ScrollProgress from './components/ScrollProgress'
 import Hero from './components/Hero'
 import CV from './components/CV'
 import Mission from './components/Mission'
+import LabVideo from './components/LabVideo'
 import Projects from './components/Projects'
 import News from './components/News'
 import Publications from './components/Publications'
@@ -25,6 +26,7 @@ export default function App() {
       <main>
         <Hero />
         <Mission />
+        <LabVideo />
         <Projects />
         <Publications />
         <OnlineTalks />
