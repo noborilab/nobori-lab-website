@@ -11,7 +11,7 @@ export default function Mission() {
         className="font-display text-navy text-center mb-6"
         style={{ fontSize: '2em' }}
       >
-        Our Mission
+        Our Question
       </motion.h2>
       <motion.p
         initial={{ opacity: 0, y: 24 }}
