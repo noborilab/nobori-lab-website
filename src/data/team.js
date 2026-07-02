@@ -9,7 +9,7 @@ export const teamMembers = [
   { id: 8, name: 'Nanne Taks', initials: 'NT', role: 'Postdoc', image: '/images/team/Nanne-Taks_M8A3237.jpg' },
   { id: 9, name: 'Benjamin Tremblay', initials: 'BT', role: 'Postdoc', image: '/images/team/Ben.jpg' },
   { id: 10, name: 'Tokuji Tsuchiya', initials: 'TT', role: 'Postdoc', image: '/images/team/Tokuji.JPG' },
-  { id: 11, name: 'Karen Uchida', initials: 'KU', role: 'Predoc', image: '/images/team/Karen-Uchida_M8A3233.jpg' },
+  { id: 11, name: 'Karen Uchida', initials: 'KU', role: 'Predoctoral Intern', image: '/images/team/Karen-Uchida_M8A3233.jpg' },
   { id: 12, name: 'Ru Zhang', initials: 'RZ', role: 'Visiting Scientist', image: '/images/team/Ru-Zhang_M8A3228.jpg' },
   { id: 13, name: 'Ketil Krabbe', initials: 'KK', role: 'Predoctoral Intern', image: '/images/team/Ketil-Krabbe_M8A6246-2.jpg' },
 ]
