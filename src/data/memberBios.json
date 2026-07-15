@@ -1,0 +1,58 @@
+{
+  "2": {
+    "qa": [
+      { "q": "What brought you here?", "a": "World class science." },
+      { "q": "What are you chasing?", "a": "40% 3pt%." },
+      { "q": "What question gets you out of bed?", "a": "What am I eating for lunch? I usually skip breakfast..." },
+      { "q": "What do you want to be known for?", "a": "The guy who gives the thumbs up in the corridor." },
+      { "q": "What do you actually enjoy about the day-to-day work?", "a": "Talking to people around the lab." }
+    ],
+    "links": [
+      { "label": "Bluesky", "url": "https://bsky.app/profile/vgeshkovski.bsky.social" }
+    ]
+  },
+  "3": {
+    "bio": [
+      "I arrived in Norwich on a cold January day in 1997, with snow still covering the ground—a stark contrast to Thailand—as I began my PhD in plant molecular biology/biotechnology at the John Innes Centre/the University of East Anglia. After graduating in 2000, I worked in several laboratories before returning to the John Innes Centre in 2009. Following a brief two-year period there, I joined The Sainsbury Laboratory (TSL) in September 2011, where I have since worked as a Research Assistant across different research groups.",
+      "Coming from a family of rice farmers, my interest in plant science has deep roots. Throughout my studies and career, I have been drawn to research that contributes to improving agriculture. I particularly value being part of collaborative teams working towards knowledge that can help build more resilient and sustainable food systems.",
+      "Outside of work, I enjoy gardening and golfing (my current handicap index is 10.4)."
+    ],
+    "links": []
+  },
+  "4": {
+    "qa": [
+      { "q": "What do you actually enjoy about the day-to-day work?", "a": "I enjoy both doing experiments and thinking about biological questions. I especially enjoy identifying new questions, thinking about how to approach them." }
+    ],
+    "links": []
+  },
+  "8": {
+    "qa": [
+      { "q": "What brought you here?", "a": "The opportunities the Nobori lab and TSL offer to use the most advanced techniques to study plant-pathogen interactions. Having these techniques at your disposal can really accelerate your work, which in turn creates new and exciting research questions." },
+      { "q": "What are you chasing?", "a": "A sub-17:30 5km." },
+      { "q": "What question gets you out of bed?", "a": "What am I having for breakfast?" },
+      { "q": "What do you want to be known for?", "a": "Robust and, most importantly, reproducible science." },
+      { "q": "What do you actually enjoy about the day-to-day work?", "a": "The variety the job brings. One day you’re sat behind the computer, planning experiments or analysing data, while the next day you’re infecting plants in the glasshouse. Most days, you can actually combine desk work and hands-on experiments, meaning the work never gets stale." }
+    ],
+    "links": []
+  },
+  "11": {
+    "qa": [
+      { "q": "What brought you here?", "a": "Lucky encounters and inspiring people." },
+      { "q": "What are you chasing?", "a": "An atlas of plant microbiomes." }
+    ],
+    "links": [
+      { "label": "YouTube", "url": "https://www.youtube.com/c/renssliceoflife" },
+      { "label": "Predoc video", "url": "https://youtu.be/44DTxVhboTA" }
+    ]
+  },
+  "13": {
+    "qa": [
+      { "q": "What do you actually enjoy about the day-to-day work?", "a": "The potential for unexpected experiences every day anew excites me most. Knowing every morning that I could be viewing surprising results for the first time or be captivated by a new piece of knowledge makes the day-to-day work truly enjoyable." },
+      { "q": "What brought you here?", "a": "The application of single-cell approaches and spatial transcriptomics to study the plant immune system. I am continuously amazed that we can analyse the inner workings of a single, individual plant cell. The opportunities this gives us to better understand the plant immune system are captivating." }
+    ],
+    "links": [
+      { "label": "LinkedIn", "url": "https://www.linkedin.com/in/ketilkrabbe" },
+      { "label": "Bluesky", "url": "https://bsky.app/profile/ketilkrabbe.bsky.social" }
+    ]
+  }
+}

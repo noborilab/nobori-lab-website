@@ -1,8 +1,18 @@
 import { useState, useEffect, useRef, useMemo } from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { teamMembers, alumni } from '../data/team'
+import memberBios from '../data/memberBios.json'
 import TypewriterLabel from './TypewriterLabel'
+import TeamBioPopover from './TeamBioPopover'
 import { useReducedMotion } from '../hooks/useReducedMotion'
+
+// Members with an approved bio get a click/tap popover; others render unchanged.
+function bioFor(id) {
+  const b = memberBios[String(id)]
+  if (!b) return null
+  const hasContent = (Array.isArray(b.qa) && b.qa.length) || (Array.isArray(b.bio) && b.bio.length)
+  return hasContent ? b : null
+}
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 const HS_RADIUS   = 40
@@ -57,19 +67,27 @@ function Confetti() {
 }
 
 // ─── MemberCard ───────────────────────────────────────────────────────────────
-function MemberCard({ member, base }) {
+function MemberCard({ member, base, hasBio = false }) {
   return (
     <>
-      <div className="w-[72px] h-[72px] rounded-full mx-auto bg-border/30 flex items-center justify-center overflow-hidden">
-        {member.image ? (
-          <img
-            src={base + member.image.replace(/^\//, '')}
-            alt={member.name}
-            loading="lazy"
-            className="w-full h-full object-cover"
+      <div className="relative w-[72px] h-[72px] mx-auto">
+        <div className={`w-full h-full rounded-full bg-border/30 flex items-center justify-center overflow-hidden${hasBio ? ' bio-photo' : ''}`}>
+          {member.image ? (
+            <img
+              src={base + member.image.replace(/^\//, '')}
+              alt={member.name}
+              loading="lazy"
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <span className="font-display text-xl text-navy/30">{member.initials}</span>
+          )}
+        </div>
+        {hasBio && (
+          <span
+            aria-hidden="true"
+            className="bio-dot absolute bottom-1 right-1 w-[9px] h-[9px] rounded-full bg-sage ring-2 ring-bg"
           />
-        ) : (
-          <span className="font-display text-xl text-navy/30">{member.initials}</span>
         )}
       </div>
       <h3 className="mt-2.5 font-display text-[19px] font-semibold text-navy leading-tight">
@@ -114,8 +132,30 @@ export default function Team() {
   const idleNodeRefs    = useRef([])   // DOM refs for normal grid cards
   const lastFrameTime   = useRef(null) // for delta-time framerate-independent physics
   const lastTapRef      = useRef(0)    // for double-tap detection on mobile
+  const bioTimerRef     = useRef(null) // delays single-click bio open so dblclick can cancel it
 
   const isPlaying = gameState === 'playing' || gameState === 'complete'
+
+  // ── Bio popover state ─────────────────────────────────────────────────────────
+  const [openBio, setOpenBio] = useState(null) // { id, triggerEl } | null
+
+  function openBioFor(member, triggerEl) {
+    if (isPlaying) return
+    if (!bioFor(member.id)) return
+    setOpenBio({ id: member.id, triggerEl })
+  }
+
+  function closeBio(refocus = true) {
+    const el = openBio?.triggerEl
+    setOpenBio(null)
+    if (refocus && el) requestAnimationFrame(() => el.focus())
+  }
+
+  // Game and popover are mutually exclusive — starting the game dismisses any bio.
+  useEffect(() => {
+    if (isPlaying && openBio) closeBio(false)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isPlaying])
 
   // Detect pointer device once
   useEffect(() => {
@@ -126,6 +166,7 @@ export default function Team() {
   useEffect(() => () => {
     activeRef.current = false
     cancelAnimationFrame(rafRef.current)
+    clearTimeout(bioTimerRef.current)
   }, [])
 
   // ── Activate ────────────────────────────────────────────────────────────────
@@ -742,42 +783,102 @@ export default function Team() {
             ref={containerRef}
             className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 gap-x-6 gap-y-8"
           >
-            {teamMembers.map((member, i) => (
-              <motion.div
-                key={member.id}
-                ref={el => { idleNodeRefs.current[i] = el }}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-30px' }}
-                transition={{ duration: 0.4, delay: i * 0.07 }}
-                className="text-center"
-              >
-                {member.id === 1 ? (
-                  /* Tatsuya — hover hint (desktop) or pulse hint (mobile) + activate */
-                  <div
-                    className={isDesktop ? 'tatsuya-hint' : 'tatsuya-hint-mobile'}
-                    onDoubleClick={isDesktop ? activate : undefined}
-                    onTouchEnd={!isDesktop ? handleTap : undefined}
-                    style={{ userSelect: 'none', touchAction: 'manipulation' }}
-                  >
-                    <div className="tatsuya-photo w-[72px] h-[72px] rounded-full mx-auto bg-border/30 flex items-center justify-center overflow-hidden">
-                      {member.image ? (
-                        <img src={base + member.image.replace(/^\//, '')} alt={member.name}
-                          loading="lazy" className="w-full h-full object-cover" draggable={false} />
-                      ) : (
-                        <span className="font-display text-xl text-navy/30">{member.initials}</span>
+            {teamMembers.map((member, i) => {
+              const hasBio   = !!bioFor(member.id)
+              const expanded = openBio?.id === member.id
+              // A11y props shared by every bio-enabled trigger.
+              const bioA11y = hasBio ? {
+                role: 'button',
+                tabIndex: 0,
+                'aria-haspopup': 'dialog',
+                'aria-expanded': expanded,
+                'aria-label': `Read ${member.name}'s bio`,
+                onKeyDown: (e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault()
+                    openBioFor(member, e.currentTarget)
+                  }
+                },
+              } : {}
+
+              return (
+                <motion.div
+                  key={member.id}
+                  ref={el => { idleNodeRefs.current[i] = el }}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-30px' }}
+                  transition={{ duration: 0.4, delay: i * 0.07 }}
+                  className="text-center"
+                >
+                  {member.id === 1 ? (
+                    /* Tatsuya — game (double-click/-tap). If he ever gets a bio, a
+                       single click/tap opens it while double still launches the game. */
+                    <div
+                      className={`${isDesktop ? 'tatsuya-hint' : 'tatsuya-hint-mobile'}${hasBio ? ' bio-card' : ''}`}
+                      {...bioA11y}
+                      {...(isDesktop
+                        ? {
+                            onDoubleClick: () => {
+                              if (hasBio) { clearTimeout(bioTimerRef.current); closeBio(false) }
+                              activate()
+                            },
+                            ...(hasBio && {
+                              onClick: (e) => {
+                                if (isPlaying || e.detail > 1) return
+                                const el = e.currentTarget
+                                clearTimeout(bioTimerRef.current)
+                                bioTimerRef.current = setTimeout(() => openBioFor(member, el), 220)
+                              },
+                            }),
+                          }
+                        : {
+                            onTouchEnd: hasBio
+                              ? (e) => {
+                                  const now = Date.now()
+                                  if (now - lastTapRef.current < 320) {
+                                    clearTimeout(bioTimerRef.current)
+                                    closeBio(false)
+                                    activate()
+                                  } else {
+                                    const el = e.currentTarget
+                                    clearTimeout(bioTimerRef.current)
+                                    bioTimerRef.current = setTimeout(() => openBioFor(member, el), 330)
+                                  }
+                                  lastTapRef.current = now
+                                }
+                              : handleTap,
+                          })}
+                      style={{ userSelect: 'none', touchAction: 'manipulation' }}
+                    >
+                      <div className="tatsuya-photo w-[72px] h-[72px] rounded-full mx-auto bg-border/30 flex items-center justify-center overflow-hidden">
+                        {member.image ? (
+                          <img src={base + member.image.replace(/^\//, '')} alt={member.name}
+                            loading="lazy" className="w-full h-full object-cover" draggable={false} />
+                        ) : (
+                          <span className="font-display text-xl text-navy/30">{member.initials}</span>
+                        )}
+                      </div>
+                      <h3 className="mt-2.5 font-display text-[19px] font-semibold text-navy leading-tight">{member.name}</h3>
+                      {member.role && (
+                        <p className="mt-0.5 font-mono text-[11px] uppercase tracking-[0.15em] text-sage">{member.role}</p>
                       )}
                     </div>
-                    <h3 className="mt-2.5 font-display text-[19px] font-semibold text-navy leading-tight">{member.name}</h3>
-                    {member.role && (
-                      <p className="mt-0.5 font-mono text-[11px] uppercase tracking-[0.15em] text-sage">{member.role}</p>
-                    )}
-                  </div>
-                ) : (
-                  <MemberCard member={member} base={base} />
-                )}
-              </motion.div>
-            ))}
+                  ) : hasBio ? (
+                    <div
+                      className="bio-card"
+                      {...bioA11y}
+                      onClick={(e) => openBioFor(member, e.currentTarget)}
+                      style={{ userSelect: 'none' }}
+                    >
+                      <MemberCard member={member} base={base} hasBio />
+                    </div>
+                  ) : (
+                    <MemberCard member={member} base={base} />
+                  )}
+                </motion.div>
+              )
+            })}
           </div>
         )}
 
@@ -846,6 +947,19 @@ export default function Team() {
         <p className="team-secret-hint">{'psst... try double-clicking someone'}</p>
       )}
 
+      {/* Bio popover — one at a time, dismissed by outside-click / Escape / close */}
+      <AnimatePresence>
+        {openBio && !isPlaying && bioFor(openBio.id) && (
+          <TeamBioPopover
+            key={openBio.id}
+            member={teamMembers.find(m => m.id === openBio.id)}
+            bio={bioFor(openBio.id)}
+            reduced={reduced}
+            onRequestClose={(reason) => closeBio(reason === 'escape' || reason === 'button')}
+          />
+        )}
+      </AnimatePresence>
+
       <style>{`
         @keyframes team-fade-in {
           from { opacity: 0; transform: translateY(-4px); }
@@ -905,6 +1019,38 @@ export default function Team() {
           0%, 100% { box-shadow: 0 0 0 0px rgba(107,143,107,0); }
           50%       { box-shadow: 0 0 0 4px rgba(107,143,107,0.3), 0 0 14px rgba(107,143,107,0.18); }
         }
+        /* Bio-enabled card — gentle lift + glow, and a "+" read-more badge */
+        .bio-card {
+          cursor: pointer;
+          outline: none;
+          border-radius: 14px;
+          transition: transform 0.3s ease;
+          -webkit-tap-highlight-color: transparent;
+        }
+        .bio-card:hover { transform: translateY(-3px); }
+        .bio-card:focus-visible {
+          outline: 2px solid rgba(107,143,107,0.9);
+          outline-offset: 4px;
+        }
+        .bio-card .bio-photo { transition: box-shadow 0.4s ease; }
+        .bio-card:hover .bio-photo,
+        .bio-card:focus-visible .bio-photo {
+          box-shadow: 0 0 0 2px rgba(107,143,107,0.22), 0 0 14px rgba(107,143,107,0.14);
+        }
+        /* Quiet cue: a small dot that surfaces only on hover / keyboard focus */
+        .bio-dot {
+          opacity: 0;
+          transform: scale(0.5);
+          transition: opacity 0.25s ease, transform 0.25s ease;
+          pointer-events: none;
+        }
+        .bio-card:hover .bio-dot,
+        .bio-card:focus-visible .bio-dot { opacity: 1; transform: scale(1); }
+        /* Touch devices have no hover — keep the dot faintly present as the only cue */
+        @media (hover: none) {
+          .bio-dot { opacity: 0.45; transform: scale(1); }
+        }
+
         /* Power-up glow on Tatsuya's floating headshot */
         @keyframes hs-powerup {
           0%   { box-shadow: 0 4px 16px rgba(0,0,0,0.18);
