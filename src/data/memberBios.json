@@ -35,6 +35,14 @@
     ],
     "links": []
   },
+  "10": {
+    "qa": [
+      { "q": "What are you chasing?", "a": "I’m trying to understand how distinct immune cell states arise, function and communicate during infection to shape plant immunity. I combine spatial and genetic approaches to investigate these states at single-cell resolution." }
+    ],
+    "links": [
+      { "label": "LinkedIn", "url": "https://www.linkedin.com/in/tokuji-tsuchiya-ab481b24/" }
+    ]
+  },
   "11": {
     "qa": [
       { "q": "What brought you here?", "a": "Lucky encounters and inspiring people." },
