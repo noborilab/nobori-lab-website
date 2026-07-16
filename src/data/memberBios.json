@@ -25,6 +25,19 @@
     ],
     "links": []
   },
+  "6": {
+    "bio": [
+      "Even after years in the lab, I still find the microscopic world mesmerizing. Microbes live lives so different from ours: they enter other living organisms and make new homes there. By joining the Nobori group, I hope to catch a glimpse of the bustling life within their phyllo-universe and understand a little more about the mechanisms of nature."
+    ],
+    "qa": [
+      { "q": "Translation", "a": "I’m currently a Research Assistant in the Nobori group, developing confocal microscopy methods to visualize plant–microbe interactions, while also supporting my lab members’ projects — including making graphics :)" }
+    ],
+    "links": [
+      { "label": "Website", "url": "https://paiinthelab.blog/" },
+      { "label": "Bluesky", "url": "https://bsky.app/profile/hsuanpai.bsky.social" },
+      { "label": "X", "url": "https://x.com/HsuanPai1" }
+    ]
+  },
   "8": {
     "qa": [
       { "q": "What brought you here?", "a": "The opportunities the Nobori lab and TSL offer to use the most advanced techniques to study plant-pathogen interactions. Having these techniques at your disposal can really accelerate your work, which in turn creates new and exciting research questions." },
