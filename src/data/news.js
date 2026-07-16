@@ -1,5 +1,14 @@
 export const newsItems = [
   {
+    id: 14,
+    date: 'Jul 2026',
+    title: 'Commentary in Nature Reviews Genetics',
+    description: 'A Journal Club article from Tatsuya on how stomata guard the gates against bacterial invasion in plants.',
+    tag: 'Paper',
+    color: 'coral',
+    link: 'https://rdcu.be/ft3HV',
+  },
+  {
     id: 13,
     date: 'May 2026',
     title: 'Welcome Ketil Krabbe',

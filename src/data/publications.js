@@ -2,6 +2,7 @@ export const journalColors = {
   'Nature': '#8B7D6B',
   'Nature Plants': '#6B8F6B',
   'Nature Communications': '#8B7D6B',
+  'Nature Reviews Genetics': '#8B7D6B',
   'PNAS': '#6B7B8B',
   'Cell Host & Microbe': '#5B7B9A',
   'New Phytologist': '#8B6B7B',
@@ -336,6 +337,15 @@ export const originalArticles = [
 ]
 
 export const reviews = [
+  {
+    id: 'r14',
+    authors: 'Nobori, T.',
+    year: 2026,
+    title: 'Stomata — guarding the gates against bacterial invasion',
+    journal: 'Nature Reviews Genetics',
+    firstPage: '',
+    link: 'https://rdcu.be/ft3HV',
+  },
   {
     id: 'r1',
     authors: 'Nobori, T.',
