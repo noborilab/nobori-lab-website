@@ -36,6 +36,7 @@ function MomentItem({ moment, i, total, isDesktop }) {
               src={import.meta.env.BASE_URL + moment.src.replace(/^\//, '')}
               alt={moment.caption}
               loading="lazy"
+              decoding="async"
               className="w-full"
             />
           </ParallaxImage>
@@ -184,6 +185,7 @@ function YearSection({ year, photos, defaultOpen, onOpenLightbox, startIndex }) 
                     src={import.meta.env.BASE_URL + photo.src.replace(/^\//, '')}
                     alt={photo.name}
                     loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover"
                   />
                 </motion.div>
@@ -230,6 +232,7 @@ function Lightbox({ photos, index, onClose, onPrev, onNext }) {
           <img
             src={import.meta.env.BASE_URL + photo.src.replace(/^\//, '')}
             alt={photo.name}
+            decoding="async"
             className="max-w-[80vw] max-h-[85vh] object-contain"
           />
         </motion.div>

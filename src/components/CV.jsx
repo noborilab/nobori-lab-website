@@ -142,6 +142,16 @@ export default function CV() {
                   Bluesky @tatsuyanobori
                 </a>
               </div>
+              {/* Press feature — set apart from the contact handles */}
+              <a
+                href="https://www.the-scientist.com/living-maps-uncovering-the-spatial-biology-of-plants-73690"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group mt-4 inline-flex items-center gap-1.5 font-mono text-[13px] uppercase tracking-[0.12em] text-sage hover:text-navy transition-colors"
+              >
+                Featured in The Scientist
+                <span className="transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true">&rarr;</span>
+              </a>
             </div>
           </motion.div>
 
