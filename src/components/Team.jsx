@@ -4,6 +4,7 @@ import { teamMembers, alumni } from '../data/team'
 import memberBios from '../data/memberBios.json'
 import TypewriterLabel from './TypewriterLabel'
 import TeamBioPopover from './TeamBioPopover'
+import OriginsMap from './OriginsMap'
 import { useReducedMotion } from '../hooks/useReducedMotion'
 
 // Members with an approved bio get a click/tap popover; others render unchanged.
@@ -882,6 +883,10 @@ export default function Team() {
           </div>
         )}
 
+        {/* Origins map — hidden while game is active */}
+        <div style={isPlaying ? { display: 'none' } : undefined}>
+          <OriginsMap />
+        </div>
 
         {/* Join Us card — hidden while game is active */}
         <motion.div
