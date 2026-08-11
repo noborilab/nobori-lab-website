@@ -227,10 +227,8 @@ export default function News() {
   )
 }
 
-function NewsCard({ item, className = '' }) {
-  const cardClass = `group bg-bg rounded-lg border border-border p-5 shadow-[0_1px_3px_rgba(0,0,0,0.04)] transition-all duration-300 ${className}`
-
-  const content = (
+function CardBody({ item }) {
+  return (
     <>
       <span
         className="inline-block font-mono text-[13px] font-medium uppercase tracking-[0.15em] px-2.5 py-1 rounded-full mb-3"
@@ -244,6 +242,22 @@ function NewsCard({ item, className = '' }) {
       <p className="mt-2 text-[17px] text-text/70 leading-relaxed">
         {item.description}
       </p>
+    </>
+  )
+}
+
+function NewsCard({ item, className = '' }) {
+  const cardClass = `group bg-bg rounded-lg border border-border p-5 shadow-[0_1px_3px_rgba(0,0,0,0.04)] transition-all duration-300 ${className}`
+
+  // A photo card can't be one big <a> — the expand toggle is itself interactive,
+  // and nesting a button inside a link is invalid. Photo cards keep the link inline.
+  if (item.image) {
+    return <PhotoNewsCard item={item} cardClass={cardClass} />
+  }
+
+  const content = (
+    <>
+      <CardBody item={item} />
       {item.link && (
         <p className="mt-3 font-mono text-[13px] uppercase tracking-[0.12em] text-text/30 group-hover:text-navy transition-colors">
           Read &rarr;
@@ -266,4 +280,80 @@ function NewsCard({ item, className = '' }) {
   }
 
   return <div className={cardClass}>{content}</div>
+}
+
+/* News card carrying a photo: small thumbnail that expands inside the card. */
+function PhotoNewsCard({ item, cardClass }) {
+  const [open, setOpen] = useState(false)
+  const src = import.meta.env.BASE_URL + item.image.replace(/^\//, '')
+
+  return (
+    <div className={cardClass}>
+      <div className="flex items-start gap-4">
+        <div className="flex-1 min-w-0">
+          <CardBody item={item} />
+          {item.link && (
+            <a
+              href={item.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block mt-3 font-mono text-[13px] uppercase tracking-[0.12em] text-text/30 hover:text-navy transition-colors"
+            >
+              Read &rarr;
+            </a>
+          )}
+        </div>
+
+        {/* Thumbnail toggle */}
+        <button
+          onClick={() => setOpen(!open)}
+          aria-expanded={open}
+          aria-label={open ? 'Hide photo' : 'Show photo'}
+          className="relative shrink-0 w-[64px] h-[64px] md:w-[76px] md:h-[76px] rounded-lg overflow-hidden border border-border shadow-[0_1px_3px_rgba(0,0,0,0.06)] transition-all duration-300 hover:shadow-[0_4px_12px_rgba(0,0,0,0.12)] hover:border-sage/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-sage/50"
+        >
+          <img
+            src={src}
+            alt=""
+            loading="lazy"
+            decoding="async"
+            className="w-full h-full object-cover transition-transform duration-500 hover:scale-[1.06]"
+          />
+          <span
+            aria-hidden="true"
+            className="absolute bottom-1 right-1 w-5 h-5 rounded-full bg-bg/90 text-navy text-[15px] leading-none flex items-center justify-center shadow-[0_1px_2px_rgba(0,0,0,0.15)]"
+          >
+            {open ? '−' : '+'}
+          </span>
+        </button>
+      </div>
+
+      {/* Expanded photo */}
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.35, ease: 'easeInOut' }}
+            className="overflow-hidden"
+          >
+            <div className="pt-5">
+              <img
+                src={src}
+                alt={item.imageAlt || item.title}
+                loading="lazy"
+                decoding="async"
+                className="rounded-lg w-auto max-w-full max-h-[340px] shadow-[0_2px_8px_rgba(0,0,0,0.08)]"
+              />
+              {item.imageCaption && (
+                <p className="mt-2 text-[15px] text-text/40 italic">
+                  {item.imageCaption}
+                </p>
+              )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  )
 }

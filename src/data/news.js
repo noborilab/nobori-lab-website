@@ -1,5 +1,18 @@
 export const newsItems = [
   {
+    id: 15,
+    date: 'Aug 2026',
+    title: 'The lab turns two',
+    description: 'Second anniversary of the Nobori Lab, which opened at The Sainsbury Laboratory in August 2024.',
+    tag: 'Lab',
+    color: 'sage',
+    link: '',
+    // Optional photo: shown as a thumbnail that expands inside the card.
+    image: '/images/lab/2026/lab_lunch_2.jpg',
+    imageAlt: 'Lab members gathered around a long table at an outdoor poolside lunch',
+    imageCaption: 'Poolside lab lunch',
+  },
+  {
     id: 14,
     date: 'Jul 2026',
     title: 'Commentary in Nature Reviews Genetics',
