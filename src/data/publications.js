@@ -25,6 +25,18 @@ export const journalColors = {
 
 export const selected = [
   {
+    id: 's9',
+    authors: 'Song, S., Pai, H., Uchida, K., and Nobori, T.',
+    year: 2026,
+    title: 'Nutrients as signals that spatially organize plant–microbe interactions',
+    journal: 'Curr Opin Plant Biol',
+    firstPage: '/images/publications/first-pages/song-2026-curr-opin-plant-biol.jpg',
+    figure: '/images/publications/curr-opin-plant-biol-2026-nutrients.jpg',
+    link: 'https://doi.org/10.1016/j.pbi.2026.102939',
+    pdf: 'https://drive.google.com/file/d/1mFoSnzq-XyNPEvfuyxorY3eHkbWj4Z4J/view',
+    highlights: [],
+  },
+  {
     id: 's1',
     authors: 'Nobori, T.',
     year: 2025,
@@ -337,6 +349,15 @@ export const originalArticles = [
 ]
 
 export const reviews = [
+  {
+    id: 'r15',
+    authors: 'Song, S., Pai, H., Uchida, K., and Nobori, T.',
+    year: 2026,
+    title: 'Nutrients as signals that spatially organize plant–microbe interactions',
+    journal: 'Curr Opin Plant Biol',
+    firstPage: '',
+    link: 'https://doi.org/10.1016/j.pbi.2026.102939',
+  },
   {
     id: 'r14',
     authors: 'Nobori, T.',
