@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { teamMembers, alumni } from '../data/team'
+import { recruiting } from '../data/recruiting'
 import memberBios from '../data/memberBios.json'
 import TypewriterLabel from './TypewriterLabel'
 import TeamBioPopover from './TeamBioPopover'
@@ -890,18 +891,53 @@ export default function Team() {
 
         {/* Join Us card — hidden while game is active */}
         <motion.div
+          id="join"
           style={isPlaying ? { display: 'none' } : undefined}
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-40px' }}
           transition={{ duration: 0.5, delay: 0.15 }}
-          className="mt-14 max-w-2xl mx-auto bg-bg rounded-xl border border-border border-l-4 border-l-sage p-6 md:p-8"
+          className="mt-14 max-w-2xl mx-auto scroll-mt-24 bg-bg rounded-xl border border-border border-l-4 border-l-sage p-6 md:p-8"
         >
           <h3 className="font-display text-[28px] font-semibold text-navy mb-3">
             Join Us!
           </h3>
+          {recruiting.active && (
+            <div className="mb-6 rounded-lg border border-coral/30 bg-coral/5 p-4 md:p-5">
+              <p className="font-mono text-[11px] uppercase tracking-[0.15em] text-coral">
+                Open position &middot; {recruiting.reference}
+              </p>
+              <h4 className="mt-1.5 font-display text-[21px] font-semibold text-navy leading-snug">
+                {recruiting.title}, {recruiting.group}
+              </h4>
+              <p className="mt-2 text-[16px] text-text/60 leading-relaxed">{recruiting.summary}</p>
+              <p className="mt-2 font-mono text-[12px] text-text/50">
+                {recruiting.salary} &middot; {recruiting.contract} &middot; {recruiting.deadline}
+              </p>
+              <a
+                href={recruiting.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-3 inline-flex items-center gap-1.5 font-mono text-[13px] uppercase tracking-[0.1em] text-navy underline underline-offset-4 hover:text-coral transition-colors"
+              >
+                View advert &amp; apply at TSL <span aria-hidden="true">&rarr;</span>
+                <span className="sr-only">(opens in new tab)</span>
+              </a>
+              <p className="mt-3 text-[14px] text-text/50 italic">
+                Applications for this position are accepted through the TSL website
+                only. Please do not apply by email.
+              </p>
+            </div>
+          )}
+          {recruiting.active && (
+            <p className="font-mono text-[11px] uppercase tracking-[0.15em] text-sage mb-2">
+              Other opportunities
+            </p>
+          )}
           <p className="text-[17px] text-text/60 leading-relaxed">
-            If you are interested in joining our lab, please{' '}
+            {recruiting.active
+              ? 'Interested in joining the lab in another capacity, such as a PhD, predoc, or future postdoc project? Please '
+              : 'If you are interested in joining our lab, please '}
             <a
               href="mailto:tatsuya.nobori@tsl.ac.uk"
               className="text-navy underline underline-offset-2 hover:text-coral transition-colors"

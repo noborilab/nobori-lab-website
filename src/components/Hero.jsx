@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { useReducedMotion } from '../hooks/useReducedMotion'
+import { recruiting } from '../data/recruiting'
 import labLogo from '/images/lab-logo.gif'
 
 export default function Hero() {
@@ -109,6 +110,21 @@ export default function Hero() {
           &rarr;
         </span>
       </motion.a>
+
+      {/* Recruiting announcement — remove via active flag in data/recruiting.js */}
+      {recruiting.active && (
+        <motion.a
+          href="#join"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 1.0 }}
+          style={parallax ? { opacity: contentOpacity, willChange: 'opacity' } : undefined}
+          className="mt-6 inline-flex items-center gap-2 rounded-full border border-coral/40 bg-coral/5 px-4 py-1.5 font-mono text-[13px] uppercase tracking-[0.1em] text-navy hover:bg-coral/15 transition-colors text-center"
+        >
+          <span className="h-1.5 w-1.5 rounded-full bg-coral" aria-hidden="true" />
+          {recruiting.shortText} <span aria-hidden="true">&rarr;</span>
+        </motion.a>
+      )}
 
       {/* Scroll indicator — desktop only */}
       <motion.div

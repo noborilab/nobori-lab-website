@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useReducedMotion } from '../hooks/useReducedMotion'
+import { recruiting } from '../data/recruiting'
 
 const navLinks = [
   { label: 'Home', href: '#hero' },
@@ -95,6 +96,14 @@ export default function Navbar() {
               </a>
             )
           })}
+          {recruiting.active && (
+            <a
+              href="#join"
+              className="ml-1 whitespace-nowrap rounded-full border border-coral/40 bg-coral/10 px-3 py-1 font-mono text-[13px] uppercase tracking-[0.1em] text-navy hover:bg-coral/20 transition-colors"
+            >
+              Join Us
+            </a>
+          )}
         </div>
 
         {/* Mobile toggle */}
@@ -158,6 +167,24 @@ export default function Navbar() {
                   </a>
                 )
               })}
+              {recruiting.active && (
+                <a
+                  href="#join"
+                  onClick={() => {
+                    setMobileOpen(false)
+                    setTimeout(() => {
+                      const el = document.getElementById('join')
+                      if (el) {
+                        el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                      }
+                      window.location.hash = 'join'
+                    }, 300)
+                  }}
+                  className="self-start rounded-full border border-coral/40 bg-coral/10 px-4 py-1.5 font-mono text-base uppercase tracking-widest text-navy"
+                >
+                  Join Us
+                </a>
+              )}
             </div>
           </motion.div>
         )}
