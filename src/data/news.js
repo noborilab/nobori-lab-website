@@ -1,5 +1,17 @@
 export const newsItems = [
   {
+    id: 17,
+    date: 'Sep 2026',
+    title: 'Farewell Karen',
+    description: 'Karen Uchida completes her time as a Predoc Intern and heads on to start a PhD at ETH Zurich. Thank you for everything, and best of luck.',
+    tag: 'Lab',
+    color: 'sage',
+    link: 'https://x.com/nobolly/status/2093348927172952510?s=20',
+    image: '/images/lab/2026/karen-farewell.jpg',
+    imageAlt: 'Karen Uchida holding a gift bag and speaking to lab members gathered under a handmade "Karen Farewell" banner',
+    imageCaption: 'Karen’s farewell in the lab',
+  },
+  {
     id: 16,
     date: 'Aug 2026',
     title: "We're recruiting",
