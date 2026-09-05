@@ -1,5 +1,6 @@
 export const journalColors = {
   'Nature': '#8B7D6B',
+  'Science': '#9A5B5B',
   'Nature Plants': '#6B8F6B',
   'Nature Communications': '#8B7D6B',
   'Nature Reviews Genetics': '#8B7D6B',
@@ -171,11 +172,11 @@ export const originalArticles = [
   {
     id: 'o1',
     authors: 'Creff, A., et al. incl. Nobori, T.',
-    year: 2025,
+    year: 2026,
     title: 'An embryo-derived peptide signal directs endosperm polarity in Arabidopsis',
-    journal: 'bioRxiv',
+    journal: 'Science',
     firstPage: '',
-    link: 'https://www.biorxiv.org/content/10.64898/2025.12.11.693621v1',
+    link: 'https://www.science.org/doi/10.1126/science.aed6035',
   },
   {
     id: 'o2',
