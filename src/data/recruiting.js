@@ -14,3 +14,12 @@ export const recruiting = {
   contract: '24 months initially',
   url: 'https://www.tsl.ac.uk/working-at-tsl/current-opportunities/173302',
 }
+
+// Informal expressions-of-interest call. Set active: false to remove its
+// hero pill and Team-section card. Full copy lives in Team.jsx.
+export const expressionsOfInterest = {
+  active: true,
+  code: 'REGGEN-2026',
+  title: 'Regulatory genomics and machine learning',
+  shortText: 'Expressions of interest: regulatory genomics & machine learning',
+}

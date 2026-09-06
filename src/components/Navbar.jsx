@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useReducedMotion } from '../hooks/useReducedMotion'
-import { recruiting } from '../data/recruiting'
+import { recruiting, expressionsOfInterest } from '../data/recruiting'
 
 const navLinks = [
   { label: 'Home', href: '#hero' },
@@ -96,7 +96,7 @@ export default function Navbar() {
               </a>
             )
           })}
-          {recruiting.active && (
+          {(recruiting.active || expressionsOfInterest.active) && (
             <a
               href="#join"
               className="ml-1 whitespace-nowrap rounded-full border border-coral/40 bg-coral/10 px-3 py-1 font-mono text-[13px] uppercase tracking-[0.1em] text-navy hover:bg-coral/20 transition-colors"
@@ -167,7 +167,7 @@ export default function Navbar() {
                   </a>
                 )
               })}
-              {recruiting.active && (
+              {(recruiting.active || expressionsOfInterest.active) && (
                 <a
                   href="#join"
                   onClick={() => {

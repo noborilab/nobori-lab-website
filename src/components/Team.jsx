@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { teamMembers, alumni } from '../data/team'
-import { recruiting } from '../data/recruiting'
+import { recruiting, expressionsOfInterest } from '../data/recruiting'
 import memberBios from '../data/memberBios.json'
 import TypewriterLabel from './TypewriterLabel'
 import TeamBioPopover from './TeamBioPopover'
@@ -64,6 +64,117 @@ function Confetti() {
           }}
         />
       ))}
+    </div>
+  )
+}
+
+// ─── Expressions of interest card ─────────────────────────────────────────────
+// Collapsed by default: the full text is long, so only the teaser shows until
+// the visitor opts in. Active flag and short fields live in data/recruiting.js.
+function ExpressionsOfInterestCard() {
+  const [open, setOpen] = useState(false)
+  const reduced = useReducedMotion()
+  return (
+    <div
+      id="join-eoi"
+      className="mb-6 scroll-mt-24 rounded-lg border border-sage/40 bg-sage/5 p-4 md:p-5"
+    >
+      <p className="font-mono text-[11px] uppercase tracking-[0.15em] text-sage">
+        Expressions of interest &middot; {expressionsOfInterest.code}
+      </p>
+      <h4 className="mt-1.5 font-display text-[21px] font-semibold text-navy leading-snug">
+        {expressionsOfInterest.title}
+      </h4>
+      <p className="mt-2 text-[16px] text-text/60 leading-relaxed">
+        We welcome inquiries from people at any career stage with strong
+        foundations in regulatory genomics or machine learning and fluency
+        with agentic coding tools. No plant background is required.
+      </p>
+      <button
+        type="button"
+        onClick={() => setOpen(!open)}
+        aria-expanded={open}
+        aria-controls="join-eoi-details"
+        className="mt-3 inline-flex items-center gap-1.5 font-mono text-[13px] uppercase tracking-[0.1em] text-navy underline underline-offset-4 hover:text-sage transition-colors"
+      >
+        {open ? 'Hide details' : 'Read the full details'}
+        <span
+          aria-hidden="true"
+          className={`inline-block transition-transform duration-300 ${open ? 'rotate-90' : ''}`}
+        >
+          &rarr;
+        </span>
+      </button>
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            id="join-eoi-details"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: reduced ? 0 : 0.35, ease: 'easeOut' }}
+            className="overflow-hidden"
+          >
+            <div className="pt-4 space-y-3 text-[16px] text-text/60 leading-relaxed">
+              <p>
+                We are building predictive models to understand how gene
+                regulation shapes plant immune cell states. You&rsquo;ll work
+                with experimental colleagues to test predictions and help shape
+                what we measure next. We have a growing collection of unique
+                single-cell, spatial and regulatory genomics data, much of it
+                unpublished, and dedicated GPUs to support rapid model
+                development. We work mainly in Arabidopsis and are expanding
+                into crops.
+              </p>
+              <p>
+                We have funding to recruit and are flexible about the role and
+                research focus. We would like to discuss how these could fit
+                your experience and interests. Informal inquiries are welcome
+                {recruiting.active
+                  ? '; this opportunity is separate from the advertised position above.'
+                  : '.'}
+              </p>
+              <p>
+                Please{' '}
+                <a
+                  href="mailto:tatsuya.nobori@tsl.ac.uk?subject=REGGEN-2026%20%E2%80%93%20%5BYour%20name%5D"
+                  className="text-navy underline underline-offset-2 hover:text-sage transition-colors"
+                >
+                  email Tatsuya
+                </a>{' '}
+                your <span className="text-sage font-medium">CV</span> with the
+                subject line{' '}
+                <span className="font-mono text-[14px] text-navy whitespace-nowrap">
+                  REGGEN-2026 &ndash; [Your name]
+                </span>
+                . In a short email, please tell us:
+              </p>
+              <ul className="space-y-2 pl-5">
+                <li className="list-disc">
+                  <span className="text-navy font-medium">
+                    Your relevant experience.
+                  </span>{' '}
+                  Describe one project you contributed to, making your own
+                  contribution clear. Include a link to code, a paper or
+                  another example of your work if available.
+                </li>
+                <li className="list-disc">
+                  <span className="text-navy font-medium">
+                    What you want from your next career step.
+                  </span>{' '}
+                  What would you like to achieve or learn? Please also indicate
+                  the type of opportunity you are seeking and your likely
+                  availability.
+                </li>
+              </ul>
+              <p className="text-[14px] text-text/50 italic">
+                A formal research proposal is not needed. Inquiries that do not
+                follow these instructions may not be considered.
+              </p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   )
 }
@@ -929,13 +1040,14 @@ export default function Team() {
               </p>
             </div>
           )}
-          {recruiting.active && (
+          {expressionsOfInterest.active && <ExpressionsOfInterestCard />}
+          {(recruiting.active || expressionsOfInterest.active) && (
             <p className="font-mono text-[11px] uppercase tracking-[0.15em] text-sage mb-2">
               Other opportunities
             </p>
           )}
           <p className="text-[17px] text-text/60 leading-relaxed">
-            {recruiting.active
+            {recruiting.active || expressionsOfInterest.active
               ? 'Interested in joining the lab in another capacity, such as a PhD, predoc, or future postdoc project? Please '
               : 'If you are interested in joining our lab, please '}
             <a
