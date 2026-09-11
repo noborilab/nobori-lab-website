@@ -12,6 +12,7 @@ const navLinks = [
   { label: 'PI', href: '#cv' },
   { label: 'Team', href: '#team' },
   { label: 'Gallery', href: '#gallery' },
+  { label: 'Sci-Art', href: '#sci-art' },
   { label: 'News', href: '#news' },
   { label: 'Contact', href: '#contact' },
 ]
@@ -71,7 +72,7 @@ export default function Navbar() {
         </a>
 
         {/* Desktop */}
-        <div className="hidden lg:flex items-center gap-5">
+        <div className="hidden lg:flex items-center gap-3 xl:gap-4">
           {navLinks.map((link) => {
             const sectionId = link.href.replace('#', '')
             const isActive = activeSection === sectionId
@@ -79,7 +80,7 @@ export default function Navbar() {
               <a
                 key={link.href}
                 href={link.href}
-                className={`relative font-mono text-[14px] uppercase tracking-[0.1em] transition-colors duration-200 whitespace-nowrap pb-1 ${
+                className={`relative font-mono text-[12px] xl:text-[13px] uppercase tracking-[0.1em] transition-colors duration-200 whitespace-nowrap pb-1 ${
                   isActive ? 'text-navy' : 'text-text/60 hover:text-navy'
                 }`}
               >
@@ -99,7 +100,7 @@ export default function Navbar() {
           {(recruiting.active || expressionsOfInterest.active) && (
             <a
               href="#join"
-              className="ml-1 whitespace-nowrap rounded-full border border-coral/40 bg-coral/10 px-3 py-1 font-mono text-[13px] uppercase tracking-[0.1em] text-navy hover:bg-coral/20 transition-colors"
+              className="ml-1 whitespace-nowrap rounded-full border border-coral/40 bg-coral/10 px-2.5 xl:px-3 py-1 font-mono text-[12px] xl:text-[13px] uppercase tracking-[0.1em] text-navy hover:bg-coral/20 transition-colors"
             >
               Join Us
             </a>

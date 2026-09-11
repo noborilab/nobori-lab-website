@@ -10,6 +10,7 @@ import Publications from './components/Publications'
 import OnlineTalks from './components/OnlineTalks'
 import Team from './components/Team'
 import Gallery from './components/Gallery'
+import SciArt from './components/SciArt'
 import Contact from './components/Contact'
 import Funders from './components/Funders'
 import Footer from './components/Footer'
@@ -33,6 +34,7 @@ export default function App() {
         <CV />
         <Team />
         <Gallery />
+        <SciArt />
         <News />
         <Contact />
         <Funders />
