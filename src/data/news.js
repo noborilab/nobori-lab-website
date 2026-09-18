@@ -12,16 +12,6 @@ export const newsItems = [
     imageCaption: 'Karen’s farewell in the lab',
   },
   {
-    id: 16,
-    date: 'Aug 2026',
-    title: "We're recruiting",
-    description:
-      'Open position: Research Assistant or Postdoctoral Researcher in the Nobori group, working on live-cell imaging and PHYTOMap spatial transcriptomics of plant immunity. Apply by 14 September 2026 (ref TN02-2026).',
-    tag: 'Lab',
-    color: 'sage',
-    link: 'https://www.tsl.ac.uk/working-at-tsl/current-opportunities/173302',
-  },
-  {
     id: 15,
     date: 'Aug 2026',
     title: 'The lab turns two',

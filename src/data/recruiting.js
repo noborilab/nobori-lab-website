@@ -2,7 +2,7 @@
 // (hero line, navbar pill, Team-section callout). The news item in news.js
 // is separate: reword or delete it manually when the position closes.
 export const recruiting = {
-  active: true,
+  active: false,
   title: 'Research Assistant or Postdoctoral Researcher',
   group: 'Nobori group',
   shortText: "We're hiring: Research Assistant / Postdoc in plant immunity imaging",

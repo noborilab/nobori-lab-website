@@ -351,6 +351,15 @@ export const originalArticles = [
 
 export const reviews = [
   {
+    id: 'r16',
+    authors: 'Jhu, M.-Y., ..., Nobori, T., ..., Sugimoto, K.',
+    year: 2026,
+    title: 'Unlocking the full potential of spatial omics in plants: practical challenges, solutions, and a path forward',
+    journal: 'The Plant Cell',
+    firstPage: '',
+    link: 'https://academic.oup.com/plcell/advance-article/doi/10.1093/plcell/koag282/8795214',
+  },
+  {
     id: 'r15',
     authors: 'Song, S., Pai, H., Uchida, K., and Nobori, T.',
     year: 2026,
