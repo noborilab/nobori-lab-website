@@ -1,16 +1,23 @@
 export const projectsIntro =
-  'Recent discoveries have revealed that plants interacting with microbes exhibit various immune cell states that are molecularly and spatiotemporally distinct. Our projects aim to uncover the diversity, regulation, and functions of these immune cell states, and their interactions with individual microbial cells. To achieve these goals, we employ single-cell and spatial omics technologies, along with advanced molecular biology and computational approaches. Below are technologies and resources available in our group.'
+  'Plants and microbes interact through heterogeneous and spatially organized cellular states. We aim to understand how these states arise, how they are regulated, and how individual plant and microbial cells influence one another. To address these questions, we combine single-cell and spatial omics with molecular biology, imaging, and computational approaches.\n\nThe themes below highlight selected contributions from our research – discoveries, ideas, methods, datasets, and shared resources – together with what they have enabled and, for ongoing work, where they are heading.'
 
 export const projects = [
   {
     id: 'sc-spatial',
-    title: 'Single-cell and spatial dissection of plant-microbe interactions',
+    title: 'Plant immune cell states',
     description:
-      'Plants lack specialized and mobile immune cells. Any cell type encountering pathogens must mount immune responses and communicate with surrounding cells. We integrate time-resolved single-cell transcriptomic, epigenomic and spatial transcriptomic data to identify cell states and describe cell-state-specific gene-regulatory logic. We discovered PRIMER cells \u2014 a rare cell population at the nexus of immune-active hotspots.',
-    publication: {
-      text: 'Nobori, T., Monell, A., et al. (2025) Nature',
-      href: 'https://www.nature.com/articles/s41586-024-08383-z',
-    },
+      'Plants lack specialized and mobile immune cells, so any cell type encountering a pathogen must mount immune responses and communicate with surrounding cells. We integrate time-resolved single-cell transcriptomic, epigenomic, and spatial transcriptomic data to identify the cell states that arise during infection and to describe the gene-regulatory logic specific to each. This work uncovered PRIMER cells, a rare population at the nexus of immune-active hotspots, and motivated a broader framework treating immune cell states as building blocks of the plant immune system.',
+    publications: [
+      {
+        text: 'Nobori, T., Monell, A., et al. (2025) Nature',
+        href: 'https://www.nature.com/articles/s41586-024-08383-z',
+      },
+      {
+        label: 'Perspective',
+        text: 'Nobori, T. (2025) Cell Host & Microbe',
+        href: 'https://www.cell.com/cell-host-microbe/fulltext/S1931-3128(25)00245-8',
+      },
+    ],
     resources: [
       { label: 'Data Browser', href: 'https://plantpathogenatlas.salk.edu/' },
       { label: 'GitHub (Multiomics)', href: 'https://github.com/tnobori/snMultiome' },
@@ -24,7 +31,7 @@ export const projects = [
     id: 'cell-atlas',
     title: 'Plant Cell Atlas',
     description:
-      'A single-nucleus transcriptome atlas of seed-to-seed development employing over 800,000 nuclei, encompassing diverse tissues across ten developmental stages, with spatial transcriptomic validation. This atlas provides a resource for studying cell type specification throughout development and a reference for stimulus response and genetic perturbations at single-cell resolution.',
+      'We co-built a single-nucleus and spatial transcriptomic atlas spanning the Arabidopsis life cycle. The atlas resolves cellular identities and states across developmental stages and organs, providing a reference for interpreting developmental programs, environmental responses, and genetic perturbations at cellular resolution. The accompanying browser and datasets make this resource directly accessible for exploring new biological questions.',
     publication: {
       text: 'Lee, T.A.*, Nobori, T.*, Illouz-Eliaz, N.*, et al. (2025) Nature Plants',
       href: 'https://www.nature.com/articles/s41477-025-02072-z',
@@ -39,7 +46,7 @@ export const projects = [
     id: 'phytomap',
     title: 'PHYTOMap',
     description:
-      'PHYTOMap (Plant HYbridization-based Targeted Observation of gene expression Map) spatially maps expression of dozens of genes at single-molecule resolution in 3D whole-mount plant tissues. No tissue sectioning required \u2014 works in a standard molecular biology lab at low cost and can be applied to many species including non-model species.',
+      'We developed PHYTOMap, a low-cost whole-mount method for multiplexed 3D RNA imaging in plants at single-molecule resolution. It enables spatial gene-expression analysis without tissue sectioning or generating a transgenic reporter for every target, and can be applied across diverse plant tissues and species. We have directly supported more than 10 research groups in implementing PHYTOMap, alongside independent applications of the method beyond our original experimental system.',
     publication: {
       text: 'Nobori, T.*, Oliva, M., Lister, R. and Ecker, J.R.* (2023) Nature Plants',
       href: 'https://www.nature.com/articles/s41477-023-01439-4',
@@ -54,7 +61,7 @@ export const projects = [
     id: 'bacterial-omics',
     title: 'In planta bacterial omics',
     description:
-      'How do hosts influence bacterial responses? We developed methods to physically isolate bacteria from plant leaves for transcriptome and proteome assays. Key findings: bacterial transcriptome patterns at early infection predict virulence, plant immunity suppresses bacterial iron acquisition, and in planta co-expression analysis identifies novel virulence genes.',
+      'We developed approaches to profile bacterial transcriptomes and proteomes directly inside plant tissue, allowing bacterial physiology to be studied in its native host environment. These approaches revealed how plant immunity reshapes pathogen physiology, including suppression of bacterial iron acquisition, and identified in planta gene networks associated with virulence. We subsequently extended the framework from pathogens to members of the plant microbiota, enabling simultaneous investigation of host and bacterial responses.',
     publications: [
       { text: 'Nobori, T., et al. (2022) EMBO Reports', href: 'https://www.embopress.org/doi/full/10.15252/embr.202255380' },
       { text: 'Nobori, T.*, Wang, Y.*, et al. (2020) Nature Plants', href: 'https://www.nature.com/articles/s41477-020-0690-7' },

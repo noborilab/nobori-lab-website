@@ -123,9 +123,17 @@ function ProjectCard({ project, index }) {
                 href={pub.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block text-[15px] text-text/55 hover:text-navy transition-colors"
+                className="group block text-[15px] text-text/55 hover:text-navy transition-colors"
               >
                 {pub.text}
+                {pub.label && (
+                  <>
+                    {' '}
+                    <span className="ml-1 inline-block font-mono text-[11px] uppercase tracking-[0.08em] text-text/40 border border-border rounded px-1.5 py-px group-hover:text-navy/70 group-hover:border-navy/30 transition-colors">
+                      {pub.label}
+                    </span>
+                  </>
+                )}
               </a>
             ))}
           </div>
@@ -147,11 +155,17 @@ function ProjectCard({ project, index }) {
 }
 
 export default function Projects() {
+  // First paragraph is the display lead; any further paragraphs are body text.
+  const [introLead, ...introBody] = projectsIntro
+    .split('\n\n')
+    .map((p) => p.trim())
+    .filter(Boolean)
+
   return (
     <section id="projects" className="py-24 bg-bg-soft px-6">
       <div className="max-w-5xl mx-auto">
         {/* Section label */}
-        <TypewriterLabel text="Projects" className="mb-14" />
+        <TypewriterLabel text="Research contributions" className="mb-14" />
 
         {/* Intro — pull quote + body */}
         <motion.div
@@ -162,11 +176,13 @@ export default function Projects() {
           className="max-w-[750px] mx-auto text-center py-8 mb-10"
         >
           <p className="font-display text-[1.3em] italic text-navy leading-relaxed mb-4">
-            {projectsIntro.split('. ')[0]}.
+            {introLead}
           </p>
-          <p className="text-[17px] text-text/70 leading-relaxed">
-            {projectsIntro.split('. ').slice(1).join('. ')}
-          </p>
+          {introBody.map((para, i) => (
+            <p key={i} className="text-[17px] text-text/70 leading-relaxed mt-4 first:mt-0">
+              {para}
+            </p>
+          ))}
           <div className="mt-8 mx-auto w-16 h-px bg-border" />
         </motion.div>
 
