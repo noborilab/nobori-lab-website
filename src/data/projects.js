@@ -43,6 +43,20 @@ export const projects = [
     video: null,
   },
   {
+    id: 'regulatory-genomics',
+    status: 'Work in progress',
+    title: 'Regulatory genomics of plant immunity',
+    description:
+      'We are building a cell-state-resolved view of the regulatory logic underlying plant immunity. By integrating csRNA-seq, which identifies transcription initiation and active regulatory elements, with single-nucleus transcriptome and chromatin profiling, we aim to connect cis-regulatory elements and transcription-factor combinations to immune programs across cell types and states.',
+    publications: [],
+    resources: [
+      { label: 'Poster (Regulatory elements)', href: 'https://zenodo.org/records/21476383' },
+      { label: 'Poster (cis-Regulatory logic)', href: 'https://zenodo.org/records/21476601' },
+    ],
+    image: '/images/projects/regulatory-genomics.jpg',
+    video: null,
+  },
+  {
     id: 'phytomap',
     title: 'PHYTOMap',
     description:
@@ -69,6 +83,26 @@ export const projects = [
     ],
     resources: [],
     image: '/images/projects/In_planta_bacterial_omics.jpg',
+    video: null,
+  },
+  {
+    id: 'spatial-microbiome',
+    status: 'Work in progress',
+    title: 'Spatial plant-microbiome interactions',
+    description:
+      'We are developing spatial approaches to measure plant gene expression together with microbial identity and location in intact tissues. Our goal is to connect where individual microbes colonize with the local plant cell states they encounter and induce, and ultimately to understand plant-microbiome interactions as spatially coupled cellular systems. This work extends PHYTOMap toward simultaneous visualization of host and microbial responses and is complemented by a conceptual framework in which nutrients help organize local interaction niches.',
+    publications: [
+      {
+        label: 'Review',
+        text: 'Song, S., Pai, H., Uchida, K., and Nobori, T. (2026) Curr Opin Plant Biol',
+        href: 'https://doi.org/10.1016/j.pbi.2026.102939',
+      },
+    ],
+    resources: [
+      { label: 'Poster (Spatial co-profiling)', href: 'https://zenodo.org/records/15854638' },
+      { label: 'Poster (Single-cell imaging)', href: 'https://zenodo.org/records/22557764' },
+    ],
+    image: '/images/projects/spatial-microbiome.jpg',
     video: null,
   },
 ]

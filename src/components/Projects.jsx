@@ -17,7 +17,7 @@ function ResourcePill({ href, children }) {
   )
 }
 
-function ProjectCard({ project, index }) {
+function ProjectCard({ project, index, className = '' }) {
   const [open, setOpen] = useState(false)
 
   const pubs = project.publications
@@ -26,13 +26,19 @@ function ProjectCard({ project, index }) {
       ? [project.publication]
       : []
 
+  // Collapsed view shows the first two sentences. The final chunk keeps its own
+  // full stop, so normalise rather than always appending one.
+  const sentences = project.description.split('. ')
+  const hasMore = sentences.length > 2
+  const preview = sentences.slice(0, 2).join('. ').replace(/\.$/, '') + '.'
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="bg-bg rounded-xl border border-border overflow-hidden break-inside-avoid mb-6"
+      className={`bg-bg rounded-xl border border-border overflow-hidden ${className}`}
     >
       {/* Media */}
       {project.image && (
@@ -65,6 +71,12 @@ function ProjectCard({ project, index }) {
 
       {/* Content */}
       <div className="p-6">
+        {project.status && (
+          <p className="mb-3 inline-flex items-center gap-2 rounded-full border border-sage/50 bg-sage/10 px-3 py-1 font-mono text-[11px] uppercase tracking-[0.1em] text-navy/75">
+            <span className="h-1.5 w-1.5 rounded-full bg-sage" aria-hidden="true" />
+            {project.status}
+          </p>
+        )}
         <h3 className="font-display text-[26px] font-semibold text-navy leading-snug">
           {project.title}
         </h3>
@@ -92,8 +104,8 @@ function ProjectCard({ project, index }) {
                 transition={{ duration: 0.2 }}
                 className="text-[17px] text-text/70 leading-relaxed"
               >
-                {project.description.split('. ').slice(0, 2).join('. ')}.
-                {project.description.split('. ').length > 2 && (
+                {preview}
+                {hasMore && (
                   <button
                     onClick={() => setOpen(true)}
                     className="ml-1 text-navy/50 hover:text-navy transition-colors"
@@ -104,7 +116,7 @@ function ProjectCard({ project, index }) {
               </motion.p>
             )}
           </AnimatePresence>
-          {open && project.description.split('. ').length > 2 && (
+          {open && hasMore && (
             <button
               onClick={() => setOpen(false)}
               className="mt-1 text-[14px] text-navy/40 hover:text-navy transition-colors"
@@ -161,6 +173,13 @@ export default function Projects() {
     .map((p) => p.trim())
     .filter(Boolean)
 
+  // Two explicit columns instead of multi-column height balancing, so each card's
+  // neighbours stay predictable: the first half of projects.js fills the left
+  // column top-to-bottom, the rest fills the right. On mobile they stack in the
+  // same order. Reorder projects.js to change the layout.
+  const mid = Math.ceil(projects.length / 2)
+  const columns = [projects.slice(0, mid), projects.slice(mid)]
+
   return (
     <section id="projects" className="py-24 bg-bg-soft px-6">
       <div className="max-w-5xl mx-auto">
@@ -186,10 +205,14 @@ export default function Projects() {
           <div className="mt-8 mx-auto w-16 h-px bg-border" />
         </motion.div>
 
-        {/* Project cards — 2-column masonry */}
-        <div className="columns-1 md:columns-2 gap-6">
-          {projects.map((project, i) => (
-            <ProjectCard key={project.id} project={project} index={i} />
+        {/* Project cards — two explicit columns so neighbours stay predictable */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+          {columns.map((column, c) => (
+            <div key={c} className="flex flex-col gap-6">
+              {column.map((project, i) => (
+                <ProjectCard key={project.id} project={project} index={i} />
+              ))}
+            </div>
           ))}
         </div>
       </div>
