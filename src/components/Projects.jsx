@@ -175,8 +175,8 @@ export default function Projects() {
 
   // Two explicit columns instead of multi-column height balancing, so each card's
   // neighbours stay predictable: the first half of projects.js fills the left
-  // column top-to-bottom, the rest fills the right. On mobile they stack in the
-  // same order. Reorder projects.js to change the layout.
+  // column top-to-bottom, the rest fills the right. Reorder projects.js to change
+  // the layout.
   const mid = Math.ceil(projects.length / 2)
   const columns = [projects.slice(0, mid), projects.slice(mid)]
 
@@ -205,12 +205,20 @@ export default function Projects() {
           <div className="mt-8 mx-auto w-16 h-px bg-border" />
         </motion.div>
 
-        {/* Project cards — two explicit columns so neighbours stay predictable */}
+        {/* Project cards — two explicit columns so neighbours stay predictable.
+            Single-column: the wrappers go display:contents so every card becomes
+            a direct grid item, letting ongoing work order last instead of
+            surfacing mid-list at the foot of the left column. */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
           {columns.map((column, c) => (
-            <div key={c} className="flex flex-col gap-6">
+            <div key={c} className="contents md:flex md:flex-col md:gap-6">
               {column.map((project, i) => (
-                <ProjectCard key={project.id} project={project} index={i} />
+                <ProjectCard
+                  key={project.id}
+                  project={project}
+                  index={i}
+                  className={project.status ? 'order-last md:order-none' : ''}
+                />
               ))}
             </div>
           ))}

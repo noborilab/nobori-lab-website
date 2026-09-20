@@ -361,9 +361,6 @@ export default function OriginsMap() {
   return (
     <Wrapper {...wrapperMotion} className="mt-16">
       <TypewriterLabel text="Where we come from" />
-      <p className="mt-3 font-display italic text-[19px] text-navy/55">
-        {currentCountries.length} nationalities, and counting
-      </p>
 
       {/* Screen-reader summary — the map itself is decorative for AT */}
       <p className="sr-only">
