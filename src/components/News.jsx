@@ -255,7 +255,7 @@ function NewsCard({ item, className = '' }) {
     return <PhotoNewsCard item={item} cardClass={cardClass} />
   }
 
-  const content = (
+  const text = (
     <>
       <CardBody item={item} />
       {item.link && (
@@ -264,6 +264,22 @@ function NewsCard({ item, className = '' }) {
         </p>
       )}
     </>
+  )
+
+  // Optional logo (e.g. a funder's): shown uncropped beside the text, below it on mobile.
+  const content = item.logo ? (
+    <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-6">
+      <div className="flex-1 min-w-0">{text}</div>
+      <img
+        src={import.meta.env.BASE_URL + item.logo.replace(/^\//, '')}
+        alt={item.logoAlt || ''}
+        loading="lazy"
+        decoding="async"
+        className="shrink-0 w-[160px] md:w-[180px] h-auto object-contain"
+      />
+    </div>
+  ) : (
+    text
   )
 
   if (item.link) {

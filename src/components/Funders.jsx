@@ -5,6 +5,7 @@ const funders = [
   { name: 'UKRI', logo: '/images/funders/UKRI_logo.webp', href: 'https://www.ukri.org/' },
   { name: 'BBSRC', logo: '/images/funders/bbsrc-logo.png', href: 'https://www.ukri.org/councils/bbsrc/' },
   { name: 'Gatsby Foundation', logo: '/images/funders/GATSBY_Logo_RGB-1_Jessica-Roberts.jpg', href: 'https://www.gatsby.org.uk/' },
+  { name: 'European Research Council', logo: '/images/funders/erc-logo.png', href: 'https://erc.europa.eu/' },
 ]
 
 export default function Funders() {

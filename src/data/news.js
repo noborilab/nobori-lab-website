@@ -1,5 +1,17 @@
 export const newsItems = [
   {
+    id: 18,
+    date: 'Sep 2026',
+    title: 'ERC Starting Grant awarded',
+    description: 'Tatsuya has been awarded a European Research Council Starting Grant for ImmuneCellStates. The project will map plant immune cell states with spatial omics, identify the regulatory DNA that controls them using deep learning, and test their roles in disease resistance through multiplex genome editing.',
+    tag: 'Press',
+    color: 'navy',
+    link: 'https://www.tsl.ac.uk/news/tatsuya-nobori-secures-erc-starting-grant-to-study-plant-immune-cell-states',
+    // Optional logo: shown uncropped beside the card text (not expandable like `image`).
+    logo: '/images/funders/erc-eu-funded.png',
+    logoAlt: 'Funded by the European Union, European Research Council logo',
+  },
+  {
     id: 17,
     date: 'Sep 2026',
     title: 'Farewell Karen',
