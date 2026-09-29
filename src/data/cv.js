@@ -1,9 +1,11 @@
+// `type` splits Appointments from Education in the downloadable PDF CV.
 export const experience = [
   {
     period: 'Aug 2024\u2013Present',
     institution: 'The Sainsbury Laboratory',
     location: 'Norwich, UK',
     role: 'Group Leader',
+    type: 'position',
     detail: null,
   },
   {
@@ -11,6 +13,7 @@ export const experience = [
     institution: 'Salk Institute',
     location: 'La Jolla, California, USA',
     role: 'Postdoctoral Fellow',
+    type: 'position',
     detail: 'Supervisor: Prof. Joseph R. Ecker',
   },
   {
@@ -18,6 +21,7 @@ export const experience = [
     institution: 'Max-Planck Institute for Plant Breeding Research',
     location: 'Cologne, Germany',
     role: 'Ph.D.',
+    type: 'education',
     detail: 'Summa cum laude · Supervisor: Dr. Kenichi Tsuda',
   },
   {
@@ -25,6 +29,7 @@ export const experience = [
     institution: 'University of Tokyo',
     location: 'Tokyo, Japan',
     role: 'M.S.',
+    type: 'education',
     detail: null,
   },
   {
@@ -32,6 +37,7 @@ export const experience = [
     institution: 'CEA Cadarache',
     location: 'Saint-Paul-l\u00e8s-Durance, France',
     role: 'Research Student',
+    type: 'education',
     detail: null,
   },
   {
@@ -39,6 +45,7 @@ export const experience = [
     institution: 'University of Tokyo',
     location: 'Tokyo, Japan',
     role: 'B.S.',
+    type: 'education',
     detail: null,
   },
 ]

@@ -9,6 +9,7 @@ import {
   reviewerGrants,
   reviewerJournals,
 } from '../data/cv'
+import { cvPdfPath } from '../data/identity'
 import headshotUrl from '/images/team/tatsuya-nobori.jpg'
 
 function CollapsibleSection({ title, defaultOpen = true, children }) {
@@ -152,6 +153,23 @@ export default function CV() {
                 Featured in The Scientist
                 <span className="transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true">&rarr;</span>
               </a>
+              {/* PDF CV, generated from src/data/ at build time (scripts/cv-pdf.js) */}
+              <div className="mt-5">
+                <a
+                  href={cvPdfPath}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  type="application/pdf"
+                  aria-label="Download CV (PDF)"
+                  className="group inline-flex items-center gap-2 px-4 py-2 rounded-full border border-border text-navy font-mono text-[13px] uppercase tracking-[0.1em] hover:bg-navy/5 hover:border-navy/30 transition-all"
+                >
+                  <svg className="w-4 h-4 text-navy/60 group-hover:text-navy transition-colors" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                  </svg>
+                  Download CV
+                  <span className="text-[11px] text-text/45">PDF</span>
+                </a>
+              </div>
             </div>
           </motion.div>
 

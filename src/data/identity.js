@@ -4,6 +4,9 @@
 
 export const SITE_URL = 'https://noborilab.org'
 
+// Downloadable CV, generated from src/data/ at build time (scripts/cv-pdf.js).
+export const cvPdfPath = '/cv/Tatsuya-Nobori-CV.pdf'
+
 export const org = {
   name: 'Nobori Lab',
   url: SITE_URL,
