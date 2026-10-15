@@ -1,8 +1,49 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { projects, projectsIntro } from '../data/projects'
+import { thumbUrl } from '../lib/thumbs'
 import ParallaxImage from './ParallaxImage'
 import TypewriterLabel from './TypewriterLabel'
+
+const asset = (src) => import.meta.env.BASE_URL + src.replace(/^\//, '')
+
+// Silent looping clip that downloads and plays only near the viewport (autoPlay
+// would fetch it on page load) and pauses when scrolled away. If the browser
+// refuses to play (e.g. iOS Low Power Mode), the poster stays.
+function LazyVideo({ src, poster, className }) {
+  const ref = useRef(null)
+
+  useEffect(() => {
+    const video = ref.current
+    if (!video) return
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          video.muted = true
+          video.play().catch(() => {})
+        } else {
+          video.pause()
+        }
+      },
+      { rootMargin: '200px' },
+    )
+    observer.observe(video)
+    return () => observer.disconnect()
+  }, [])
+
+  return (
+    <video
+      ref={ref}
+      src={src}
+      poster={poster}
+      preload="none"
+      muted
+      loop
+      playsInline
+      className={className}
+    />
+  )
+}
 
 function ResourcePill({ href, children }) {
   return (
@@ -44,7 +85,7 @@ function ProjectCard({ project, index, className = '' }) {
       {project.image && (
         <ParallaxImage className="relative">
           <img
-            src={import.meta.env.BASE_URL + project.image.replace(/^\//, '')}
+            src={thumbUrl(project.image)}
             alt={project.title}
             loading="lazy"
             className="w-full rounded-t-xl"
@@ -58,12 +99,9 @@ function ProjectCard({ project, index, className = '' }) {
       )}
       {project.video && (
         <ParallaxImage>
-          <video
-            src={import.meta.env.BASE_URL + project.video.replace(/^\//, '')}
-            autoPlay
-            muted
-            loop
-            playsInline
+          <LazyVideo
+            src={asset(project.video)}
+            poster={project.videoPoster ? asset(project.videoPoster) : undefined}
             className="w-full rounded-t-xl"
           />
         </ParallaxImage>

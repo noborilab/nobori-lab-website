@@ -41,7 +41,7 @@ function ArtCard({ item, i }) {
       className="flex flex-col rounded-xl border border-border bg-bg overflow-hidden hover:shadow-[0_6px_20px_rgba(0,0,0,0.06)] transition-shadow duration-300"
     >
       <a
-        href={asset(item.preview)}
+        href={asset(item.files[0].src)}
         target="_blank"
         rel="noopener noreferrer"
         aria-label={`View ${item.title} at full size`}

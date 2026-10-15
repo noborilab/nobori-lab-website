@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { newsItems } from '../data/news'
 import TypewriterLabel from './TypewriterLabel'
+import { thumbUrl } from '../lib/thumbs'
 
 const dotColors = {
   coral: '#C85A3A',
@@ -271,7 +272,7 @@ function NewsCard({ item, className = '' }) {
     <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-6">
       <div className="flex-1 min-w-0">{text}</div>
       <img
-        src={import.meta.env.BASE_URL + item.logo.replace(/^\//, '')}
+        src={thumbUrl(item.logo)}
         alt={item.logoAlt || ''}
         loading="lazy"
         decoding="async"
@@ -301,7 +302,8 @@ function NewsCard({ item, className = '' }) {
 /* News card carrying a photo: small thumbnail that expands inside the card. */
 function PhotoNewsCard({ item, cardClass }) {
   const [open, setOpen] = useState(false)
-  const src = import.meta.env.BASE_URL + item.image.replace(/^\//, '')
+  const src = import.meta.env.BASE_URL + item.image.replace(/^\//, '') // expanded view
+  const thumbSrc = thumbUrl(item.image)
 
   return (
     <div className={cardClass}>
@@ -328,7 +330,7 @@ function PhotoNewsCard({ item, cardClass }) {
           className="relative shrink-0 w-[64px] h-[64px] md:w-[76px] md:h-[76px] rounded-lg overflow-hidden border border-border shadow-[0_1px_3px_rgba(0,0,0,0.06)] transition-all duration-300 hover:shadow-[0_4px_12px_rgba(0,0,0,0.12)] hover:border-sage/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-sage/50"
         >
           <img
-            src={src}
+            src={thumbSrc}
             alt=""
             loading="lazy"
             decoding="async"

@@ -60,6 +60,7 @@ Codex should usually provide critique, recommendations, and implementation plans
 - `public/images/publications/first-pages/` — source PDFs and generated JPG previews used by the flipbook
 - `public/images/team/` — member headshots
 - `public/images/lab/<year>/` — lab/gallery photos
+- `src/assets/thumbs/` — generated display-size WebP copies of team, gallery, group, publication-figure, project and funder images, served via `thumbUrl()` in `src/lib/thumbs.js` (originals stay in `public/images/` for lightboxes/downloads). After adding or replacing such images, run `npm run optimize-images` (needs `cwebp`: `brew install webp`) and commit the new thumbs; a missing thumb falls back to the heavier original
 
 ---
 

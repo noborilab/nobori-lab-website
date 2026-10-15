@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { labMoments, galleryByYear } from '../data/gallery'
+import { thumbUrl } from '../lib/thumbs'
 import ParallaxImage from './ParallaxImage'
 import TypewriterLabel from './TypewriterLabel'
 
@@ -33,7 +34,7 @@ function MomentItem({ moment, i, total, isDesktop }) {
         <div className="flex-1 max-w-[600px]">
           <ParallaxImage className="rounded-lg shadow-[0_2px_8px_rgba(0,0,0,0.08)]">
             <img
-              src={import.meta.env.BASE_URL + moment.src.replace(/^\//, '')}
+              src={thumbUrl(moment.src)}
               alt={moment.caption}
               loading="lazy"
               decoding="async"
@@ -59,7 +60,7 @@ function MomentItem({ moment, i, total, isDesktop }) {
       </div>
       <ParallaxImage className="rounded-lg shadow-[0_2px_8px_rgba(0,0,0,0.08)]">
         <img
-          src={import.meta.env.BASE_URL + moment.src.replace(/^\//, '')}
+          src={thumbUrl(moment.src)}
           alt={moment.caption}
           loading="lazy"
           className="w-full"
@@ -182,7 +183,7 @@ function YearSection({ year, photos, defaultOpen, onOpenLightbox, startIndex }) 
                   onClick={() => onOpenLightbox(startIndex + i)}
                 >
                   <img
-                    src={import.meta.env.BASE_URL + photo.src.replace(/^\//, '')}
+                    src={thumbUrl(photo.src)}
                     alt={photo.name}
                     loading="lazy"
                     decoding="async"

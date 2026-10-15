@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useReducedMotion } from '../hooks/useReducedMotion'
+import { thumbUrl } from '../lib/thumbs'
 import TypewriterLabel from './TypewriterLabel'
 
 const VIMEO_SRC =
@@ -49,12 +50,15 @@ export default function LabVideo() {
                 onClick={() => setPlaying(true)}
                 aria-label="Play video"
                 className="group absolute inset-0 w-full h-full"
-                style={{
-                  backgroundImage: `url(${import.meta.env.BASE_URL}${POSTER.replace(/^\//, '')})`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                }}
               >
+                {/* An <img> rather than a CSS background, so it can lazy-load */}
+                <img
+                  src={thumbUrl(POSTER)}
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
                 <div className="absolute inset-0 bg-navy/25" />
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="w-16 h-16 rounded-full bg-navy/80 group-hover:bg-navy group-hover:scale-110 flex items-center justify-center transition-all duration-200 shadow-lg">

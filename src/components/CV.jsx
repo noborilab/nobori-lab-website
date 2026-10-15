@@ -10,7 +10,9 @@ import {
   reviewerJournals,
 } from '../data/cv'
 import { cvPdfPath } from '../data/identity'
-import headshotUrl from '/images/team/tatsuya-nobori.jpg'
+import { thumbUrl } from '../lib/thumbs'
+
+const headshotUrl = thumbUrl('/images/team/tatsuya-nobori.jpg')
 
 function CollapsibleSection({ title, defaultOpen = true, children }) {
   const [open, setOpen] = useState(defaultOpen)

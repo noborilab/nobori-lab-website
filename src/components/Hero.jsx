@@ -2,13 +2,42 @@ import { useState, useEffect, useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { useReducedMotion } from '../hooks/useReducedMotion'
 import { recruiting, expressionsOfInterest } from '../data/recruiting'
-import labLogo from '/images/lab-logo.gif'
+
+// The still is the animation's first frame, so swapping one for the other is seamless.
+const LOGO_STILL = import.meta.env.BASE_URL + 'images/lab-logo.webp'
+const LOGO_ANIMATED = import.meta.env.BASE_URL + 'images/lab-logo-animated.webp'
+
+// The animation is ~0.75 MB: skip it for visitors who asked for less data or motion.
+function wantsAnimatedLogo() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return false
+  const conn = navigator.connection
+  return !(conn?.saveData || /2g$/.test(conn?.effectiveType ?? ''))
+}
 
 export default function Hero() {
   const sectionRef = useRef(null)
   const reduced = useReducedMotion()
   const alreadyLoaded = !!sessionStorage.getItem('nobori-loaded')
   const [logoReady, setLogoReady] = useState(alreadyLoaded)
+  const [animatedReady, setAnimatedReady] = useState(false)
+
+  // Show the light still logo first; fetch the animated one only after the page
+  // has loaded so it never competes with first paint on slow connections.
+  useEffect(() => {
+    if (!wantsAnimatedLogo()) return
+    let cancelled = false
+    const fetchAnimated = () => {
+      const img = new Image()
+      img.onload = () => { if (!cancelled) setAnimatedReady(true) }
+      img.src = LOGO_ANIMATED
+    }
+    if (document.readyState === 'complete') fetchAnimated()
+    else window.addEventListener('load', fetchAnimated, { once: true })
+    return () => {
+      cancelled = true
+      window.removeEventListener('load', fetchAnimated)
+    }
+  }, [])
 
   useEffect(() => {
     if (logoReady) return
@@ -63,8 +92,10 @@ export default function Hero() {
           />
           <img
             data-hero-logo
-            src={labLogo}
+            src={animatedReady && !reduced ? LOGO_ANIMATED : LOGO_STILL}
             alt="Nobori Lab"
+            width={1000}
+            height={1000}
             className="w-[min(500px,calc(100vw-3rem))] h-auto"
           />
         </motion.div>

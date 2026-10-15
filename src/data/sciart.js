@@ -6,7 +6,9 @@
 // one card offering each format as a download.
 //
 // Titles default to the filename (dashes/underscores become spaces).
-// Add an entry to `artMeta` below to override the title or add a caption.
+// Add an entry to `artMeta` below to override the title or add a caption, or
+// to show a lighter `preview` image on the card (downloads and "View full
+// size" still use the original files).
 
 const fileModules = import.meta.glob(
   '/public/images/sci-art/*.{png,PNG,gif,GIF,jpg,JPG,jpeg,JPEG,svg,SVG,webp,WEBP}',
@@ -18,6 +20,8 @@ export const artMeta = {
   'nobori-lab-logo': {
     title: 'Nobori Lab logo',
     description: '',
+    // Same animation at half the weight of the GIF, usually cached from the hero
+    preview: '/images/lab-logo-animated.webp',
   },
 }
 
@@ -51,7 +55,7 @@ export const sciArtItems = Object.keys(groups)
       id: base,
       title: meta.title || titleFromBase(base),
       description: meta.description || '',
-      preview: files[0].src,
+      preview: meta.preview || files[0].src,
       files,
     }
   })

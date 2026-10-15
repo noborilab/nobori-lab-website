@@ -6,6 +6,7 @@ import memberBios from '../data/memberBios.json'
 import TypewriterLabel from './TypewriterLabel'
 import TeamBioPopover from './TeamBioPopover'
 import OriginsMap from './OriginsMap'
+import { thumbUrl } from '../lib/thumbs'
 import { useReducedMotion } from '../hooks/useReducedMotion'
 
 // Members with an approved bio get a click/tap popover; others render unchanged.
@@ -180,14 +181,14 @@ function ExpressionsOfInterestCard() {
 }
 
 // ─── MemberCard ───────────────────────────────────────────────────────────────
-function MemberCard({ member, base, hasBio = false }) {
+function MemberCard({ member, hasBio = false }) {
   return (
     <>
       <div className="relative w-[72px] h-[72px] mx-auto">
         <div className={`w-full h-full rounded-full bg-border/30 flex items-center justify-center overflow-hidden${hasBio ? ' bio-photo' : ''}`}>
           {member.image ? (
             <img
-              src={base + member.image.replace(/^\//, '')}
+              src={thumbUrl(member.image)}
               alt={member.name}
               loading="lazy"
               className="w-full h-full object-cover"
@@ -230,8 +231,6 @@ export default function Team() {
   const [isDesktop, setIsDesktop] = useState(false)
   const [gaveUp,    setGaveUp]    = useState(false)
   const [gameCfg,   setGameCfg]   = useState({ r: HS_RADIUS, diam: HS_DIAM, mobile: false })
-
-  const base = import.meta.env.BASE_URL
 
   // Refs — physics state (no re-renders per frame)
   const activeRef       = useRef(false)
@@ -770,7 +769,7 @@ export default function Team() {
                     >
                       {isMatched && member?.image && (
                         <img
-                          src={base + member.image.replace(/^\//, '')}
+                          src={thumbUrl(member.image)}
                           alt={member?.name}
                           style={{ width: '100%', height: '100%', objectFit: 'cover', animation: 'slot-match-in 0.3s ease-out' }}
                         />
@@ -837,7 +836,7 @@ export default function Team() {
                 >
                   {member?.image ? (
                     <img
-                      src={base + member.image.replace(/^\//, '')}
+                      src={thumbUrl(member.image)}
                       alt=""
                       draggable={false}
                       style={{ width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }}
@@ -966,7 +965,7 @@ export default function Team() {
                     >
                       <div className="tatsuya-photo w-[72px] h-[72px] rounded-full mx-auto bg-border/30 flex items-center justify-center overflow-hidden">
                         {member.image ? (
-                          <img src={base + member.image.replace(/^\//, '')} alt={member.name}
+                          <img src={thumbUrl(member.image)} alt={member.name}
                             loading="lazy" className="w-full h-full object-cover" draggable={false} />
                         ) : (
                           <span className="font-display text-xl text-navy/30">{member.initials}</span>
@@ -984,10 +983,10 @@ export default function Team() {
                       onClick={(e) => openBioFor(member, e.currentTarget)}
                       style={{ userSelect: 'none' }}
                     >
-                      <MemberCard member={member} base={base} hasBio />
+                      <MemberCard member={member} hasBio />
                     </div>
                   ) : (
-                    <MemberCard member={member} base={base} />
+                    <MemberCard member={member} />
                   )}
                 </motion.div>
               )

@@ -152,8 +152,10 @@ export default function LoadingScreen() {
             }}
           >
             <img
-              src={import.meta.env.BASE_URL + 'images/lab-logo.png'}
+              src={import.meta.env.BASE_URL + 'images/lab-logo.webp'}
               alt=""
+              width={1000}
+              height={1000}
               style={{ width: '100%', height: 'auto', display: 'block' }}
             />
           </div>

@@ -168,11 +168,25 @@ export default function OriginsMap() {
   const pulseIdxRef = useRef(0)
   const pulseSeqRef = useRef(0)
 
-  // The base map is ~160 kB of JSON — load it as its own chunk, on demand.
+  // The base map is ~160 kB of JSON — load it as its own chunk, only once the
+  // map is getting close to the viewport.
   useEffect(() => {
+    const el = wrapRef.current
+    if (!el) return
     let alive = true
-    import('../data/world-110m.json').then((m) => { if (alive) setWorld(m.default) })
-    return () => { alive = false }
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return
+        observer.disconnect()
+        import('../data/world-110m.json').then((m) => { if (alive) setWorld(m.default) })
+      },
+      { rootMargin: '800px' },
+    )
+    observer.observe(el)
+    return () => {
+      alive = false
+      observer.disconnect()
+    }
   }, [])
 
   useEffect(() => {

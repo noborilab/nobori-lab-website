@@ -8,6 +8,7 @@ import {
 } from '../data/publications'
 import TypewriterLabel from './TypewriterLabel'
 import PublicationFlipbook from './PublicationFlipbook'
+import { thumbUrl } from '../lib/thumbs'
 
 let twitterLoaded = false
 function loadTwitterWidgets() {
@@ -197,9 +198,11 @@ function SelectedCard({ pub, index }) {
   const [showThread, setShowThread] = useState(false)
   const [lightbox, setLightbox] = useState(false)
 
+  // Small copy for the card; the full-size original opens in the lightbox.
   const imgSrc = pub.figure
     ? import.meta.env.BASE_URL + pub.figure.replace(/^\//, '')
     : null
+  const thumbSrc = pub.figure ? thumbUrl(pub.figure) : null
 
   return (
     <div className="bg-bg rounded-xl border border-border overflow-hidden">
@@ -231,7 +234,7 @@ function SelectedCard({ pub, index }) {
               onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)' }}
             >
               <img
-                src={imgSrc}
+                src={thumbSrc}
                 alt=""
                 loading="lazy"
                 style={{
@@ -311,7 +314,7 @@ function SelectedCard({ pub, index }) {
                 }}
               >
                 <img
-                  src={imgSrc}
+                  src={thumbSrc}
                   alt=""
                   loading="lazy"
                   style={{

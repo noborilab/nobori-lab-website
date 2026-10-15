@@ -1,8 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import { motion } from 'framer-motion'
-
-const BASE = import.meta.env.BASE_URL
+import { thumbUrl } from '../lib/thumbs'
 
 // ─── Focusable-element helper (for the focus trap) ──────────────────────────────
 const FOCUSABLE = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
@@ -22,7 +21,7 @@ function BioContent({ member, bio, onClose, titleId }) {
         <div className="w-10 h-10 shrink-0 rounded-full overflow-hidden bg-border/30 flex items-center justify-center">
           {member.image ? (
             <img
-              src={BASE + member.image.replace(/^\//, '')}
+              src={thumbUrl(member.image)}
               alt=""
               className="w-full h-full object-cover"
             />

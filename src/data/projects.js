@@ -70,6 +70,8 @@ export const projects = [
     ],
     image: null,
     video: '/images/projects/phytomap.mp4',
+    // First frame, shown until the video is scrolled into view
+    videoPoster: '/images/projects/phytomap-poster.webp',
   },
   {
     id: 'bacterial-omics',

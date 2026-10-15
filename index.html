@@ -31,6 +31,8 @@
     <meta name="twitter:image" content="https://noborilab.org/images/og-preview.png">
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="apple-touch-icon" href="/favicon.png">
+    <!-- Logo shown by the loading screen and hero: fetch it alongside the JS, not after -->
+    <link rel="preload" as="image" href="/images/lab-logo.webp" type="image/webp" fetchpriority="high">
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link

@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import TypewriterLabel from './TypewriterLabel'
+import { thumbUrl } from '../lib/thumbs'
 
 const funders = [
   { name: 'UKRI', logo: '/images/funders/UKRI_logo.webp', href: 'https://www.ukri.org/' },
@@ -32,7 +33,7 @@ export default function Funders() {
               className="group"
             >
               <img
-                src={import.meta.env.BASE_URL + funder.logo.replace(/^\//, '')}
+                src={thumbUrl(funder.logo)}
                 alt={funder.name}
                 loading="lazy"
                 className="h-[50px] w-auto object-contain grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300"

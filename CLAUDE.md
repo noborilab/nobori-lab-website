@@ -56,6 +56,7 @@ Prioritise maintainability over cleverness. Prefer simple React components, expl
 - `public/images/publications/first-pages/` — source PDFs and generated JPG previews used by the flipbook
 - `public/images/team/` — member headshots
 - `public/images/lab/<year>/` — lab/gallery photos
+- `src/assets/thumbs/` — generated display-size WebP copies of team, gallery, group, publication-figure, project and funder images, served via `thumbUrl()` in `src/lib/thumbs.js` (originals stay in `public/images/` for lightboxes/downloads). After adding or replacing such images, run `npm run optimize-images` (needs `cwebp`: `brew install webp`) and commit the new thumbs; a missing thumb falls back to the heavier original
 
 ---
 
@@ -180,9 +181,10 @@ HEIC rule:
 - Always convert HEIC before committing because browsers cannot reliably display HEIC.
 
 After all inbox processing:
-1. Run `npm run build`.
-2. Summarise all moved/edited files.
-3. Remind the user to commit when ready; push/deploy only according to their workflow.
+1. If any images were added (members, gallery, papers), run `npm run optimize-images` to generate their thumbs in `src/assets/thumbs/`.
+2. Run `npm run build`.
+3. Summarise all moved/edited files.
+4. Remind the user to commit when ready; push/deploy only according to their workflow.
 
 ---
 
