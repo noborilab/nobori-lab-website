@@ -81,6 +81,7 @@ export const invitedTalksByYear = {
     'Keystone Symposia, Receptor Kinase Signaling: Fueling Plant Resilience and Development, Vancouver (May 2027)',
   ],
   2026: [
+    'ICBPI 2026 (Plenary speaker), Nanjing, China (October 2026)',
     'Max Planck Institute for Molecular Plant Physiology, Golm (September 2026), Host: Caroline Gutjahr',
     'Scandinavian Plant Physiology Society (SPPS) conference 2026 (Plenary speaker), Helsinki (August 2026)',
     'Gatsby Plant Science Network Meeting 2026, Oxford (August 2026)',
