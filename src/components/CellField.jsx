@@ -75,6 +75,12 @@ export default function CellField() {
       return left === Infinity ? null : { left, top, right, bottom }
     }
 
+    // The fixed navbar is transparent over the hero; keep cells out from under it.
+    function navHeight() {
+      const nav = document.querySelector('nav')
+      return nav && getComputedStyle(nav).position === 'fixed' ? nav.offsetHeight : 0
+    }
+
     function layout() {
       width = section.clientWidth
       height = section.clientHeight
@@ -97,6 +103,7 @@ export default function CellField() {
       act = new Float32Array(max)
 
       const box = contentBox()
+      const navBottom = navHeight()
       const fade = width < 640 ? 70 : 150
       const rand = mulberry32(20240901)
       count = 0
@@ -112,7 +119,7 @@ export default function CellField() {
             v = smoothstep(12, fade, Math.hypot(dx, dy))
           }
           // Dissolve into the next section rather than ending on a hard edge.
-          v *= smoothstep(0, 140, height - y) * smoothstep(0, 40, y)
+          v *= smoothstep(0, 140, height - y) * smoothstep(navBottom, navBottom + 40, y)
           if (v < 0.02) continue
           xs[count] = x
           ys[count] = y
