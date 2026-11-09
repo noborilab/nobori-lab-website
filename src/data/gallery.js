@@ -42,7 +42,7 @@ for (const path of Object.keys(imageModules)) {
   const year = parts[3]
   const filename = parts[parts.length - 1]
   if (!yearMap[year]) yearMap[year] = []
-  yearMap[year].push({ src: stripped, name: filename })
+  yearMap[year].push({ src: stripped, name: filename, year })
 }
 
 // Sort years descending, filenames ascending within each year

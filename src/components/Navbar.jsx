@@ -2,19 +2,19 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useReducedMotion } from '../hooks/useReducedMotion'
 import { recruiting, expressionsOfInterest } from '../data/recruiting'
+import { navLinks } from '../data/nav'
 
-const navLinks = [
-  { label: 'Home', href: '#hero' },
-  { label: 'Question', href: '#mission' },
-  { label: 'Contributions', href: '#projects' },
-  { label: 'Publications', href: '#publications' },
-  { label: 'Talks', href: '#talks' },
-  { label: 'PI', href: '#cv' },
-  { label: 'Team', href: '#team' },
-  { label: 'Gallery', href: '#gallery' },
-  { label: 'News', href: '#news' },
-  { label: 'Contact', href: '#contact' },
-]
+const openSearch = () => window.dispatchEvent(new Event('open-command-palette'))
+
+function SearchIcon() {
+  return (
+    <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="11" cy="11" r="7" />
+      <path strokeLinecap="round" d="m20 20-3.5-3.5" />
+    </svg>
+  )
+}
+
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
@@ -96,6 +96,16 @@ export default function Navbar() {
               </a>
             )
           })}
+          <button
+            type="button"
+            onClick={openSearch}
+            aria-label="Search the site"
+            title="Search (⌘K or /)"
+            className="flex items-center gap-1.5 rounded-full p-1.5 text-text/50 hover:text-navy hover:bg-navy/5 transition-colors"
+          >
+            <SearchIcon />
+            <kbd className="hidden xl:inline font-mono text-[11px] tracking-[0.05em] text-text/40">⌘K</kbd>
+          </button>
           {(recruiting.active || expressionsOfInterest.active) && (
             <a
               href="#join"
@@ -106,28 +116,38 @@ export default function Navbar() {
           )}
         </div>
 
-        {/* Mobile toggle */}
-        <button
-          onClick={() => setMobileOpen(!mobileOpen)}
-          className="lg:hidden flex flex-col gap-1.5 p-2"
-          aria-label="Toggle menu"
-        >
-          <span
-            className={`block w-5 h-0.5 bg-text transition-transform ${
-              mobileOpen ? 'rotate-45 translate-y-2' : ''
-            }`}
-          />
-          <span
-            className={`block w-5 h-0.5 bg-text transition-opacity ${
-              mobileOpen ? 'opacity-0' : ''
-            }`}
-          />
-          <span
-            className={`block w-5 h-0.5 bg-text transition-transform ${
-              mobileOpen ? '-rotate-45 -translate-y-2' : ''
-            }`}
-          />
-        </button>
+        {/* Mobile: search + menu toggle */}
+        <div className="lg:hidden flex items-center gap-1">
+          <button
+            type="button"
+            onClick={openSearch}
+            aria-label="Search the site"
+            className="p-2 text-text/70"
+          >
+            <SearchIcon />
+          </button>
+          <button
+            onClick={() => setMobileOpen(!mobileOpen)}
+            className="flex flex-col gap-1.5 p-2"
+            aria-label="Toggle menu"
+          >
+            <span
+              className={`block w-5 h-0.5 bg-text transition-transform ${
+                mobileOpen ? 'rotate-45 translate-y-2' : ''
+              }`}
+            />
+            <span
+              className={`block w-5 h-0.5 bg-text transition-opacity ${
+                mobileOpen ? 'opacity-0' : ''
+              }`}
+            />
+            <span
+              className={`block w-5 h-0.5 bg-text transition-transform ${
+                mobileOpen ? '-rotate-45 -translate-y-2' : ''
+              }`}
+            />
+          </button>
+        </div>
       </div>
 
       {/* Mobile menu */}

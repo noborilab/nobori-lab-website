@@ -45,11 +45,23 @@ Prioritise maintainability over cleverness. Prefer simple React components, expl
 - `src/data/projects.js` — research projects
 - `src/data/gallery.js` — lab photo gallery
 
+- `src/data/topics.js` — stand-alone topic pages (`/phytomap/`, `/primer-cells/`); each joins a project from `projects.js` with papers from `publications.js` by id, plus an optional `faq`
+- `src/data/resources.js` — the "Tools & data" list; built from every project's `resources`, with an `extra` array for anything else
+- `src/data/nav.js` — top-level sections, shared by the navbar and the search palette
+
 ### Main components
 - `src/components/Publications.jsx` — tabbed publication list and flipbook launcher
 - `src/components/PublicationFlipbook.jsx` — CSS 3D page-flip overlay
 - `src/components/CV.jsx` — PI CV section
 - `src/components/Team.jsx` — team grid
+
+- `src/components/TopicPage.jsx` — layout of the topic pages
+- `src/components/Resources.jsx` — "Tools & data" block at the foot of the Contributions section
+- `src/components/CommandPalette.jsx` — site search (⌘K, `/`)
+- `src/components/CellField.jsx` — hero cell animation; off by default, turned on or off from the search palette (search "cells"); setting in `src/hooks/useCellField.js`
+
+### Build
+- `npm run build` runs `vite build`, then `scripts/prerender.mjs`, which writes each page's static HTML into `dist/` (home page plus one folder per topic) and regenerates `dist/sitemap.xml`. Components rendered there must not touch `window`, `document` or `sessionStorage` during render (effects and event handlers are fine).
 
 ### Public assets
 - `public/images/` — publication figures, team photos, gallery images, lab logo

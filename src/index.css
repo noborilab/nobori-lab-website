@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./fonts.css";
 
 /* ── Custom Theme ── */
 @theme {
@@ -22,6 +23,12 @@ html, body {
   max-width: 100vw;
 }
 
+/* clip (not hidden) so body is not a scroll container of its own: with hidden,
+   scroll-driven animations measure against body and never progress. */
+body {
+  overflow-x: clip;
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -32,6 +39,89 @@ body {
   background-color: var(--color-bg);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Type and interaction polish ── */
+::selection {
+  background: color-mix(in oklab, var(--color-sage) 32%, transparent);
+  color: var(--color-navy);
+}
+
+/* Keyboard focus only; mouse clicks stay unmarked. In the base layer so an
+   element's own rounded-* and outline utilities still apply when focused. */
+@layer base {
+  :focus-visible {
+    outline: 2px solid var(--color-sage);
+    outline-offset: 3px;
+    border-radius: 3px;
+  }
+}
+
+h1, h2, h3, h4 {
+  text-wrap: balance;
+}
+p {
+  text-wrap: pretty;
+}
+
+/* ── Card spotlight: the border lights up under the pointer ──
+   Pair with spotlightProps (src/lib/spotlight.js), which sets --spot-x/y. */
+.spotlight {
+  position: relative;
+}
+@media (hover: hover) {
+  .spotlight::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    border-radius: inherit;
+    background: radial-gradient(
+      260px circle at var(--spot-x, 50%) var(--spot-y, 50%),
+      var(--color-sage),
+      transparent 70%
+    );
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+    opacity: 0;
+    transition: opacity 300ms ease-out;
+    pointer-events: none;
+  }
+  .spotlight:hover::after {
+    opacity: 1;
+  }
+}
+
+/* ── Thumbnail ↔ lightbox morph (View Transitions; see src/lib/viewTransition.js) ── */
+::view-transition-group(photo-morph) {
+  animation-duration: 340ms;
+  animation-timing-function: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+/* Square thumbnail and full-ratio photo share one box while it resizes:
+   crop both to fill it rather than stretching. */
+::view-transition-old(photo-morph),
+::view-transition-new(photo-morph) {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 260ms;
+}
+
+/* ── Command palette entrance ── */
+@keyframes palette-in {
+  from { opacity: 0; transform: translateY(-6px) scale(0.985); }
+  to { opacity: 1; transform: none; }
+}
+.palette-in {
+  animation: palette-in 160ms ease-out;
+}
+/* The field is the only focus target in the dialog; the caret is enough. */
+.palette-in input:focus-visible {
+  outline: none;
 }
 
 /* ── Publication figure thumbnails ── */
@@ -76,6 +166,26 @@ body {
   max-width: none !important;
   max-height: none !important;
   display: block !important;
+}
+
+/* ── Mission statement: words ink in with scroll ──
+   Progressive enhancement: without scroll-driven animation support, or with
+   reduced motion, the paragraph is ordinary fully-inked text. */
+@keyframes ink-in {
+  from { opacity: 0.2; }
+  to { opacity: 1; }
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .ink-scroll {
+      view-timeline: --ink block;
+    }
+    .ink-scroll .ink-word {
+      animation: ink-in linear both;
+      animation-timeline: --ink;
+      animation-range: cover var(--ink-start) cover var(--ink-end);
+    }
+  }
 }
 
 /* ── Reduced Motion ── */

@@ -1,7 +1,9 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { useReducedMotion } from '../hooks/useReducedMotion'
+import { useCellField } from '../hooks/useCellField'
 import { recruiting, expressionsOfInterest } from '../data/recruiting'
+import CellField from './CellField'
 
 // The still is the animation's first frame, so swapping one for the other is seamless.
 const LOGO_STILL = import.meta.env.BASE_URL + 'images/lab-logo.webp'
@@ -17,7 +19,9 @@ function wantsAnimatedLogo() {
 export default function Hero() {
   const sectionRef = useRef(null)
   const reduced = useReducedMotion()
-  const alreadyLoaded = !!sessionStorage.getItem('nobori-loaded')
+  const cellField = useCellField()
+  // typeof guard: this component is also rendered to static HTML at build time
+  const alreadyLoaded = typeof sessionStorage !== 'undefined' && !!sessionStorage.getItem('nobori-loaded')
   const [logoReady, setLogoReady] = useState(alreadyLoaded)
   const [animatedReady, setAnimatedReady] = useState(false)
 
@@ -68,8 +72,12 @@ export default function Hero() {
     <section
       ref={sectionRef}
       id="hero"
-      className="relative min-h-screen flex flex-col items-center justify-center bg-bg px-6"
+      className="relative isolate min-h-screen flex flex-col items-center justify-center bg-bg px-6"
     >
+      {/* Background field of cells — reacts to the pointer, sits behind everything.
+          Off by default; a hidden option in the search palette turns it on. */}
+      {cellField && <CellField />}
+
       {/* Logo — hidden until loading screen logo arrives */}
       <div
         className="mb-10"
@@ -83,7 +91,9 @@ export default function Hero() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.2, ease: 'easeOut' }}
           style={parallax ? { scale: logoScale, opacity: logoOpacity, y: logoY, willChange: 'transform, opacity' } : undefined}
-          className="relative"
+          // multiply: the logo file has a white background; this lets the page
+          // colour (and the cell field) show through instead of a white square.
+          className="relative mix-blend-multiply"
         >
           {/* Warm radial glow */}
           <div

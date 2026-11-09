@@ -1,12 +1,18 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
+import { flushSync } from 'react-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { labMoments, galleryByYear } from '../data/gallery'
 import { thumbUrl } from '../lib/thumbs'
 import ParallaxImage from './ParallaxImage'
 import TypewriterLabel from './TypewriterLabel'
+import ProgressivePhoto from './ProgressivePhoto'
+import { MORPH_NAME, supportsMorph, morph, ratioOf } from '../lib/viewTransition'
 
 // Flatten all photos for lightbox navigation
 const allPhotos = galleryByYear.flatMap((g) => g.photos)
+
+// Aspect ratios seen on clicked thumbnails, keyed by photo src
+const ratios = new Map()
 
 /* ── Group Photos (group photos) ── */
 
@@ -144,7 +150,7 @@ function LabMoments() {
 
 /* ── Year section ── */
 
-function YearSection({ year, photos, defaultOpen, onOpenLightbox, startIndex }) {
+function YearSection({ year, photos, defaultOpen, onOpenLightbox, startIndex, morphIndex }) {
   const [open, setOpen] = useState(defaultOpen)
 
   return (
@@ -174,22 +180,28 @@ function YearSection({ year, photos, defaultOpen, onOpenLightbox, startIndex }) 
           >
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 pb-10">
               {photos.map((photo, i) => (
-                <motion.div
+                <motion.button
                   key={photo.src}
+                  type="button"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.3, delay: i * 0.03 }}
-                  className="aspect-square rounded-lg overflow-hidden cursor-pointer hover:scale-[1.02] hover:shadow-[0_4px_16px_rgba(0,0,0,0.1)] transition-all duration-300"
-                  onClick={() => onOpenLightbox(startIndex + i)}
+                  className="block w-full aspect-square rounded-lg overflow-hidden cursor-pointer hover:scale-[1.02] hover:shadow-[0_4px_16px_rgba(0,0,0,0.1)] transition-all duration-300 focus-visible:outline-offset-[-3px]"
+                  style={morphIndex === startIndex + i ? { viewTransitionName: MORPH_NAME } : undefined}
+                  onClick={(e) => {
+                    const ratio = ratioOf(e.currentTarget)
+                    if (ratio) ratios.set(photo.src, ratio)
+                    onOpenLightbox(startIndex + i)
+                  }}
                 >
                   <img
                     src={thumbUrl(photo.src)}
-                    alt={photo.name}
+                    alt={`Lab photo ${i + 1} of ${photos.length}, ${year}`}
                     loading="lazy"
                     decoding="async"
                     className="w-full h-full object-cover"
                   />
-                </motion.div>
+                </motion.button>
               ))}
             </div>
           </motion.div>
@@ -201,21 +213,47 @@ function YearSection({ year, photos, defaultOpen, onOpenLightbox, startIndex }) 
 
 /* ── Lightbox ── */
 
-function Lightbox({ photos, index, onClose, onPrev, onNext }) {
+// `morphing`: opened through a view transition, which animates the entrance and
+// exit itself, so the framer fades are skipped for the photo it opened on.
+function Lightbox({ photos, index, onClose, onPrev, onNext, morphing, openedAt }) {
   const photo = photos[index]
+  const closeRef = useRef(null)
+
+  // Focus moves into the dialog on open and back to the thumbnail on close
+  useEffect(() => {
+    const opener = document.activeElement
+    closeRef.current?.focus({ preventScroll: true })
+    return () => opener?.focus?.({ preventScroll: true })
+  }, [])
+
+  // Esc closes, arrow keys move between photos
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.key === 'Escape') onClose()
+      else if (e.key === 'ArrowLeft') onPrev()
+      else if (e.key === 'ArrowRight') onNext()
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [onClose, onPrev, onNext])
+
   if (!photo) return null
 
   return (
     <motion.div
-      initial={{ opacity: 0 }}
+      initial={morphing ? false : { opacity: 0 }}
       animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
+      exit={morphing ? undefined : { opacity: 0 }}
       className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center"
+      role="dialog"
+      aria-modal="true"
+      aria-label={`Photo ${index + 1} of ${photos.length}`}
       onClick={onClose}
     >
       <div className="relative flex items-center gap-2 md:gap-4 max-w-[calc(100vw-1rem)]">
         <button
           onClick={(e) => { e.stopPropagation(); onPrev() }}
+          aria-label="Previous photo"
           className="shrink-0 text-white/50 hover:text-white text-[45px] z-10 select-none px-1 md:px-2"
         >
           &#8249;
@@ -223,23 +261,25 @@ function Lightbox({ photos, index, onClose, onPrev, onNext }) {
 
         <motion.div
           key={index}
-          initial={{ opacity: 0, scale: 0.92 }}
+          initial={morphing && index === openedAt ? false : { opacity: 0, scale: 0.92 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.92 }}
           transition={{ duration: 0.2 }}
           className="max-w-[80vw] max-h-[85vh] rounded-lg overflow-hidden"
+          style={morphing ? { viewTransitionName: MORPH_NAME } : undefined}
           onClick={(e) => e.stopPropagation()}
         >
-          <img
+          <ProgressivePhoto
             src={import.meta.env.BASE_URL + photo.src.replace(/^\//, '')}
-            alt={photo.name}
-            decoding="async"
-            className="max-w-[80vw] max-h-[85vh] object-contain"
+            thumb={thumbUrl(photo.src)}
+            ratio={ratios.get(photo.src)}
+            alt={`Lab photo, ${photo.year}`}
           />
         </motion.div>
 
         <button
           onClick={(e) => { e.stopPropagation(); onNext() }}
+          aria-label="Next photo"
           className="shrink-0 text-white/50 hover:text-white text-[45px] z-10 select-none px-1 md:px-2"
         >
           &#8250;
@@ -247,7 +287,9 @@ function Lightbox({ photos, index, onClose, onPrev, onNext }) {
       </div>
 
       <button
-        onClick={onClose}
+        ref={closeRef}
+        onClick={(e) => { e.stopPropagation(); onClose() }}
+        aria-label="Close"
         className="absolute top-4 right-4 md:top-6 md:right-6 text-white/50 hover:text-white text-3xl"
       >
         &times;
@@ -265,8 +307,37 @@ function Lightbox({ photos, index, onClose, onPrev, onNext }) {
 export default function Gallery() {
   const [lightboxIdx, setLightboxIdx] = useState(null)
 
-  const openLightbox = useCallback((i) => setLightboxIdx(i), [])
-  const closeLightbox = useCallback(() => setLightboxIdx(null), [])
+  // Where view transitions are available the clicked thumbnail grows into the
+  // lightbox and shrinks back on close; elsewhere the framer fade is used.
+  const [morphing] = useState(supportsMorph)
+  const [morphIdx, setMorphIdx] = useState(null)
+  const [openedAt, setOpenedAt] = useState(null)
+
+  const openLightbox = useCallback((i) => {
+    if (!morphing) {
+      setLightboxIdx(i)
+      return
+    }
+    // Name the thumbnail first so it is in the "before" snapshot.
+    flushSync(() => setMorphIdx(i))
+    morph(() => {
+      setOpenedAt(i)
+      setLightboxIdx(i)
+    })
+  }, [morphing])
+
+  const closeLightbox = useCallback(() => {
+    if (!morphing) {
+      setLightboxIdx(null)
+      return
+    }
+    // The name moves to the thumbnail of whichever photo is showing now.
+    const transition = morph(() => {
+      setMorphIdx(lightboxIdx)
+      setLightboxIdx(null)
+    })
+    transition.finished.finally(() => setMorphIdx(null))
+  }, [morphing, lightboxIdx])
   const goPrev = useCallback(
     () => setLightboxIdx((prev) => (prev > 0 ? prev - 1 : allPhotos.length - 1)),
     [],
@@ -301,23 +372,38 @@ export default function Gallery() {
               defaultOpen={gi === 0}
               onOpenLightbox={openLightbox}
               startIndex={startIndex}
+              morphIndex={lightboxIdx === null ? morphIdx : null}
             />
           )
         })}
       </div>
 
       {/* Lightbox */}
-      <AnimatePresence>
-        {lightboxIdx !== null && (
+      {morphing ? (
+        lightboxIdx !== null && (
           <Lightbox
             photos={allPhotos}
             index={lightboxIdx}
             onClose={closeLightbox}
             onPrev={goPrev}
             onNext={goNext}
+            morphing
+            openedAt={openedAt}
           />
-        )}
-      </AnimatePresence>
+        )
+      ) : (
+        <AnimatePresence>
+          {lightboxIdx !== null && (
+            <Lightbox
+              photos={allPhotos}
+              index={lightboxIdx}
+              onClose={closeLightbox}
+              onPrev={goPrev}
+              onNext={goNext}
+            />
+          )}
+        </AnimatePresence>
+      )}
     </section>
   )
 }

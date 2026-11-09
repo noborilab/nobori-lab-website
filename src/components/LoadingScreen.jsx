@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 
-const TOTAL_DURATION = 3200   // ms before exit begins
+const MIN_DURATION = 1100     // ms the intro always plays before exit can begin
+const MAX_WAIT = 2500         // ms after which exit begins even if assets are slow
 const FLYOUT_DELAY = 300      // ms for tagline/bar to fade out
 const FLYOUT_DURATION = 700   // ms for logo to fly to hero position
 const CROSSFADE = 250         // ms for logo crossfade
@@ -33,8 +34,23 @@ export default function LoadingScreen() {
       return
     }
 
-    const timer = setTimeout(() => setPhase('exit'), TOTAL_DURATION)
-    return () => clearTimeout(timer)
+    // Leave as soon as the logo and fonts are ready (after a short minimum so
+    // the intro is not a flash), instead of holding every visitor for a fixed time.
+    let cancelled = false
+    const exit = () => { if (!cancelled) setPhase('exit') }
+    const logo = new Image()
+    logo.src = import.meta.env.BASE_URL + 'images/lab-logo.webp'
+    const ready = Promise.all([
+      logo.decode().catch(() => {}),
+      document.fonts?.ready,
+    ])
+    const minTimer = setTimeout(() => ready.then(exit), MIN_DURATION)
+    const maxTimer = setTimeout(exit, MAX_WAIT)
+    return () => {
+      cancelled = true
+      clearTimeout(minTimer)
+      clearTimeout(maxTimer)
+    }
   }, [phase])
 
   // Exit phase: calculate fly target and schedule completion
@@ -136,7 +152,9 @@ export default function LoadingScreen() {
             ref={logoRef}
             style={{
               width: 'min(250px, 55vw)',
-              animation: 'ls-iris 1.2s ease-out both, ls-color 2.0s ease-out both',
+              animation: 'ls-iris 0.8s ease-out both, ls-color 1.0s ease-out both',
+              // The logo file has a white background: multiply it onto the page colour.
+              backgroundColor: '#FAFAF6',
               willChange: isExit ? 'transform, opacity' : undefined,
               transition: isExit
                 ? [
@@ -156,7 +174,7 @@ export default function LoadingScreen() {
               alt=""
               width={1000}
               height={1000}
-              style={{ width: '100%', height: 'auto', display: 'block' }}
+              style={{ width: '100%', height: 'auto', display: 'block', mixBlendMode: 'multiply' }}
             />
           </div>
 
@@ -170,7 +188,7 @@ export default function LoadingScreen() {
               marginTop: '20px',
               animation: isExit
                 ? `ls-ui-fade ${FLYOUT_DELAY}ms ease-out forwards`
-                : 'ls-text 0.6s ease-out 1.8s both',
+                : 'ls-text 0.4s ease-out 0.5s both',
             }}
           >
             Plant-Microbe Interactions
@@ -199,7 +217,7 @@ export default function LoadingScreen() {
                 height: '100%',
                 backgroundColor: '#6B8F6B',
                 borderRadius: '1px',
-                animation: `ls-bar ${TOTAL_DURATION}ms ease-in-out both`,
+                animation: `ls-bar ${MIN_DURATION}ms ease-in-out both`,
               }}
             />
           </div>
