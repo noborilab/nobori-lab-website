@@ -184,7 +184,7 @@ function FigureLightbox({ imgSrc, thumbSrc, ratio, alt, onClose, morphing }) {
     >
       <div className="absolute inset-0 bg-black/70" />
       <button
-        onClick={onClose}
+        onClick={(e) => { e.stopPropagation(); onClose() }}
         className="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-white/15 flex items-center justify-center text-white/80 hover:bg-white/25 transition-colors"
         aria-label="Close"
       >

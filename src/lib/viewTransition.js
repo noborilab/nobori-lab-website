@@ -15,7 +15,11 @@ export function supportsMorph() {
 // Run a React state update inside a view transition. flushSync makes React
 // commit before the browser takes the "after" snapshot.
 export function morph(update) {
-  return document.startViewTransition(() => flushSync(update))
+  const transition = document.startViewTransition(() => flushSync(update))
+  // A transition is skipped when another one starts first (e.g. Esc pressed
+  // mid-morph). The update still applies, so the rejection is only noise.
+  transition.ready.catch(() => {})
+  return transition
 }
 
 // Width / height of the image inside a clicked thumbnail, so the lightbox can

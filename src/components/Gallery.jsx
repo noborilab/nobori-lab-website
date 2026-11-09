@@ -278,7 +278,7 @@ function Lightbox({ photos, index, onClose, onPrev, onNext, morphing, openedAt }
       </div>
 
       <button
-        onClick={onClose}
+        onClick={(e) => { e.stopPropagation(); onClose() }}
         aria-label="Close"
         className="absolute top-4 right-4 md:top-6 md:right-6 text-white/50 hover:text-white text-3xl"
       >
