@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { useReducedMotion } from '../hooks/useReducedMotion'
 import { recruiting, expressionsOfInterest } from '../data/recruiting'
+import CellField from './CellField'
 
 // The still is the animation's first frame, so swapping one for the other is seamless.
 const LOGO_STILL = import.meta.env.BASE_URL + 'images/lab-logo.webp'
@@ -68,8 +69,11 @@ export default function Hero() {
     <section
       ref={sectionRef}
       id="hero"
-      className="relative min-h-screen flex flex-col items-center justify-center bg-bg px-6"
+      className="relative isolate min-h-screen flex flex-col items-center justify-center bg-bg px-6"
     >
+      {/* Background field of cells — reacts to the pointer, sits behind everything */}
+      <CellField />
+
       {/* Logo — hidden until loading screen logo arrives */}
       <div
         className="mb-10"
