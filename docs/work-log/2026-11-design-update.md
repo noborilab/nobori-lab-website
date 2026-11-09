@@ -286,7 +286,7 @@ and phone width (390 x 844, touch emulation, fresh profile):
 Not yet checked: Safari (WebDriver remote automation was not enabled),
 Firefox (not installed), a real iPhone, and the post-deploy items above.
 
-Five follow-up commits on top of the series, one change each:
+Follow-up commits on top of the series, one change each:
 
 1. **Close lightboxes once when the close button is clicked.** The close
    button sat inside the backdrop, so one click closed twice; with view
@@ -302,6 +302,12 @@ Five follow-up commits on top of the series, one change each:
    their alt text was the file name.
 5. **Update dev tooling to clear npm audit advisories.** Lockfile only
    (vite, zod, brace-expansion, source-map-js); already the case on `main`.
+6. **Turn the hero cell field off by default, behind a hidden option.**
+   Reviewed locally: nice, but too much as the default. Search the palette
+   for "cells" (or "animation") to turn it on or off; the choice is kept in
+   `localStorage`. The code is unchanged otherwise, and the static HTML has
+   no canvas.
 
-The draft PR description above lists the original six commits; add these
-five when opening the pull request.
+The draft PR description above lists the original six commits; when opening
+the pull request, add these follow-ups and note in item 1 that the cell
+field is now an opt-in option.

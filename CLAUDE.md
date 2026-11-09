@@ -58,6 +58,7 @@ Prioritise maintainability over cleverness. Prefer simple React components, expl
 - `src/components/TopicPage.jsx` — layout of the topic pages
 - `src/components/Resources.jsx` — "Tools & data" block at the foot of the Contributions section
 - `src/components/CommandPalette.jsx` — site search (⌘K, `/`)
+- `src/components/CellField.jsx` — hero cell animation; off by default, turned on or off from the search palette (search "cells"); setting in `src/hooks/useCellField.js`
 
 ### Build
 - `npm run build` runs `vite build`, then `scripts/prerender.mjs`, which writes each page's static HTML into `dist/` (home page plus one folder per topic) and regenerates `dist/sitemap.xml`. Components rendered there must not touch `window`, `document` or `sessionStorage` during render (effects and event handlers are fine).

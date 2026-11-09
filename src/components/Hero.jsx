@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { useReducedMotion } from '../hooks/useReducedMotion'
+import { useCellField } from '../hooks/useCellField'
 import { recruiting, expressionsOfInterest } from '../data/recruiting'
 import CellField from './CellField'
 
@@ -18,6 +19,7 @@ function wantsAnimatedLogo() {
 export default function Hero() {
   const sectionRef = useRef(null)
   const reduced = useReducedMotion()
+  const cellField = useCellField()
   // typeof guard: this component is also rendered to static HTML at build time
   const alreadyLoaded = typeof sessionStorage !== 'undefined' && !!sessionStorage.getItem('nobori-loaded')
   const [logoReady, setLogoReady] = useState(alreadyLoaded)
@@ -72,8 +74,9 @@ export default function Hero() {
       id="hero"
       className="relative isolate min-h-screen flex flex-col items-center justify-center bg-bg px-6"
     >
-      {/* Background field of cells — reacts to the pointer, sits behind everything */}
-      <CellField />
+      {/* Background field of cells — reacts to the pointer, sits behind everything.
+          Off by default; a hidden option in the search palette turns it on. */}
+      {cellField && <CellField />}
 
       {/* Logo — hidden until loading screen logo arrives */}
       <div

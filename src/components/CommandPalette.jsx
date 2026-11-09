@@ -5,6 +5,7 @@ import { teamMembers } from '../data/team'
 import { projects } from '../data/projects'
 import { topics, topicForProject } from '../data/topics'
 import { resources } from '../data/resources'
+import { useCellField, setCellField } from '../hooks/useCellField'
 
 // Quick search over sections, publications, research areas and people.
 // Opens with ⌘K / Ctrl+K, "/" or the search button in the navbar
@@ -63,6 +64,10 @@ function buildIndex() {
 const index = buildIndex()
 const paperCount = index.filter((i) => i.kind === 'Paper').length
 
+// Hidden option: listed (last) only when searched for, e.g. "cells" or "animation".
+const CELL_FIELD_WORDS = 'hero cells animation effect background'
+const matchesCellField = (tokens) => tokens.every((t) => t.length >= 4 && CELL_FIELD_WORDS.includes(t))
+
 export default function CommandPalette() {
   const [open, setOpen] = useState(false)
   const [query, setQuery] = useState('')
@@ -70,12 +75,23 @@ export default function CommandPalette() {
   const inputRef = useRef(null)
   const listRef = useRef(null)
   const returnFocus = useRef(null)
+  const cellField = useCellField()
 
   const results = useMemo(() => {
     const tokens = query.toLowerCase().split(/\s+/).filter(Boolean)
     if (!tokens.length) return index.filter((i) => i.kind === 'Section')
-    return index.filter((i) => tokens.every((t) => i.haystack.includes(t))).slice(0, MAX_RESULTS)
-  }, [query])
+    const matches = index.filter((i) => tokens.every((t) => i.haystack.includes(t)))
+    if (!matchesCellField(tokens)) return matches.slice(0, MAX_RESULTS)
+    return [
+      ...matches.slice(0, MAX_RESULTS - 1),
+      {
+        kind: 'Option',
+        title: cellField ? 'Turn off the hero cell animation' : 'Turn on the hero cell animation',
+        detail: 'Remembered in this browser',
+        action: 'cell-field',
+      },
+    ]
+  }, [query, cellField])
 
   // Global shortcuts and the navbar button
   useEffect(() => {
@@ -125,6 +141,14 @@ export default function CommandPalette() {
 
   const choose = (item) => {
     setOpen(false)
+    if (item.action === 'cell-field') {
+      setCellField(!cellField)
+      // Show it straight away when turning it on
+      if (!cellField) {
+        requestAnimationFrame(() => document.getElementById('hero')?.scrollIntoView({ behavior: 'smooth', block: 'start' }))
+      }
+      return
+    }
     if (item.url) {
       window.open(item.url, '_blank', 'noopener,noreferrer')
       return
