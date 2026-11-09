@@ -47,11 +47,14 @@ body {
   color: var(--color-navy);
 }
 
-/* Keyboard focus only; mouse clicks stay unmarked. */
-:focus-visible {
-  outline: 2px solid var(--color-sage);
-  outline-offset: 3px;
-  border-radius: 3px;
+/* Keyboard focus only; mouse clicks stay unmarked. In the base layer so an
+   element's own rounded-* and outline utilities still apply when focused. */
+@layer base {
+  :focus-visible {
+    outline: 2px solid var(--color-sage);
+    outline-offset: 3px;
+    border-radius: 3px;
+  }
 }
 
 h1, h2, h3, h4 {
