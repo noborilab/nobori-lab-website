@@ -4,6 +4,7 @@ import { projects, projectsIntro } from '../data/projects'
 import { thumbUrl } from '../lib/thumbs'
 import ParallaxImage from './ParallaxImage'
 import TypewriterLabel from './TypewriterLabel'
+import { spotlightProps } from '../lib/spotlight'
 
 const asset = (src) => import.meta.env.BASE_URL + src.replace(/^\//, '')
 
@@ -79,7 +80,8 @@ function ProjectCard({ project, index, className = '' }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      className={`bg-bg rounded-xl border border-border overflow-hidden ${className}`}
+      {...spotlightProps}
+      className={`spotlight bg-bg rounded-xl border border-border overflow-hidden ${className}`}
     >
       {/* Media */}
       {project.image && (

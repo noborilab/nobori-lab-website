@@ -16,12 +16,14 @@ import Funders from './components/Funders'
 import Footer from './components/Footer'
 import EasterEgg from './components/EasterEgg'
 import LoadingScreen from './components/LoadingScreen'
+import CommandPalette from './components/CommandPalette'
 
 export default function App() {
   return (
     <>
       <LoadingScreen />
       <EasterEgg />
+      <CommandPalette />
       <ScrollProgress />
       <Navbar />
       <main>

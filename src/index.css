@@ -40,6 +40,68 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* ── Type and interaction polish ── */
+::selection {
+  background: color-mix(in oklab, var(--color-sage) 32%, transparent);
+  color: var(--color-navy);
+}
+
+/* Keyboard focus only; mouse clicks stay unmarked. */
+:focus-visible {
+  outline: 2px solid var(--color-sage);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+h1, h2, h3, h4 {
+  text-wrap: balance;
+}
+p {
+  text-wrap: pretty;
+}
+
+/* ── Card spotlight: the border lights up under the pointer ──
+   Pair with spotlightProps (src/lib/spotlight.js), which sets --spot-x/y. */
+.spotlight {
+  position: relative;
+}
+@media (hover: hover) {
+  .spotlight::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    border-radius: inherit;
+    background: radial-gradient(
+      260px circle at var(--spot-x, 50%) var(--spot-y, 50%),
+      var(--color-sage),
+      transparent 70%
+    );
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+    opacity: 0;
+    transition: opacity 300ms ease-out;
+    pointer-events: none;
+  }
+  .spotlight:hover::after {
+    opacity: 1;
+  }
+}
+
+/* ── Command palette entrance ── */
+@keyframes palette-in {
+  from { opacity: 0; transform: translateY(-6px) scale(0.985); }
+  to { opacity: 1; transform: none; }
+}
+.palette-in {
+  animation: palette-in 160ms ease-out;
+}
+/* The field is the only focus target in the dialog; the caret is enough. */
+.palette-in input:focus-visible {
+  outline: none;
+}
+
 /* ── Publication figure thumbnails ── */
 .pub-thumb {
   width: 140px !important;
