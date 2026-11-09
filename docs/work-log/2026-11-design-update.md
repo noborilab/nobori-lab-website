@@ -255,3 +255,53 @@ Safari, Firefox and the post-deploy checks are listed in
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 
 https://claude.ai/code/session_01Kbj1XCAZm85vV82PbbPbQX
+
+---
+
+## Local verification and follow-up commits (9 November 2026)
+
+Applied with `git am` onto `a7bb9fa` (`main`, up to date with `origin/main`)
+without conflicts. `npm ci` and `npm run build` pass; `/`, `/primer-cells/`
+and `/phytomap/` are prerendered with their page text, and `dist/sitemap.xml`
+lists all three. `npm run lint`: 42 findings against 41 on `main`; the extra
+one is the known `motion` false positive in `Resources.jsx`.
+
+Checked against a build of `main` in Chrome 157, at desktop width (1440 px)
+and phone width (390 x 844, touch emulation, fresh profile):
+
+- Hero cell field reacts to pointer and click (desktop) and to taps (phone).
+- Mission words ink in with scroll at both widths.
+- Gallery and figure lightboxes morph on open and close; Esc closes and the
+  arrow keys move between photos.
+- No horizontal scroll at 390 px on any section of the home page or on the
+  topic pages (same as `main`).
+- First visit with an empty cache: the intro finishes at about 2.7 s against
+  about 4.8 s on `main`, and first paint is earlier than on `main`.
+- Typography unchanged: the same family/weight/style combinations are used as
+  on `main`, each backed by a real font file, and every combination `main`
+  loads renders at the same width with the self-hosted files. No Google Fonts
+  requests.
+- No page errors.
+
+Not yet checked: Safari (WebDriver remote automation was not enabled),
+Firefox (not installed), a real iPhone, and the post-deploy items above.
+
+Five follow-up commits on top of the series, one change each:
+
+1. **Close lightboxes once when the close button is clicked.** The close
+   button sat inside the backdrop, so one click closed twice; with view
+   transitions the close morph was skipped and the console showed
+   `Uncaught AbortError: Transition was skipped`.
+2. **Keep hero cells out from under the fixed navbar.** On phones the cells
+   sat behind the wordmark, search and menu buttons.
+3. **Let elements keep their own shape when keyboard-focused.** The new
+   `:focus-visible` rule was unlayered and overrode every utility, so
+   rounded pills turned into square-cornered boxes on keyboard focus.
+4. **Make gallery thumbnails keyboard-accessible, with descriptive alt
+   text.** Already the case on `main`: thumbnails were clickable divs and
+   their alt text was the file name.
+5. **Update dev tooling to clear npm audit advisories.** Lockfile only
+   (vite, zod, brace-expansion, source-map-js); already the case on `main`.
+
+The draft PR description above lists the original six commits; add these
+five when opening the pull request.
