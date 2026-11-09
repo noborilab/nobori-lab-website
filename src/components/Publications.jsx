@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, lazy, Suspense } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   selected,
@@ -7,8 +7,10 @@ import {
   journalColors,
 } from '../data/publications'
 import TypewriterLabel from './TypewriterLabel'
-import PublicationFlipbook from './PublicationFlipbook'
 import { thumbUrl } from '../lib/thumbs'
+
+// Only fetched when a visitor opens the flipbook.
+const PublicationFlipbook = lazy(() => import('./PublicationFlipbook'))
 
 let twitterLoaded = false
 function loadTwitterWidgets() {
@@ -532,7 +534,9 @@ export default function Publications() {
 
         {/* Flipbook overlay */}
         {showFlipbook && (
-          <PublicationFlipbook onClose={() => setShowFlipbook(false)} />
+          <Suspense fallback={null}>
+            <PublicationFlipbook onClose={() => setShowFlipbook(false)} />
+          </Suspense>
         )}
 
         {/* Bottom links */}

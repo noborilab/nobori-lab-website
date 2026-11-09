@@ -87,7 +87,9 @@ export default function Hero() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.2, ease: 'easeOut' }}
           style={parallax ? { scale: logoScale, opacity: logoOpacity, y: logoY, willChange: 'transform, opacity' } : undefined}
-          className="relative"
+          // multiply: the logo file has a white background; this lets the page
+          // colour (and the cell field) show through instead of a white square.
+          className="relative mix-blend-multiply"
         >
           {/* Warm radial glow */}
           <div

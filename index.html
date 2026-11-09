@@ -33,12 +33,9 @@
     <link rel="apple-touch-icon" href="/favicon.png">
     <!-- Logo shown by the loading screen and hero: fetch it alongside the JS, not after -->
     <link rel="preload" as="image" href="/images/lab-logo.webp" type="image/webp" fetchpriority="high">
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=IBM+Plex+Mono:wght@400;500&family=Josefin+Sans:wght@300;400&family=Karla:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
-      rel="stylesheet"
-    />
+    <!-- Fonts are self-hosted (src/fonts.css). Preload the two faces the hero needs first. -->
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/karla-latin-wght-normal.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/cormorant-garamond-latin-wght-italic.woff2" crossorigin>
   </head>
   <body>
     <div id="root"></div>
