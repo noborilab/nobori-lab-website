@@ -90,6 +90,24 @@ p {
   }
 }
 
+/* ── Thumbnail ↔ lightbox morph (View Transitions; see src/lib/viewTransition.js) ── */
+::view-transition-group(photo-morph) {
+  animation-duration: 340ms;
+  animation-timing-function: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+/* Square thumbnail and full-ratio photo share one box while it resizes:
+   crop both to fill it rather than stretching. */
+::view-transition-old(photo-morph),
+::view-transition-new(photo-morph) {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 260ms;
+}
+
 /* ── Command palette entrance ── */
 @keyframes palette-in {
   from { opacity: 0; transform: translateY(-6px) scale(0.985); }

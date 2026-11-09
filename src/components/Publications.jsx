@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, lazy, Suspense } from 'react'
+import { flushSync } from 'react-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   selected,
@@ -8,6 +9,8 @@ import {
 } from '../data/publications'
 import TypewriterLabel from './TypewriterLabel'
 import { thumbUrl } from '../lib/thumbs'
+import ProgressivePhoto from './ProgressivePhoto'
+import { MORPH_NAME, supportsMorph, morph, ratioOf } from '../lib/viewTransition'
 
 // Only fetched when a visitor opens the flipbook.
 const PublicationFlipbook = lazy(() => import('./PublicationFlipbook'))
@@ -161,7 +164,9 @@ function ExpandIcon() {
   )
 }
 
-function FigureLightbox({ imgSrc, alt, onClose }) {
+// `morphing`: opened through a view transition (the thumbnail grows into the
+// figure), so the framer fade is skipped.
+function FigureLightbox({ imgSrc, thumbSrc, ratio, alt, onClose, morphing }) {
   useEffect(() => {
     const handleKey = (e) => { if (e.key === 'Escape') onClose() }
     window.addEventListener('keydown', handleKey)
@@ -170,9 +175,9 @@ function FigureLightbox({ imgSrc, alt, onClose }) {
 
   return (
     <motion.div
-      initial={{ opacity: 0 }}
+      initial={morphing ? false : { opacity: 0 }}
       animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
+      exit={morphing ? undefined : { opacity: 0 }}
       transition={{ duration: 0.2 }}
       className="fixed inset-0 z-[100] flex items-center justify-center p-4"
       onClick={onClose}
@@ -185,11 +190,13 @@ function FigureLightbox({ imgSrc, alt, onClose }) {
       >
         <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" d="M18 6L6 18M6 6l12 12" /></svg>
       </button>
-      <img
+      <ProgressivePhoto
         src={imgSrc}
+        thumb={thumbSrc}
+        ratio={ratio}
         alt={alt}
-        className="relative z-10"
-        style={{ maxWidth: '80vw', maxHeight: '85vh', objectFit: 'contain', borderRadius: 8 }}
+        radius={8}
+        style={{ position: 'relative', zIndex: 10, viewTransitionName: morphing ? MORPH_NAME : undefined }}
         onClick={(e) => e.stopPropagation()}
       />
     </motion.div>
@@ -199,6 +206,31 @@ function FigureLightbox({ imgSrc, alt, onClose }) {
 function SelectedCard({ pub, index }) {
   const [showThread, setShowThread] = useState(false)
   const [lightbox, setLightbox] = useState(false)
+  // Where view transitions are available the thumbnail grows into the figure
+  // and shrinks back on close; elsewhere the lightbox fades as before.
+  const [morphing] = useState(supportsMorph)
+  const [named, setNamed] = useState(false)
+  const [ratio, setRatio] = useState(null)
+
+  const openFigure = (e) => {
+    const r = ratioOf(e.currentTarget)
+    if (!morphing) {
+      setRatio(r)
+      setLightbox(true)
+      return
+    }
+    // Name the thumbnail first so it is in the "before" snapshot.
+    flushSync(() => { setRatio(r); setNamed(true) })
+    morph(() => setLightbox(true))
+  }
+  const closeFigure = () => {
+    if (!morphing) {
+      setLightbox(false)
+      return
+    }
+    morph(() => setLightbox(false)).finished.finally(() => setNamed(false))
+  }
+  const thumbMorph = named && !lightbox ? MORPH_NAME : undefined
 
   // Small copy for the card; the full-size original opens in the lightbox.
   const imgSrc = pub.figure
@@ -220,10 +252,10 @@ function SelectedCard({ pub, index }) {
           <>
             {/* Desktop — 140px wide, stretches to match text height, clickable lightbox */}
             <div
-              onClick={() => setLightbox(true)}
+              onClick={openFigure}
               role="button"
               tabIndex={0}
-              onKeyDown={(e) => e.key === 'Enter' && setLightbox(true)}
+              onKeyDown={(e) => e.key === 'Enter' && openFigure(e)}
               aria-label={`View ${pub.title} figure`}
               className="group hidden md:block"
               style={{
@@ -231,6 +263,7 @@ function SelectedCard({ pub, index }) {
                 borderRadius: 8, overflow: 'hidden', flexShrink: 0,
                 position: 'relative', margin: 16, alignSelf: 'stretch',
                 cursor: 'pointer', transition: 'transform 0.2s ease',
+                viewTransitionName: thumbMorph,
               }}
               onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.03)' }}
               onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)' }}
@@ -302,10 +335,10 @@ function SelectedCard({ pub, index }) {
             {/* Mobile only: 40x40 figure thumbnail inline with pills */}
             {imgSrc && (
               <div
-                onClick={() => setLightbox(true)}
+                onClick={openFigure}
                 role="button"
                 tabIndex={0}
-                onKeyDown={(e) => e.key === 'Enter' && setLightbox(true)}
+                onKeyDown={(e) => e.key === 'Enter' && openFigure(e)}
                 aria-label={`View ${pub.title} figure`}
                 className="md:hidden"
                 style={{
@@ -313,6 +346,7 @@ function SelectedCard({ pub, index }) {
                   borderRadius: 6, overflow: 'hidden', flexShrink: 0,
                   position: 'relative', cursor: 'pointer',
                   border: '1px solid #E4E2DC',
+                  viewTransitionName: thumbMorph,
                 }}
               >
                 <img
@@ -390,11 +424,17 @@ function SelectedCard({ pub, index }) {
       )}
 
       {/* Figure lightbox (mobile + desktop) */}
-      <AnimatePresence>
-        {lightbox && imgSrc && (
-          <FigureLightbox imgSrc={imgSrc} alt={pub.title} onClose={() => setLightbox(false)} />
-        )}
-      </AnimatePresence>
+      {morphing ? (
+        lightbox && imgSrc && (
+          <FigureLightbox imgSrc={imgSrc} thumbSrc={thumbSrc} ratio={ratio} alt={pub.title} onClose={closeFigure} morphing />
+        )
+      ) : (
+        <AnimatePresence>
+          {lightbox && imgSrc && (
+            <FigureLightbox imgSrc={imgSrc} thumbSrc={thumbSrc} ratio={ratio} alt={pub.title} onClose={closeFigure} />
+          )}
+        </AnimatePresence>
+      )}
     </div>
   )
 }
