@@ -12,17 +12,21 @@ export default function Footer() {
         </div>
 
         <nav className="flex gap-6 flex-wrap justify-center">
-          {['Projects', 'Publications', 'Team', 'Contact'].map(
-            (link) => (
-              <a
-                key={link}
-                href={`#${link.toLowerCase()}`}
-                className="font-mono text-sm uppercase tracking-widest hover:text-white transition-colors"
-              >
-                {link}
-              </a>
-            ),
-          )}
+          {[
+            ['Projects', '#projects'],
+            ['Tools & data', '#resources'],
+            ['Publications', '#publications'],
+            ['Team', '#team'],
+            ['Contact', '#contact'],
+          ].map(([label, href]) => (
+            <a
+              key={href}
+              href={href}
+              className="font-mono text-sm uppercase tracking-widest hover:text-white transition-colors"
+            >
+              {label}
+            </a>
+          ))}
         </nav>
 
         <p className="font-mono text-sm">

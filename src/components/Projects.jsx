@@ -5,6 +5,8 @@ import { thumbUrl } from '../lib/thumbs'
 import ParallaxImage from './ParallaxImage'
 import TypewriterLabel from './TypewriterLabel'
 import { spotlightProps } from '../lib/spotlight'
+import { topicForProject } from '../data/topics'
+import Resources from './Resources'
 
 const asset = (src) => import.meta.env.BASE_URL + src.replace(/^\//, '')
 
@@ -61,6 +63,8 @@ function ResourcePill({ href, children }) {
 
 function ProjectCard({ project, index, className = '' }) {
   const [open, setOpen] = useState(false)
+  // Some contributions have a page of their own (src/data/topics.js)
+  const topic = topicForProject(project.id)
 
   const pubs = project.publications
     ? project.publications
@@ -201,6 +205,16 @@ function ProjectCard({ project, index, className = '' }) {
             ))}
           </div>
         )}
+
+        {topic && (
+          <a
+            href={topic.path}
+            className="group/more mt-5 inline-flex items-center gap-1.5 font-mono text-[13px] uppercase tracking-[0.1em] text-navy underline underline-offset-4 hover:text-sage transition-colors"
+          >
+            {topic.title}: papers, protocol and data in one page
+            <span aria-hidden="true" className="inline-block transition-transform duration-300 group-hover/more:translate-x-1">&rarr;</span>
+          </a>
+        )}
       </div>
     </motion.div>
   )
@@ -263,6 +277,9 @@ export default function Projects() {
             </div>
           ))}
         </div>
+
+        {/* Every shared dataset, protocol and code repository in one list */}
+        <Resources />
       </div>
     </section>
   )

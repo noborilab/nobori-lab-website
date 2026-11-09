@@ -3,6 +3,8 @@ import { navLinks } from '../data/nav'
 import { selected, originalArticles, reviews } from '../data/publications'
 import { teamMembers } from '../data/team'
 import { projects } from '../data/projects'
+import { topics, topicForProject } from '../data/topics'
+import { resources } from '../data/resources'
 
 // Quick search over sections, publications, research areas and people.
 // Opens with ⌘K / Ctrl+K, "/" or the search button in the navbar
@@ -18,8 +20,20 @@ function buildIndex() {
     target: l.href.slice(1),
   }))
 
+  items.push({ kind: 'Section', title: 'Tools & data', detail: '', target: 'resources' })
+
+  for (const t of topics) {
+    items.push({ kind: 'Page', title: t.title, detail: `${t.kind} · papers, resources`, page: t.path })
+  }
+
   for (const p of projects) {
+    // Topics with their own page are listed above
+    if (topicForProject(p.id)) continue
     items.push({ kind: 'Research', title: p.title, detail: '', target: 'projects' })
+  }
+
+  for (const r of resources) {
+    items.push({ kind: r.type, title: `${r.name}: ${r.label}`, detail: '', url: r.href })
   }
 
   const seen = new Set()
@@ -115,6 +129,10 @@ export default function CommandPalette() {
       window.open(item.url, '_blank', 'noopener,noreferrer')
       return
     }
+    if (item.page) {
+      window.location.assign(item.page)
+      return
+    }
     // Wait a frame so the scroll lock is released before scrolling.
     requestAnimationFrame(() => {
       document.getElementById(item.target)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -189,7 +207,7 @@ export default function CommandPalette() {
         >
           {results.map((item, i) => (
             <li
-              key={`${item.kind}-${item.title}`}
+              key={`${item.kind}-${item.title}-${item.url ?? ''}`}
               id={`command-palette-option-${i}`}
               role="option"
               aria-selected={i === active}
@@ -225,7 +243,7 @@ export default function CommandPalette() {
         <div className="hidden sm:flex items-center gap-4 border-t border-border px-4 py-2 font-mono text-[11px] uppercase tracking-[0.1em] text-text/40">
           <span>&uarr;&darr; move</span>
           <span>&crarr; open</span>
-          <span className="ml-auto">Papers open at the publisher</span>
+          <span className="ml-auto">Papers and resources open in a new tab</span>
         </div>
       </div>
     </div>

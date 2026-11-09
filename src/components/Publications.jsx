@@ -270,7 +270,7 @@ function SelectedCard({ pub, index }) {
             >
               <img
                 src={thumbSrc}
-                alt=""
+                alt={`Figure from: ${pub.title}`}
                 loading="lazy"
                 style={{
                   position: 'absolute', top: 0, left: 0,
@@ -351,7 +351,7 @@ function SelectedCard({ pub, index }) {
               >
                 <img
                   src={thumbSrc}
-                  alt=""
+                  alt={`Figure from: ${pub.title}`}
                   loading="lazy"
                   style={{
                     position: 'absolute', top: 0, left: 0,

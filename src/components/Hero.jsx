@@ -18,7 +18,8 @@ function wantsAnimatedLogo() {
 export default function Hero() {
   const sectionRef = useRef(null)
   const reduced = useReducedMotion()
-  const alreadyLoaded = !!sessionStorage.getItem('nobori-loaded')
+  // typeof guard: this component is also rendered to static HTML at build time
+  const alreadyLoaded = typeof sessionStorage !== 'undefined' && !!sessionStorage.getItem('nobori-loaded')
   const [logoReady, setLogoReady] = useState(alreadyLoaded)
   const [animatedReady, setAnimatedReady] = useState(false)
 

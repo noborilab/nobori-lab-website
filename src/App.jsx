@@ -18,12 +18,11 @@ import EasterEgg from './components/EasterEgg'
 import LoadingScreen from './components/LoadingScreen'
 import CommandPalette from './components/CommandPalette'
 
-export default function App() {
+// The page itself, without the overlays that only make sense in a live browser.
+// Also rendered to static HTML at build time (scripts/prerender.mjs).
+export function SiteContent() {
   return (
     <>
-      <LoadingScreen />
-      <EasterEgg />
-      <CommandPalette />
       <ScrollProgress />
       <Navbar />
       <main>
@@ -42,6 +41,17 @@ export default function App() {
         <Funders />
       </main>
       <Footer />
+    </>
+  )
+}
+
+export default function App() {
+  return (
+    <>
+      <LoadingScreen />
+      <EasterEgg />
+      <CommandPalette />
+      <SiteContent />
     </>
   )
 }

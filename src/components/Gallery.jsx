@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { flushSync } from 'react-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { labMoments, galleryByYear } from '../data/gallery'
@@ -216,6 +216,18 @@ function YearSection({ year, photos, defaultOpen, onOpenLightbox, startIndex, mo
 // exit itself, so the framer fades are skipped for the photo it opened on.
 function Lightbox({ photos, index, onClose, onPrev, onNext, morphing, openedAt }) {
   const photo = photos[index]
+
+  // Esc closes, arrow keys move between photos
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.key === 'Escape') onClose()
+      else if (e.key === 'ArrowLeft') onPrev()
+      else if (e.key === 'ArrowRight') onNext()
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [onClose, onPrev, onNext])
+
   if (!photo) return null
 
   return (
@@ -224,11 +236,15 @@ function Lightbox({ photos, index, onClose, onPrev, onNext, morphing, openedAt }
       animate={{ opacity: 1 }}
       exit={morphing ? undefined : { opacity: 0 }}
       className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center"
+      role="dialog"
+      aria-modal="true"
+      aria-label={`Photo ${index + 1} of ${photos.length}`}
       onClick={onClose}
     >
       <div className="relative flex items-center gap-2 md:gap-4 max-w-[calc(100vw-1rem)]">
         <button
           onClick={(e) => { e.stopPropagation(); onPrev() }}
+          aria-label="Previous photo"
           className="shrink-0 text-white/50 hover:text-white text-[45px] z-10 select-none px-1 md:px-2"
         >
           &#8249;
@@ -254,6 +270,7 @@ function Lightbox({ photos, index, onClose, onPrev, onNext, morphing, openedAt }
 
         <button
           onClick={(e) => { e.stopPropagation(); onNext() }}
+          aria-label="Next photo"
           className="shrink-0 text-white/50 hover:text-white text-[45px] z-10 select-none px-1 md:px-2"
         >
           &#8250;
@@ -262,6 +279,7 @@ function Lightbox({ photos, index, onClose, onPrev, onNext, morphing, openedAt }
 
       <button
         onClick={onClose}
+        aria-label="Close"
         className="absolute top-4 right-4 md:top-6 md:right-6 text-white/50 hover:text-white text-3xl"
       >
         &times;
