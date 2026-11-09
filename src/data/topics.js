@@ -33,7 +33,10 @@ const allPapers = [...selected, ...originalArticles, ...reviews]
 // First sentence or two of the project text, for <meta name="description">.
 function summarise(text, max = 170) {
   let out = ''
-  for (const sentence of text.split(/(?<=\.)\s+/)) {
+  // Split after each full stop. A lookbehind regex would be shorter, but Safari
+  // before 16.4 cannot run one and the whole bundle would fail to start.
+  const sentences = text.split('. ').map((s, i, all) => (i < all.length - 1 ? `${s}.` : s))
+  for (const sentence of sentences) {
     if (out && (out + ' ' + sentence).length > max) break
     out = out ? `${out} ${sentence}` : sentence
   }
