@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
 import { flushSync } from 'react-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { labMoments, galleryByYear } from '../data/gallery'
@@ -180,12 +180,13 @@ function YearSection({ year, photos, defaultOpen, onOpenLightbox, startIndex, mo
           >
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 pb-10">
               {photos.map((photo, i) => (
-                <motion.div
+                <motion.button
                   key={photo.src}
+                  type="button"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.3, delay: i * 0.03 }}
-                  className="aspect-square rounded-lg overflow-hidden cursor-pointer hover:scale-[1.02] hover:shadow-[0_4px_16px_rgba(0,0,0,0.1)] transition-all duration-300"
+                  className="block w-full aspect-square rounded-lg overflow-hidden cursor-pointer hover:scale-[1.02] hover:shadow-[0_4px_16px_rgba(0,0,0,0.1)] transition-all duration-300 focus-visible:outline-offset-[-3px]"
                   style={morphIndex === startIndex + i ? { viewTransitionName: MORPH_NAME } : undefined}
                   onClick={(e) => {
                     const ratio = ratioOf(e.currentTarget)
@@ -195,12 +196,12 @@ function YearSection({ year, photos, defaultOpen, onOpenLightbox, startIndex, mo
                 >
                   <img
                     src={thumbUrl(photo.src)}
-                    alt={photo.name}
+                    alt={`Lab photo ${i + 1} of ${photos.length}, ${year}`}
                     loading="lazy"
                     decoding="async"
                     className="w-full h-full object-cover"
                   />
-                </motion.div>
+                </motion.button>
               ))}
             </div>
           </motion.div>
@@ -216,6 +217,14 @@ function YearSection({ year, photos, defaultOpen, onOpenLightbox, startIndex, mo
 // exit itself, so the framer fades are skipped for the photo it opened on.
 function Lightbox({ photos, index, onClose, onPrev, onNext, morphing, openedAt }) {
   const photo = photos[index]
+  const closeRef = useRef(null)
+
+  // Focus moves into the dialog on open and back to the thumbnail on close
+  useEffect(() => {
+    const opener = document.activeElement
+    closeRef.current?.focus({ preventScroll: true })
+    return () => opener?.focus?.({ preventScroll: true })
+  }, [])
 
   // Esc closes, arrow keys move between photos
   useEffect(() => {
@@ -264,7 +273,7 @@ function Lightbox({ photos, index, onClose, onPrev, onNext, morphing, openedAt }
             src={import.meta.env.BASE_URL + photo.src.replace(/^\//, '')}
             thumb={thumbUrl(photo.src)}
             ratio={ratios.get(photo.src)}
-            alt={photo.name}
+            alt={`Lab photo, ${photo.year}`}
           />
         </motion.div>
 
@@ -278,6 +287,7 @@ function Lightbox({ photos, index, onClose, onPrev, onNext, morphing, openedAt }
       </div>
 
       <button
+        ref={closeRef}
         onClick={(e) => { e.stopPropagation(); onClose() }}
         aria-label="Close"
         className="absolute top-4 right-4 md:top-6 md:right-6 text-white/50 hover:text-white text-3xl"
