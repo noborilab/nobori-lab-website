@@ -1,5 +1,14 @@
 export const newsItems = [
   {
+    id: 19,
+    date: 'Nov 2026',
+    title: 'Welcome Mario Herrera-Degracia',
+    description: 'Mario joins as our new lab Technician. He is already caring for our plants, with microscopy projects coming soon.',
+    tag: 'Lab',
+    color: 'sage',
+    link: 'https://x.com/nobolly/status/2120249878278480383',
+  },
+  {
     id: 18,
     date: 'Sep 2026',
     title: 'ERC Starting Grant awarded',
