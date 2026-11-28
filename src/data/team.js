@@ -10,6 +10,7 @@ export const teamMembers = [
   { id: 9, name: 'Benjamin Tremblay', initials: 'BT', role: 'Postdoc', image: '/images/team/Ben.jpg' },
   { id: 10, name: 'Tokuji Tsuchiya', initials: 'TT', role: 'Postdoc', image: '/images/team/Tokuji.JPG' },
   { id: 13, name: 'Ketil Krabbe', initials: 'KK', role: 'Predoctoral Intern', image: '/images/team/Ketil-Krabbe_M8A6246-2.jpg' },
+  { id: 14, name: 'Mario Andres Herrera Degracia', initials: 'MH', role: 'Technician', image: '/images/team/Mario-Herrera-Degracia.jpg' },
 ]
 
 export const alumni = [
